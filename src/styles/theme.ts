@@ -11,9 +11,14 @@ const styles = {
 
 const colors = {
   gray: {
+    '10': '#DDDDDD',
     '50': '#F5F5F5',
     '600': '#444444',
   },
+  purple: {
+    '500': '#7D40E7',
+  },
+  white: '#fff',
 }
 
 const fonts = {
