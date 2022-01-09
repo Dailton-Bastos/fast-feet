@@ -8,7 +8,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import * as yup from 'yup'
 
-import { Input } from '../components/Form/Input'
+import { Input } from '~/components/Form/Input'
 
 type SignInFormData = {
   email: string
