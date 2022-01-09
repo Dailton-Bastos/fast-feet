@@ -7,7 +7,10 @@ const Deliveries = () => {
   const { user } = useAuthContext()
 
   React.useEffect(() => {
-    api.get('/me').then((response) => console.log(response))
+    api
+      .get('/me')
+      .then((response) => console.log(response))
+      .catch((err) => console.log(err))
   }, [])
 
   return <h1>Deliveries: {user?.email}</h1>

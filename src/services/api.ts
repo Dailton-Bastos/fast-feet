@@ -1,6 +1,7 @@
 import axios, { AxiosError } from 'axios'
 import { parseCookies } from 'nookies'
 
+import { signOut } from '~/contexts/AuthContext'
 import { setCookie } from '~/utils/setCookies'
 
 type FailedRequestQueueParams = Array<{
@@ -66,7 +67,11 @@ api.interceptors.response.use(
             onFailed: (err) => reject(err),
           })
         })
+      } else {
+        signOut()
       }
     }
+
+    return Promise.reject(error)
   }
 )

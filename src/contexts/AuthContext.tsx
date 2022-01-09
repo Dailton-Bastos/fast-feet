@@ -1,7 +1,7 @@
 import React from 'react'
 
 import Router from 'next/router'
-import { parseCookies } from 'nookies'
+import { parseCookies, destroyCookie } from 'nookies'
 
 import { api } from '~/services/api'
 import { setCookie } from '~/utils/setCookies'
@@ -28,6 +28,13 @@ type AuthProviderProps = {
 }
 
 export const AuthContext = React.createContext({} as AuthContextData)
+
+export const signOut = () => {
+  destroyCookie(undefined, 'fastfeet.token')
+  destroyCookie(undefined, 'fastfeet.refreshToken')
+
+  return Router.push('/')
+}
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = React.useState<User>()
@@ -57,7 +64,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
       Router.push('/deliveries')
     } catch (error) {
-      console.log(error)
+      signOut()
     }
   }
 
@@ -65,10 +72,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     const { 'fastfeet.token': token } = parseCookies()
 
     async function getUser() {
-      const response = await api.get('/me')
-      const { email, permissions, roles } = response.data
+      try {
+        const response = await api.get('/me')
+        const { email, permissions, roles } = response.data
 
-      setUser({ email, permissions, roles })
+        setUser({ email, permissions, roles })
+      } catch (err) {
+        signOut()
+      }
     }
 
     if (token) {
