@@ -1,7 +1,15 @@
+import React from 'react'
+
 import type { AppProps } from 'next/app'
 
+import { AppStorage } from '../contexts'
+
 function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+  return (
+    <AppStorage>
+      <Component {...pageProps} />
+    </AppStorage>
+  )
 }
 
 export default MyApp

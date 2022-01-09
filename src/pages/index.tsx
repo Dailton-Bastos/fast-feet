@@ -7,7 +7,7 @@ const Home: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Next.js | Boilerplate</title>
+        <title>FastFeet | Login</title>
       </Head>
     </>
   )
