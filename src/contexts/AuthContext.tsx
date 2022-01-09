@@ -3,6 +3,7 @@ import React from 'react'
 import Router from 'next/router'
 
 import { api } from '~/services/api'
+import { setCookie } from '~/utils/setCookies'
 
 type User = {
   email: string
@@ -39,7 +40,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         password,
       })
 
-      const { permissions, roles } = response.data
+      const { token, refreshToken, permissions, roles } = response.data
+
+      setCookie('fastfeet.token', token)
+
+      setCookie('fastfeet.refreshToken', refreshToken)
 
       setUser({
         email,
