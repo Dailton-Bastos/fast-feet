@@ -9,6 +9,7 @@ import Image from 'next/image'
 import * as yup from 'yup'
 
 import { Input } from '~/components/Form/Input'
+import { useAuthContext } from '~/contexts/AuthContext'
 
 type SignInFormData = {
   email: string
@@ -23,6 +24,8 @@ const SignInFormSchema = yup
   .required()
 
 const SignIn: NextPage = () => {
+  const { signIn } = useAuthContext()
+
   const { register, handleSubmit, formState } = useForm({
     resolver: yupResolver(SignInFormSchema),
   })
@@ -31,7 +34,7 @@ const SignIn: NextPage = () => {
 
   const handleSignIn: SubmitHandler<SignInFormData> = async (data) => {
     await new Promise((resolve) => setTimeout(resolve, 2000))
-    console.log(data)
+    await signIn(data)
   }
   return (
     <>
