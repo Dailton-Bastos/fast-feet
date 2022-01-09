@@ -1,0 +1,24 @@
+{
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    ".husky": true,
+    ".next": true,
+    "node_modules": true,
+    ".editorconfig": true,
+    ".eslintignore": true,
+    ".gitignore": true,
+    ".prettierignore": true,
+    ".releaserc.json": true,
+    "commitlint.config.js": true,
+    "Makefile": true,
+    "next-env.d.ts": true,
+    "next.config.js": true,
+    "tsconfig.json": true,
+    "yarn.lock": true
+  }
+}

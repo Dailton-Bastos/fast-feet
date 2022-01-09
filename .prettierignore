@@ -1,0 +1,12 @@
+node_modules
+.next
+yarn.lock
+package-lock.json
+public
+next-env.d.ts
+.eslintrc.json
+tsconfig.json
+package.json
+CHANGELOG.md
+.vscode/settings.json
+.releaserc.json
