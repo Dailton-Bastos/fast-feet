@@ -1,17 +1,11 @@
 import React from 'react'
 
-import {
-  Flex,
-  Box,
-  Button,
-  Stack,
-  Input,
-  FormControl,
-  FormLabel,
-} from '@chakra-ui/react'
+import { Flex, Box, Button, Stack, FormControl } from '@chakra-ui/react'
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
+
+import { Input } from '../components/Form/Input'
 
 const SignIn: NextPage = () => {
   return (
@@ -51,13 +45,21 @@ const SignIn: NextPage = () => {
           <Box as={'form'} width={'100%'}>
             <Stack mt={'10'} mb={'4'} spacing={'4'}>
               <FormControl>
-                <FormLabel htmlFor="email">Seu E-mail</FormLabel>
-                <Input id="email" type={'email'} />
+                <Input
+                  label="SEU E-MAIL"
+                  id="email"
+                  type={'email'}
+                  name="email"
+                />
               </FormControl>
 
               <FormControl>
-                <FormLabel htmlFor="password">Sua Senha</FormLabel>
-                <Input id="password" type={'password'} />
+                <Input
+                  label="SUA SENHA"
+                  id="password"
+                  type={'password'}
+                  name="password"
+                />
               </FormControl>
             </Stack>
 
