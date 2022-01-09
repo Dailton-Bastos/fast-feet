@@ -1,6 +1,7 @@
 import React from 'react'
 
 import Router from 'next/router'
+import { parseCookies } from 'nookies'
 
 import { api } from '~/services/api'
 import { setCookie } from '~/utils/setCookies'
@@ -52,11 +53,29 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         roles,
       })
 
+      api.defaults.headers.common['Authorization'] = `Bearer ${token}`
+
       Router.push('/deliveries')
     } catch (error) {
       console.log(error)
     }
   }
+
+  React.useEffect(() => {
+    const { 'fastfeet.token': token } = parseCookies()
+
+    async function getUser() {
+      const response = await api.get('/me')
+      const { email, permissions, roles } = response.data
+
+      setUser({ email, permissions, roles })
+    }
+
+    if (token) {
+      getUser()
+    }
+  }, [])
+
   return (
     <AuthContext.Provider value={{ signIn, isAuthenticated, user }}>
       {children}
