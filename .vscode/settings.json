@@ -19,6 +19,8 @@
     "next-env.d.ts": true,
     "next.config.js": true,
     "tsconfig.json": true,
-    "yarn.lock": true
+    "yarn.lock": true,
+    ".env.example": true,
+    ".env.local": true
   }
 }
