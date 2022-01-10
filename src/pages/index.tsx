@@ -6,11 +6,11 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import type { GetServerSideProps, NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
-import { parseCookies } from 'nookies'
 import * as yup from 'yup'
 
 import { Input } from '~/components/Form/Input'
 import { useAuthContext } from '~/contexts/AuthContext'
+import { withSSRGuest } from '~/utils/withSSRGuest'
 
 type SignInFormData = {
   email: string
@@ -114,18 +114,8 @@ const SignIn: NextPage = () => {
 
 export default SignIn
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const cookies = parseCookies(ctx)
-
-  if (cookies['fastfeet.token']) {
-    return {
-      redirect: {
-        destination: '/deliveries',
-        permanent: false,
-      },
-    }
-  }
+export const getServerSideProps: GetServerSideProps = withSSRGuest(async () => {
   return {
     props: {},
   }
-}
+})
