@@ -3,7 +3,7 @@ import React from 'react'
 import Router from 'next/router'
 import { parseCookies, destroyCookie } from 'nookies'
 
-import { api } from '~/services/api'
+import { api } from '~/services/apiClient'
 import { setCookie } from '~/utils/setCookies'
 
 type User = {
