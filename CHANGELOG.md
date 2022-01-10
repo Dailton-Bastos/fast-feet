@@ -1,3 +1,13 @@
+# [1.1.0](https://github.com/Dailton-Bastos/fast-feet/compare/v1.0.0...v1.1.0) (2022-01-10)
+
+
+### Features
+
+* add authentication validate ([1ceb29b](https://github.com/Dailton-Bastos/fast-feet/commit/1ceb29bb7231ea5a2ff094eb1a3f17508a7c86b0))
+* add redirect with ssr ([573282a](https://github.com/Dailton-Bastos/fast-feet/commit/573282a45136444cd81ab7e9a8268814f248232a))
+* add validating guest ([cd38b24](https://github.com/Dailton-Bastos/fast-feet/commit/cd38b249f8a3e1f03bb9fca551a67a98d5a5e1fc))
+* **signin:** getting token with ssr ([44b1269](https://github.com/Dailton-Bastos/fast-feet/commit/44b1269f2577dea8de451a95ba62988ebf6a2a7e))
+
 # 1.0.0 (2022-01-10)
 
 
