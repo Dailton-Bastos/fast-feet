@@ -3,9 +3,10 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 
 import { Flex, Box, Button, Stack, FormControl } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
-import type { NextPage } from 'next'
+import type { GetServerSideProps, NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
+import { parseCookies } from 'nookies'
 import * as yup from 'yup'
 
 import { Input } from '~/components/Form/Input'
@@ -112,3 +113,19 @@ const SignIn: NextPage = () => {
 }
 
 export default SignIn
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const cookies = parseCookies(ctx)
+
+  if (cookies['fastfeet.token']) {
+    return {
+      redirect: {
+        destination: '/deliveries',
+        permanent: false,
+      },
+    }
+  }
+  return {
+    props: {},
+  }
+}
