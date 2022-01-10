@@ -5,6 +5,8 @@ import { parseCookies } from 'nookies'
 import { signOut } from '~/contexts/AuthContext'
 import { setCookie } from '~/utils/setCookies'
 
+import { AuthTokenError } from './errors/AuthTokenError'
+
 type FailedRequestQueueParams = Array<{
   onSuccess: (value: string) => void
   onFailed: (err: AxiosError) => void
@@ -83,6 +85,8 @@ export function setupAPIClient(ctx?: GetServerSidePropsContext) {
         } else {
           if (process.browser) {
             signOut()
+          } else {
+            return Promise.reject(new AuthTokenError())
           }
         }
       }

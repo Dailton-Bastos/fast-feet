@@ -3,7 +3,9 @@ import {
   GetServerSidePropsContext,
   GetServerSidePropsResult,
 } from 'next'
-import { parseCookies } from 'nookies'
+import { destroyCookie, parseCookies } from 'nookies'
+
+import { AuthTokenError } from '~/services/errors/AuthTokenError'
 
 export function withSSRAuth<P>(fn: GetServerSideProps<P>) {
   return async (
@@ -20,6 +22,27 @@ export function withSSRAuth<P>(fn: GetServerSideProps<P>) {
       }
     }
 
-    return await fn(ctx)
+    try {
+      return await fn(ctx)
+    } catch (error) {
+      if (error instanceof AuthTokenError) {
+        destroyCookie(ctx, 'fastfeet.token')
+        destroyCookie(ctx, 'fastfeet.refreshToken')
+
+        return {
+          redirect: {
+            destination: '/',
+            permanent: false,
+          },
+        }
+      } else {
+        return {
+          redirect: {
+            destination: '/deliveries',
+            permanent: false,
+          },
+        }
+      }
+    }
   }
 }
