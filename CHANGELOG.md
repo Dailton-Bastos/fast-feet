@@ -1,3 +1,13 @@
+# [1.2.0](https://github.com/Dailton-Bastos/fast-feet/compare/v1.1.0...v1.2.0) (2022-01-11)
+
+
+### Features
+
+* add broadcast sign out ([d7eab19](https://github.com/Dailton-Bastos/fast-feet/commit/d7eab190dd81194d9dc1e3b6b6e9795e23511806))
+* add permissions component ([ef7e593](https://github.com/Dailton-Bastos/fast-feet/commit/ef7e5932c46f012cbdc625c3a3eefad0331aaf3a))
+* add roles and permissions hook ([6605114](https://github.com/Dailton-Bastos/fast-feet/commit/660511434a4450728c4429ca9b4eb4553c833a35))
+* add validate permissions with ssr ([cf1adae](https://github.com/Dailton-Bastos/fast-feet/commit/cf1adaef7240cd0b549079a1a3c532a6ade2ade2))
+
 # [1.1.0](https://github.com/Dailton-Bastos/fast-feet/compare/v1.0.0...v1.1.0) (2022-01-10)
 
 
