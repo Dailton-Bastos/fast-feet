@@ -1,18 +1,13 @@
 import React from 'react'
 
+import { Can } from '~/components/Can'
 import { useAuthContext } from '~/contexts/AuthContext'
-import { useCan } from '~/hooks/useCan'
 import { setupAPIClient } from '~/services/api'
 import { api } from '~/services/apiClient'
 import { withSSRAuth } from '~/utils/withSSRAuth'
 
 const Deliveries = () => {
   const { user } = useAuthContext()
-
-  const useCanSeeDeliveries = useCan({
-    // permissions: ['metrics.create'],
-    roles: ['administrator'],
-  })
 
   React.useEffect(() => {
     api
@@ -24,7 +19,9 @@ const Deliveries = () => {
   return (
     <>
       <h1>Deliveries: {user?.email}</h1>
-      {useCanSeeDeliveries && <p>Deliveries</p>}
+      <Can permissions={['metrics.list']}>
+        <p>Deliveries</p>
+      </Can>
     </>
   )
 }
