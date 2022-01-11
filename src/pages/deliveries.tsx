@@ -7,7 +7,7 @@ import { api } from '~/services/apiClient'
 import { withSSRAuth } from '~/utils/withSSRAuth'
 
 const Deliveries = () => {
-  const { user } = useAuthContext()
+  const { user, signOut } = useAuthContext()
 
   React.useEffect(() => {
     api
@@ -19,6 +19,9 @@ const Deliveries = () => {
   return (
     <>
       <h1>Deliveries: {user?.email}</h1>
+
+      <button onClick={signOut}>Sign out</button>
+
       <Can permissions={['metrics.list']}>
         <p>Deliveries</p>
       </Can>
