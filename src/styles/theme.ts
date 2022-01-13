@@ -18,6 +18,9 @@ const colors = {
   purple: {
     '500': '#7D40E7',
   },
+  red: {
+    '600': '#DE3B3B',
+  },
   white: '#fff',
 }
 

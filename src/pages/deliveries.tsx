@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { Can } from '~/components/Can'
+import { Header } from '~/components/Header'
 import { useAuthContext } from '~/contexts/AuthContext'
 import { setupAPIClient } from '~/services/api'
 import { api } from '~/services/apiClient'
@@ -18,6 +19,7 @@ const Deliveries = () => {
 
   return (
     <>
+      <Header />
       <h1>Deliveries: {user?.email}</h1>
 
       <button onClick={signOut}>Sign out</button>
