@@ -2,10 +2,14 @@ import React from 'react'
 
 import { Flex } from '@chakra-ui/react'
 
+import { useAuthContext } from '~/contexts/AuthContext'
+
 import { Logo } from './Logo'
 import { Profile } from './Profile'
 
 export const Header = () => {
+  const { user } = useAuthContext()
+
   return (
     <Flex as="header" bgColor={'white'} width={'100%'}>
       <Flex
@@ -19,7 +23,9 @@ export const Header = () => {
         <Logo />
 
         <Flex alignItems={'center'} ml={'auto'} position={'relative'}>
-          <Profile name="Dailton Bastos" email="dailtonbastos@gmail.com" />
+          {user && (
+            <Profile name={user.name} email={user.email} avatar={user.avatar} />
+          )}
         </Flex>
       </Flex>
     </Flex>

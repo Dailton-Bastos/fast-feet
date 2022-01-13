@@ -1,44 +1,25 @@
 import React from 'react'
 
-import { Can } from '~/components/Can'
 import { Header } from '~/components/Header'
 import { useAuthContext } from '~/contexts/AuthContext'
-import { setupAPIClient } from '~/services/api'
-import { api } from '~/services/apiClient'
 import { withSSRAuth } from '~/utils/withSSRAuth'
 
 const Deliveries = () => {
-  const { user, signOut } = useAuthContext()
-
-  React.useEffect(() => {
-    api
-      .get('/me')
-      .then((response) => console.log(response))
-      .catch((err) => console.log(err))
-  }, [])
+  const { user } = useAuthContext()
 
   return (
     <>
       <Header />
-      <h1>Deliveries: {user?.email}</h1>
-
-      <button onClick={signOut}>Sign out</button>
-
-      <Can permissions={['metrics.list']}>
-        <p>Deliveries</p>
-      </Can>
+      <h1>Name: {user?.name}</h1>
+      <h1>Email: {user?.email}</h1>
+      <h1>Avatar: {user?.avatar}</h1>
     </>
   )
 }
 
 export default Deliveries
 
-export const getServerSideProps = withSSRAuth(async (ctx) => {
-  const apiClient = setupAPIClient(ctx)
-
-  const response = await apiClient.get('/me')
-  console.log(response.data)
-
+export const getServerSideProps = withSSRAuth(async () => {
   return {
     props: {},
   }

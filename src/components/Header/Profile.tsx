@@ -5,8 +5,8 @@ import { Avatar, Box, Flex, Text } from '@chakra-ui/react'
 import { Menu } from './Menu'
 
 interface ProfileProps {
-  name: string
-  email: string
+  name: string | undefined
+  email: string | undefined
   avatar?: string
 }
 

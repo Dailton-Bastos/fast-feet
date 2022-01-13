@@ -7,6 +7,8 @@ import { api } from '~/services/apiClient'
 import { setCookie } from '~/utils/setCookies'
 
 type User = {
+  name: string
+  avatar?: string
   email: string
   permissions: string[]
   roles: string[]
@@ -53,13 +55,16 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         password,
       })
 
-      const { token, refreshToken, permissions, roles } = response.data
+      const { token, refreshToken, permissions, roles, name, avatar } =
+        response.data
 
       setCookie('fastfeet.token', token)
 
       setCookie('fastfeet.refreshToken', refreshToken)
 
       setUser({
+        name,
+        avatar,
         email,
         permissions,
         roles,
@@ -79,9 +84,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     async function getUser() {
       try {
         const response = await api.get('/me')
-        const { email, permissions, roles } = response.data
+        const { name, avatar, email, permissions, roles } = response.data
 
-        setUser({ email, permissions, roles })
+        setUser({ name, avatar, email, permissions, roles })
       } catch (err) {
         signOut()
       }
