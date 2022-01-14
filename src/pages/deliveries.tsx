@@ -1,15 +1,15 @@
 import React from 'react'
 
-import { Header } from '~/components/Header'
 import { useAuthContext } from '~/contexts/AuthContext'
+import { appLayout } from '~/layouts/App'
+import { NextPageWithLayout } from '~/utils/types'
 import { withSSRAuth } from '~/utils/withSSRAuth'
 
-const Deliveries = () => {
+const Deliveries: NextPageWithLayout = () => {
   const { user } = useAuthContext()
 
   return (
     <>
-      <Header />
       <h1>Name: {user?.name}</h1>
       <h1>Email: {user?.email}</h1>
       <h1>Avatar: {user?.avatar}</h1>
@@ -17,10 +17,12 @@ const Deliveries = () => {
   )
 }
 
-export default Deliveries
-
 export const getServerSideProps = withSSRAuth(async () => {
   return {
     props: {},
   }
 })
+
+Deliveries.getLayout = appLayout
+
+export default Deliveries

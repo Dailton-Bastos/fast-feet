@@ -3,13 +3,15 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 
 import { Flex, Box, Button, Stack, FormControl } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
-import type { GetServerSideProps, NextPage } from 'next'
+import type { GetServerSideProps } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import * as yup from 'yup'
 
 import { Input } from '~/components/Form/Input'
 import { useAuthContext } from '~/contexts/AuthContext'
+import { authLayout } from '~/layouts/Auth'
+import { NextPageWithLayout } from '~/utils/types'
 import { withSSRGuest } from '~/utils/withSSRGuest'
 
 type SignInFormData = {
@@ -24,7 +26,7 @@ const SignInFormSchema = yup
   })
   .required()
 
-const SignIn: NextPage = () => {
+const SignIn: NextPageWithLayout = () => {
   const { signIn } = useAuthContext()
 
   const { register, handleSubmit, formState } = useForm({
@@ -112,10 +114,12 @@ const SignIn: NextPage = () => {
   )
 }
 
-export default SignIn
-
 export const getServerSideProps: GetServerSideProps = withSSRGuest(async () => {
   return {
     props: {},
   }
 })
+
+SignIn.getLayout = authLayout
+
+export default SignIn
