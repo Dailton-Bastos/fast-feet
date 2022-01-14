@@ -1,15 +1,12 @@
 import React from 'react'
 
-import type { AppProps } from 'next/app'
-
 import { AppStorage } from '~/contexts'
+import { AppPropsWithLayout } from '~/utils/types'
 
-function MyApp({ Component, pageProps }: AppProps) {
-  return (
-    <AppStorage>
-      <Component {...pageProps} />
-    </AppStorage>
-  )
+function MyApp({ Component, pageProps }: AppPropsWithLayout) {
+  const getLayout = Component.getLayout ?? ((page) => page)
+
+  return <AppStorage>{getLayout(<Component {...pageProps} />)}</AppStorage>
 }
 
 export default MyApp
