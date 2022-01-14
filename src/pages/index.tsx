@@ -4,11 +4,11 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { Flex, Box, Button, Stack, FormControl } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import type { GetServerSideProps } from 'next'
-import Head from 'next/head'
 import Image from 'next/image'
 import * as yup from 'yup'
 
 import { Input } from '~/components/Form/Input'
+import { Head } from '~/components/Head'
 import { useAuthContext } from '~/contexts/AuthContext'
 import { authLayout } from '~/layouts/Auth'
 import { NextPageWithLayout } from '~/utils/types'
@@ -41,9 +41,7 @@ const SignIn: NextPageWithLayout = () => {
   }
   return (
     <>
-      <Head>
-        <title>FastFeet | Login</title>
-      </Head>
+      <Head title="Login" description="FastFeet | Autenticação" />
 
       <Flex
         alignItems={'center'}
