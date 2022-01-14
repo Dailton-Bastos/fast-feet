@@ -1,3 +1,13 @@
+# [1.3.0](https://github.com/Dailton-Bastos/fast-feet/compare/v1.2.0...v1.3.0) (2022-01-14)
+
+
+### Features
+
+* **_app.tsx:** add per-page layouts ([684e88b](https://github.com/Dailton-Bastos/fast-feet/commit/684e88b9dc04e990a18e80d1264239bf8bca4d35))
+* add app and auth layouts ([60b7393](https://github.com/Dailton-Bastos/fast-feet/commit/60b7393ceff0bcc329dfd8b470f76157d11b3fe3))
+* add header default ([6d2303c](https://github.com/Dailton-Bastos/fast-feet/commit/6d2303c3295083063be1261d8a566f48495a8573))
+* get user news info ([d25f18f](https://github.com/Dailton-Bastos/fast-feet/commit/d25f18fb3a62a27ed4e8e0c0abd1d6cc84f5dc52))
+
 # [1.2.0](https://github.com/Dailton-Bastos/fast-feet/compare/v1.1.0...v1.2.0) (2022-01-11)
 
 
