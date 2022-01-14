@@ -5,7 +5,6 @@ import { Flex, Box, Button, Stack, FormControl } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import type { GetServerSideProps } from 'next'
 import Image from 'next/image'
-import * as yup from 'yup'
 
 import { Input } from '~/components/Form/Input'
 import { Head } from '~/components/Head'
@@ -13,18 +12,12 @@ import { useAuthContext } from '~/contexts/AuthContext'
 import { authLayout } from '~/layouts/Auth'
 import { NextPageWithLayout } from '~/utils/types'
 import { withSSRGuest } from '~/utils/withSSRGuest'
+import { SignInFormSchema } from '~/validators/signInFormSchema'
 
 type SignInFormData = {
   email: string
   password: string
 }
-
-const SignInFormSchema = yup
-  .object({
-    email: yup.string().required('Campo obrigatório*').email('E-mail inválido'),
-    password: yup.string().required('Campo obrigatório*'),
-  })
-  .required()
 
 const SignIn: NextPageWithLayout = () => {
   const { signIn } = useAuthContext()
