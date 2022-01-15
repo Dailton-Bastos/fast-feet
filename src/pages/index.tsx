@@ -1,11 +1,12 @@
 import React from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
-import { Box, Button, Stack, FormControl } from '@chakra-ui/react'
+import { Box, Button, Stack } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import type { GetServerSideProps } from 'next'
 
 import { Input } from '~/components/Form/Input'
+import { InputPassword } from '~/components/Form/InputPassword'
 import { Head } from '~/components/Head'
 import { useAuthContext } from '~/contexts/AuthContext'
 import { authLayout } from '~/layouts/Auth'
@@ -37,27 +38,22 @@ const SignIn: NextPageWithLayout = () => {
 
       <Box as={'form'} width={'100%'} onSubmit={handleSubmit(handleSignIn)}>
         <Stack mt={'10'} mb={'4'} spacing={'4'}>
-          <FormControl>
-            <Input
-              {...register('email')}
-              label="SEU E-MAIL"
-              id="email"
-              type={'email'}
-              name="email"
-              error={errors.email}
-            />
-          </FormControl>
+          <Input
+            {...register('email')}
+            label="SEU E-MAIL"
+            id="email"
+            type={'email'}
+            name="email"
+            error={errors.email}
+          />
 
-          <FormControl>
-            <Input
-              {...register('password')}
-              label="SUA SENHA"
-              id="password"
-              type={'password'}
-              name="password"
-              error={errors.password}
-            />
-          </FormControl>
+          <InputPassword
+            {...register('password')}
+            label="SUA SENHA"
+            id="password"
+            name="password"
+            error={errors.password}
+          />
         </Stack>
 
         <Button
