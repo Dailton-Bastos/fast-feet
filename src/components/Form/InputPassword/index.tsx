@@ -4,11 +4,12 @@ import { RiEyeLine, RiEyeOffLine } from 'react-icons/ri'
 
 import {
   Button,
-  Icon,
   FormControl,
   FormLabel,
+  Icon as ChakraIcon,
   InputGroup,
   InputRightElement,
+  InputLeftElement,
   Input,
   InputProps,
 } from '@chakra-ui/react'
@@ -18,13 +19,14 @@ import { Error } from '~/components/Error'
 interface InputPasswordProps extends InputProps {
   name: string
   label?: string
+  Icon?: React.ReactElement
   error?: FieldError
 }
 
 const InputPasswordBase: React.ForwardRefRenderFunction<
   HTMLInputElement,
   InputPasswordProps
-> = ({ name, label, error = null, ...rest }, ref) => {
+> = ({ name, label, error = null, Icon, ...rest }, ref) => {
   const [show, setShow] = React.useState<boolean>(false)
 
   const handleClick = () => setShow(!show)
@@ -38,11 +40,17 @@ const InputPasswordBase: React.ForwardRefRenderFunction<
       )}
 
       <InputGroup>
+        {!!Icon && (
+          <InputLeftElement pointerEvents="none" height={'100%'}>
+            {Icon}
+          </InputLeftElement>
+        )}
         <Input
           id={name}
           name={name}
           type={show ? 'text' : 'password'}
           focusBorderColor="purple.500"
+          errorBorderColor="red.600"
           bgColor={'white'}
           variant={'outline'}
           size={'lg'}
@@ -60,7 +68,7 @@ const InputPasswordBase: React.ForwardRefRenderFunction<
             _focus={{ boxShadow: 'none' }}
             onClick={handleClick}
           >
-            <Icon
+            <ChakraIcon
               as={show ? RiEyeOffLine : RiEyeLine}
               color={'#7D40E7'}
               _focus={{ color: 'red' }}
