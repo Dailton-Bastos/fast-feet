@@ -1,3 +1,12 @@
+# [1.4.0](https://github.com/Dailton-Bastos/fast-feet/compare/v1.3.0...v1.4.0) (2022-01-15)
+
+
+### Features
+
+* add head component ([3f68668](https://github.com/Dailton-Bastos/fast-feet/commit/3f6866819f76612aaefc05e0f607f22aed68bdd5))
+* add input password component ([74f10db](https://github.com/Dailton-Bastos/fast-feet/commit/74f10db6b09dd9b24b52a2a80b406752b5af1e35))
+* **form input:** add inside icon ([dd733c6](https://github.com/Dailton-Bastos/fast-feet/commit/dd733c6d926292f68652de1d00465c6c4c8a523a))
+
 # [1.3.0](https://github.com/Dailton-Bastos/fast-feet/compare/v1.2.0...v1.3.0) (2022-01-14)
 
 
