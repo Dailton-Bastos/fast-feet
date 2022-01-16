@@ -18,6 +18,7 @@ export const Sidebar = ({ isOpen, handleClick }: DisclosureProps) => {
       px={isOpen ? '14px' : '0'}
       py="6px"
       top="0"
+      shadow="base"
       w={isOpen ? 64 : 20}
     >
       <Header isOpen={isOpen} handleClick={handleClick} />
