@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Flex } from '@chakra-ui/react'
+import { Flex, Container } from '@chakra-ui/react'
 
 import { Logo } from '~/components/Logo'
 import { useAuthContext } from '~/contexts/AuthContext'
@@ -12,23 +12,29 @@ export const Header = ({ isOpen }: DisclosureProps) => {
   const { user } = useAuthContext()
 
   return (
-    <Flex as="header" bgColor={'white'} width={'100%'}>
-      <Flex
-        alignItems={'center'}
-        height={'16'}
-        width={'100%'}
-        maxWidth={'1440px'}
-        mx={'auto'}
-        p={'2.5'}
-      >
-        <Logo show={!isOpen} />
+    <Flex as="header" bgColor="white" shadow="base" width="100%">
+      <Container centerContent maxW="container.xl">
+        <Flex
+          alignItems="center"
+          height="16"
+          width="100%"
+          my="1.5"
+          px="2.5"
+          py="1.5"
+        >
+          <Logo show={!isOpen} />
 
-        <Flex alignItems={'center'} ml={'auto'} position={'relative'}>
-          {user && (
-            <Profile name={user.name} email={user.email} avatar={user.avatar} />
-          )}
+          <Flex alignItems="center" ml="auto" position="relative">
+            {user && (
+              <Profile
+                name={user.name}
+                email={user.email}
+                avatar={user.avatar}
+              />
+            )}
+          </Flex>
         </Flex>
-      </Flex>
+      </Container>
     </Flex>
   )
 }
