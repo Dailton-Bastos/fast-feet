@@ -21,25 +21,27 @@ export const Navigation = ({ isOpen, handleClick }: DisclosureProps) => {
         <Search isOpen={isOpen} handleClick={handleClick} />
 
         <Stack align={isOpen ? 'stretch' : 'center'} mt="4" spacing="2">
-          <NavLink isOpen={isOpen} icon={RiDashboardLine}>
+          <NavLink href="/dashboard" isOpen={isOpen} icon={RiDashboardLine}>
             Dashboard
           </NavLink>
 
           <Divider />
 
-          <NavLink isOpen={isOpen} icon={RiShoppingBagLine}>
+          <NavLink href="/deliveries" isOpen={isOpen} icon={RiShoppingBagLine}>
             Encomendas
           </NavLink>
-          <NavLink isOpen={isOpen} icon={RiEBike2Line}>
+
+          <NavLink href="/deliverymen" isOpen={isOpen} icon={RiEBike2Line}>
             Entregadores
           </NavLink>
-          <NavLink isOpen={isOpen} icon={RiHome2Line}>
+
+          <NavLink href="/recipients" isOpen={isOpen} icon={RiHome2Line}>
             Destinatários
           </NavLink>
 
           <Divider />
 
-          <NavLink isOpen={isOpen} icon={RiAlertLine}>
+          <NavLink href="/problems" isOpen={isOpen} icon={RiAlertLine}>
             Problemas
           </NavLink>
         </Stack>
