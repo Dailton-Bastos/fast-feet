@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/Dailton-Bastos/fast-feet/compare/v1.5.0...v1.6.0) (2022-01-16)
+
+
+### Features
+
+* add active link component ([678375a](https://github.com/Dailton-Bastos/fast-feet/commit/678375a6c8c6e54db8e0a1df10a1005e8c46ac70))
+
 # [1.5.0](https://github.com/Dailton-Bastos/fast-feet/compare/v1.4.0...v1.5.0) (2022-01-16)
 
 
