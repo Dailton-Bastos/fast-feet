@@ -1,3 +1,13 @@
+# [1.5.0](https://github.com/Dailton-Bastos/fast-feet/compare/v1.4.0...v1.5.0) (2022-01-16)
+
+
+### Features
+
+* add forgot password page ([331366d](https://github.com/Dailton-Bastos/fast-feet/commit/331366d3cc132c35ed43a3caa620f2c9378ec751))
+* add logo component ([489cc57](https://github.com/Dailton-Bastos/fast-feet/commit/489cc570c31652faa3248347b3e7d3d495030cea))
+* add sidebar component ([b90d2b0](https://github.com/Dailton-Bastos/fast-feet/commit/b90d2b07e55be5cf02158888eac4962f73cc3398))
+* **sidebar:** add component header ([670c8e5](https://github.com/Dailton-Bastos/fast-feet/commit/670c8e52ef32051061908a0397ca2907bc83e243))
+
 # [1.4.0](https://github.com/Dailton-Bastos/fast-feet/compare/v1.3.0...v1.4.0) (2022-01-15)
 
 
