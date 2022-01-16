@@ -9,15 +9,12 @@ import {
 
 import { Box, Divider, List, Stack } from '@chakra-ui/react'
 
+import { DisclosureProps } from '~/utils/types'
+
 import { NavLink } from './NavLink'
 import { Search } from './Search'
 
-interface NavigationProps {
-  isOpen: boolean
-  handleClick: () => void
-}
-
-export const Navigation = ({ isOpen, handleClick }: NavigationProps) => {
+export const Navigation = ({ isOpen, handleClick }: DisclosureProps) => {
   return (
     <Box as="nav" h="100%" mt="4">
       <List>

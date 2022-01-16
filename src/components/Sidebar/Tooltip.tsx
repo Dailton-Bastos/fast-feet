@@ -2,8 +2,9 @@ import React from 'react'
 
 import { Tooltip as ChakraTooltip } from '@chakra-ui/react'
 
-interface TooltipProps {
-  isOpen: boolean
+import { DisclosureProps } from '~/utils/types'
+
+interface TooltipProps extends DisclosureProps {
   children: React.ReactNode
   label: React.ReactNode
 }

@@ -10,14 +10,11 @@ import {
   ListItem,
 } from '@chakra-ui/react'
 
+import { DisclosureProps } from '~/utils/types'
+
 import { Tooltip } from './Tooltip'
 
-interface SearchProps {
-  isOpen: boolean
-  handleClick: () => void
-}
-
-export const Search = ({ isOpen, handleClick }: SearchProps) => {
+export const Search = ({ isOpen, handleClick }: DisclosureProps) => {
   return (
     <ListItem my="2" pos="relative">
       {isOpen ? (

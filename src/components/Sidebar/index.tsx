@@ -1,14 +1,13 @@
 import React from 'react'
 
-import { Box, useDisclosure } from '@chakra-ui/react'
+import { Box } from '@chakra-ui/react'
 
-import { Logo } from './Logo'
+import { DisclosureProps } from '~/utils/types'
+
+import { Header } from './Header'
 import { Navigation } from './Navigation'
 
-export const Sidebar = () => {
-  const { isOpen, onToggle } = useDisclosure({
-    defaultIsOpen: true,
-  })
+export const Sidebar = ({ isOpen, handleClick }: DisclosureProps) => {
   return (
     <Box
       as="aside"
@@ -21,9 +20,9 @@ export const Sidebar = () => {
       top="0"
       w={isOpen ? 64 : 20}
     >
-      <Logo isOpen={isOpen} handleClick={onToggle} />
+      <Header isOpen={isOpen} handleClick={handleClick} />
 
-      <Navigation isOpen={isOpen} handleClick={onToggle} />
+      <Navigation isOpen={isOpen} handleClick={handleClick} />
     </Box>
   )
 }

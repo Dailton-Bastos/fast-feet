@@ -2,11 +2,12 @@ import React from 'react'
 
 import { ListItem, Icon, Link, Text } from '@chakra-ui/react'
 
+import { DisclosureProps } from '~/utils/types'
+
 import { Tooltip } from './Tooltip'
 
-interface NavLinkProps {
+interface NavLinkProps extends DisclosureProps {
   icon: React.ElementType
-  isOpen: boolean
   children: React.ReactNode
 }
 

@@ -2,12 +2,13 @@ import React from 'react'
 
 import { Flex } from '@chakra-ui/react'
 
+import { Logo } from '~/components/Logo'
 import { useAuthContext } from '~/contexts/AuthContext'
+import { DisclosureProps } from '~/utils/types'
 
-import { Logo } from './Logo'
 import { Profile } from './Profile'
 
-export const Header = () => {
+export const Header = ({ isOpen }: DisclosureProps) => {
   const { user } = useAuthContext()
 
   return (
@@ -20,7 +21,7 @@ export const Header = () => {
         mx={'auto'}
         p={'2.5'}
       >
-        <Logo />
+        <Logo show={!isOpen} />
 
         <Flex alignItems={'center'} ml={'auto'} position={'relative'}>
           {user && (
