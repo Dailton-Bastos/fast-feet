@@ -1,3 +1,12 @@
+# [1.7.0](https://github.com/Dailton-Bastos/fast-feet/compare/v1.6.0...v1.7.0) (2022-01-19)
+
+
+### Features
+
+* check if pages is mounted ([5883ee2](https://github.com/Dailton-Bastos/fast-feet/commit/5883ee2468904efeb7e95e481621e7cd20f1809c))
+* **header:** add responsive layout ([8e73f42](https://github.com/Dailton-Bastos/fast-feet/commit/8e73f42abd647859bb1cb0206cccbf40b784f5d4))
+* **sidebar:** add responsive layout ([a156319](https://github.com/Dailton-Bastos/fast-feet/commit/a1563191047b42de1ffbfb2c628695a10d2d81bb))
+
 # [1.6.0](https://github.com/Dailton-Bastos/fast-feet/compare/v1.5.0...v1.6.0) (2022-01-16)
 
 
