@@ -1,28 +1,32 @@
 import React from 'react'
 
-import { Avatar, Box, Flex, Text } from '@chakra-ui/react'
+import { Box, Flex, Text, useBreakpointValue } from '@chakra-ui/react'
 
 import { Menu } from './Menu'
 
 interface ProfileProps {
-  name: string | undefined
-  email: string | undefined
-  avatar?: string
+  user: {
+    name: string
+    email: string
+    avatar?: string
+  }
 }
 
-export const Profile = ({ name, email, avatar }: ProfileProps) => {
+export const Profile = ({ user }: ProfileProps) => {
+  const isMobile = useBreakpointValue({ base: true, lg: false })
+
   return (
     <Flex alignItems={'center'}>
-      <Box mr={'4'} textAlign={'right'}>
-        <Text fontWeight={'bold'}>{name}</Text>
-        <Text fontSize={'small'} color={'gray.600'}>
-          {email}
-        </Text>
-      </Box>
+      {!isMobile && (
+        <Box mr="4" textAlign="right">
+          <Text fontWeight="bold">{user.name}</Text>
+          <Text fontSize="small" color="gray.600">
+            {user.email}
+          </Text>
+        </Box>
+      )}
 
-      <Menu>
-        <Avatar size={'md'} name={name} src={avatar} />
-      </Menu>
+      <Menu user={user} />
     </Flex>
   )
 }
