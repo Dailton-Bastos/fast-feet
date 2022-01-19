@@ -1,6 +1,12 @@
 import React from 'react'
 
-import { ListItem, Icon, Link as ChakraLink, Text } from '@chakra-ui/react'
+import {
+  ListItem,
+  Icon,
+  Link as ChakraLink,
+  Text,
+  useBreakpointValue,
+} from '@chakra-ui/react'
 
 import { DisclosureProps } from '~/utils/types'
 
@@ -20,6 +26,8 @@ export const NavLink = ({
   children,
   ...rest
 }: NavLinkProps) => {
+  const isMobile = useBreakpointValue({ base: true, lg: false })
+
   return (
     <>
       <Tooltip isOpen={isOpen} label={children}>
@@ -28,7 +36,7 @@ export const NavLink = ({
           display="flex"
           w="100%"
           _hover={{
-            bgColor: isOpen ? 'purple.500' : 'white',
+            bgColor: isOpen && !isMobile ? 'purple.500' : 'white',
             transition: 'all 0.2s',
           }}
         >
@@ -43,13 +51,17 @@ export const NavLink = ({
               w="100%"
               _hover={{
                 textDecoration: 'none',
-                color: isOpen ? 'white' : 'gray.600',
+                color: isOpen && !isMobile ? 'white' : 'gray.600',
               }}
               {...rest}
             >
               <Icon as={icon} fontSize="20" />
               {!!isOpen && (
-                <Text fontSize="md" fontWeight="medium" ml="4">
+                <Text
+                  fontSize={isMobile ? 'sm' : 'md'}
+                  fontWeight="medium"
+                  ml="4"
+                >
                   {children}
                 </Text>
               )}

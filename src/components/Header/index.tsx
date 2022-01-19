@@ -13,6 +13,7 @@ import {
 
 import { Logo } from '~/components/Logo'
 import { useAuthContext } from '~/contexts/AuthContext'
+import { useDrawer } from '~/contexts/DrawerContext'
 import { useMounted } from '~/hooks/useMounted'
 import { DisclosureProps } from '~/utils/types'
 
@@ -20,10 +21,9 @@ import { Profile } from './Profile'
 
 export const Header = ({ isOpen }: DisclosureProps) => {
   const isMobile = useBreakpointValue({ base: true, lg: false })
-
   const { user } = useAuthContext()
-
   const { hasMounted } = useMounted()
+  const { onOpen } = useDrawer()
 
   if (!hasMounted) {
     return <Progress size="sm" isIndeterminate colorScheme="purple" />
@@ -46,6 +46,7 @@ export const Header = ({ isOpen }: DisclosureProps) => {
             fontSize="26"
             variant="unstyled"
             icon={<Icon as={BiMenu} />}
+            onClick={onOpen}
           />
 
           <Logo />
@@ -61,13 +62,7 @@ export const Header = ({ isOpen }: DisclosureProps) => {
   }
 
   return (
-    <Flex
-      as="header"
-      bgColor="white"
-      pl={isOpen ? '64' : '20'}
-      shadow="base"
-      width="100%"
-    >
+    <Flex as="header" bgColor="white" shadow="base" width="100%">
       <Container centerContent maxW="container.xl">
         <Flex
           alignItems="center"

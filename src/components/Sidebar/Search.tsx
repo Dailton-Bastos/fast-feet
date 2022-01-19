@@ -16,7 +16,7 @@ import { Tooltip } from './Tooltip'
 
 export const Search = ({ isOpen, handleClick }: DisclosureProps) => {
   return (
-    <ListItem my="2" pos="relative">
+    <ListItem my="2.5">
       {isOpen ? (
         <InputGroup>
           <Input

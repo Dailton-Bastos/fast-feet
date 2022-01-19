@@ -14,9 +14,9 @@ import { DisclosureProps } from '~/utils/types'
 import { NavLink } from './NavLink'
 import { Search } from './Search'
 
-export const Navigation = ({ isOpen, handleClick }: DisclosureProps) => {
+export const Navigation = ({ isOpen = true, handleClick }: DisclosureProps) => {
   return (
-    <Box as="nav" h="100%" mt="4">
+    <Box as="nav" px={isOpen ? '14px' : '0'} my="1.5" pt="2">
       <List>
         <Search isOpen={isOpen} handleClick={handleClick} />
 

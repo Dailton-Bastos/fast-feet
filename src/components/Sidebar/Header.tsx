@@ -8,15 +8,20 @@ import { DisclosureProps } from '~/utils/types'
 
 export const Header = ({ isOpen, handleClick }: DisclosureProps) => {
   return (
-    <Flex align="center" h={16} justify={isOpen ? 'space-between' : 'center'}>
+    <Flex
+      align="center"
+      h="16"
+      justify={isOpen ? 'space-between' : 'center'}
+      pl={isOpen ? '14px' : '0'}
+    >
       <Logo show={isOpen} />
 
       <Button
-        h={10}
+        h="10"
         p="0"
         size="sm"
         variant="ghost"
-        w={8}
+        w="8"
         _focus={{ boxShadow: 'none' }}
         _hover={{ bg: 'transparent' }}
         onClick={handleClick}
