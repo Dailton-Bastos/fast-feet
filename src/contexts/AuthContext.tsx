@@ -72,7 +72,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
       api.defaults.headers.common['Authorization'] = `Bearer ${token}`
 
-      Router.push('/deliveries')
+      Router.push('/dashboard')
     } catch (error) {
       signOut()
     }

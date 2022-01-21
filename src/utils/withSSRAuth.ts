@@ -47,7 +47,7 @@ export function withSSRAuth<P>(
       if (!userHasValidPermissions) {
         return {
           redirect: {
-            destination: '/deliveries',
+            destination: '/dashboard',
             permanent: false,
           },
         }
@@ -70,7 +70,7 @@ export function withSSRAuth<P>(
       } else {
         return {
           redirect: {
-            destination: '/deliveries',
+            destination: '/dashboard',
             permanent: false,
           },
         }

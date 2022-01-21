@@ -14,7 +14,7 @@ export function withSSRGuest<P>(fn: GetServerSideProps<P>) {
     if (cookies['fastfeet.token']) {
       return {
         redirect: {
-          destination: '/deliveries',
+          destination: '/dashboard',
           permanent: false,
         },
       }
