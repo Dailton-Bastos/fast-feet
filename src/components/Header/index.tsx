@@ -62,7 +62,13 @@ export const Header = ({ isOpen }: DisclosureProps) => {
   }
 
   return (
-    <Flex as="header" bgColor="white" shadow="base" width="100%">
+    <Flex
+      as="header"
+      bgColor="white"
+      px={['0', null, null, '20']}
+      shadow="base"
+      width="100%"
+    >
       <Container centerContent maxW="container.xl">
         <Flex
           alignItems="center"
