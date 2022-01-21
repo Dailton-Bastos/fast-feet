@@ -4,7 +4,7 @@ import NextHead from 'next/head'
 
 interface HeadProps {
   title: string
-  description: string
+  description?: string
 }
 
 export const Head = ({ title, description }: HeadProps) => {
