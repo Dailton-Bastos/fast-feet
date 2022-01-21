@@ -1,3 +1,15 @@
+# [1.8.0](https://github.com/Dailton-Bastos/fast-feet/compare/v1.7.0...v1.8.0) (2022-01-21)
+
+
+### Bug Fixes
+
+* **head:** remove required description ([5c1d191](https://github.com/Dailton-Bastos/fast-feet/commit/5c1d19105021598f50f409ee664da38972f3e1d8))
+
+
+### Features
+
+* add dashboard page ([819d18c](https://github.com/Dailton-Bastos/fast-feet/commit/819d18c5abc6ce1a5a51c2f23bd166000de31fa2))
+
 # [1.7.0](https://github.com/Dailton-Bastos/fast-feet/compare/v1.6.0...v1.7.0) (2022-01-19)
 
 
