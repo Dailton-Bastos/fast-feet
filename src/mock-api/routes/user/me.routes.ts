@@ -5,30 +5,34 @@ import { checkAuthMiddleware } from '~/mock-api/middlewares/checkAuthMiddleware'
 
 export function getUser(context: Server) {
   context.get('/me', function (schema: AppSchema, request: AuthRequest) {
-    checkAuthMiddleware(schema, request)
+    const hasError = checkAuthMiddleware(request)
 
-    const email = request.user
+    if (!hasError) {
+      const email = request.user
 
-    const user: UserSession = schema.db.users.findBy({ email })
+      const user: UserSession = schema.db.users.findBy({ email })
 
-    if (!user) {
+      if (!user) {
+        return new Response(
+          401,
+          { error: 'true' },
+          { message: 'User not found.' }
+        )
+      }
+
       return new Response(
-        401,
-        { error: 'true' },
-        { message: 'User not found.' }
+        201,
+        { error: 'false' },
+        {
+          name: user.name,
+          email: user.email,
+          avatar: user.avatar,
+          permissions: user.permissions,
+          roles: user.roles,
+        }
       )
     }
 
-    return new Response(
-      201,
-      { error: 'false' },
-      {
-        name: user.name,
-        email: user.email,
-        avatar: user.avatar,
-        permissions: user.permissions,
-        roles: user.roles,
-      }
-    )
+    return hasError
   })
 }
