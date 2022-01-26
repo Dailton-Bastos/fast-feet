@@ -35,17 +35,6 @@ const SignIn: NextPageWithLayout = () => {
     await signIn(data)
   }
 
-  React.useEffect(() => {
-    async function getUSers() {
-      const response = await fetch('http://localhost:3000/mock-api/users')
-
-      const data = await response.json()
-
-      console.log('users', data)
-    }
-
-    getUSers()
-  }, [])
   return (
     <>
       <Head title="Login" description="FastFeet | Autenticação" />

@@ -19,7 +19,7 @@ export function setupAPIClient(ctx?: GetServerSidePropsContext) {
   let cookies = parseCookies(ctx)
 
   const api = axios.create({
-    baseURL: 'http://localhost:3333',
+    baseURL: 'http://localhost:3000/mock-api',
   })
 
   api.defaults.headers.common[
