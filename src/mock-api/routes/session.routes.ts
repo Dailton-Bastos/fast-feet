@@ -1,10 +1,15 @@
-import { Request, Response, Server } from 'miragejs'
+import { Response, Server } from 'miragejs'
 
 import { generateJwtAndRefreshToken } from '../auth'
-import { CreateSessionDTO, AppSchema, UserSession } from '../auth/types'
+import {
+  CreateSessionDTO,
+  AppSchema,
+  UserSession,
+  AuthRequest,
+} from '../auth/types'
 
 export function registerSessionRoutes(context: Server) {
-  context.post('/sessions', function (schema: AppSchema, request: Request) {
+  context.post('/sessions', function (schema: AppSchema, request: AuthRequest) {
     const { email, password } = JSON.parse(
       request.requestBody
     ) as unknown as CreateSessionDTO

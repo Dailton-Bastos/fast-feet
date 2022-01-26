@@ -3,7 +3,7 @@ import { createServer } from 'miragejs'
 import { factories } from './factories'
 import { models } from './models'
 import { registerSessionRoutes } from './routes/session.routes'
-import { registerUserRoutes } from './routes/user.routes'
+import { registerUserRoutes } from './routes/user'
 
 export function makeServer({ environment = 'development' } = {}) {
   const server = createServer({
@@ -35,8 +35,8 @@ export function makeServer({ environment = 'development' } = {}) {
       this.namespace = '/mock-api'
       this.timing = 750
 
-      registerUserRoutes(this)
       registerSessionRoutes(this)
+      registerUserRoutes(this)
 
       this.namespace = ''
       this.passthrough()

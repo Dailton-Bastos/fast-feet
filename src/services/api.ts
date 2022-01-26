@@ -18,9 +18,12 @@ let failedRequestQueue: FailedRequestQueueParams = []
 export function setupAPIClient(ctx?: GetServerSidePropsContext) {
   let cookies = parseCookies(ctx)
 
-  const api = axios.create({
-    baseURL: 'http://localhost:3000/mock-api',
-  })
+  const baseURL =
+    process.env.NODE_ENV === 'development'
+      ? process.env.NEXT_PUBLIC_BASE_URL_DEV
+      : process.env.NEXT_PUBLIC_BASE_URL
+
+  const api = axios.create({ baseURL })
 
   api.defaults.headers.common[
     'Authorization'
