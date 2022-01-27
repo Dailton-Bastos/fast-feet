@@ -48,17 +48,23 @@ export function setupAPIClient(ctx?: GetServerSidePropsContext) {
               })
               .then((response) => {
                 const { token } = response.data
-                setCookie('fastfeet.token', token, ctx)
-                setCookie(
-                  'fastfeet.refreshToken',
-                  response.data.refreshToken,
-                  ctx
-                )
-                api.defaults.headers.common['Authorization'] = `Bearer ${token}`
 
-                failedRequestQueue.forEach((request) =>
-                  request.onSuccess(token)
-                )
+                if (token) {
+                  setCookie('fastfeet.token', token, ctx)
+                  setCookie(
+                    'fastfeet.refreshToken',
+                    response.data.refreshToken,
+                    ctx
+                  )
+                  api.defaults.headers.common[
+                    'Authorization'
+                  ] = `Bearer ${token}`
+
+                  failedRequestQueue.forEach((request) =>
+                    request.onSuccess(token)
+                  )
+                }
+
                 failedRequestQueue = []
               })
               .catch((err) => {

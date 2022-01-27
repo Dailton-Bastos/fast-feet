@@ -24,3 +24,7 @@ export type DecodedToken = {
 export type AuthRequest = Request & {
   user?: string
 }
+
+export type RefreshToken = {
+  refreshToken: string | undefined
+}

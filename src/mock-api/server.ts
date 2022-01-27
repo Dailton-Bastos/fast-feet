@@ -2,6 +2,7 @@ import { createServer } from 'miragejs'
 
 import { factories } from './factories'
 import { models } from './models'
+import { registerRefreshToken } from './routes/refresh.routes'
 import { registerSessionRoutes } from './routes/session.routes'
 import { registerUserRoutes } from './routes/user'
 
@@ -37,6 +38,7 @@ export function makeServer({ environment = 'development' } = {}) {
 
       registerSessionRoutes(this)
       registerUserRoutes(this)
+      registerRefreshToken(this)
 
       this.namespace = ''
       this.passthrough()
