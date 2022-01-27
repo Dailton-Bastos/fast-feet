@@ -1,3 +1,18 @@
+# [1.9.0](https://github.com/Dailton-Bastos/fast-feet/compare/v1.8.0...v1.9.0) (2022-01-27)
+
+
+### Bug Fixes
+
+* **checkauthmiddleware:** return status response ([200c975](https://github.com/Dailton-Bastos/fast-feet/commit/200c9758d8a169f9bd62e932c766293aeb5ca001))
+
+
+### Features
+
+* **mirage:** add session auth ([d5a5a89](https://github.com/Dailton-Bastos/fast-feet/commit/d5a5a895e71c5c061daeb4bf9fbb6db88bec1c0e))
+* **miragejs:** add refresh token ([81358e9](https://github.com/Dailton-Bastos/fast-feet/commit/81358e9cb2a7ab84d1be1b75378cb8528adaa833))
+* **miragejs:** add users list ([10ed6de](https://github.com/Dailton-Bastos/fast-feet/commit/10ed6ded487aced879a586175dc586a5d4500d6a))
+* **miragejs:** get user info ([edf73ec](https://github.com/Dailton-Bastos/fast-feet/commit/edf73ec38a1144e5f40a7b13633efd99ea68bade))
+
 # [1.8.0](https://github.com/Dailton-Bastos/fast-feet/compare/v1.7.0...v1.8.0) (2022-01-21)
 
 
