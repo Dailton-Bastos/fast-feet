@@ -1,6 +1,5 @@
 import React from 'react'
 
-import { setupAPIClient } from '~/services/api'
 import { withSSRAuth } from '~/utils/withSSRAuth'
 
 const Deliverymen = () => {
@@ -14,17 +13,13 @@ const Deliverymen = () => {
 export default Deliverymen
 
 export const getServerSideProps = withSSRAuth(
-  async (ctx) => {
-    const apiClient = setupAPIClient(ctx)
-
-    const response = await apiClient.get('/me')
-
+  async () => {
     return {
       props: {},
     }
   },
   {
-    permissions: ['metrics.list'],
+    permissions: ['deliverymen.list'],
     roles: ['administrator'],
   }
 )
