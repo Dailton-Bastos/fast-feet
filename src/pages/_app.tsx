@@ -6,7 +6,7 @@ import { AppPropsWithLayout } from '~/utils/types'
 
 const ENV = process.env.NODE_ENV
 
-if (ENV === 'development') mockApi
+if (ENV === 'development') mockApi({ environment: 'development' })
 
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page)

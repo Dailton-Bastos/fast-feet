@@ -1,3 +1,3 @@
 import { makeServer } from './server'
 
-export const mockApi = makeServer({ environment: 'development' })
+export const mockApi = makeServer
