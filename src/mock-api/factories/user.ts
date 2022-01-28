@@ -1,25 +1,29 @@
+import { faker } from '@faker-js/faker'
 import { Factory } from 'miragejs'
 
 export const user = Factory.extend({
   name() {
-    return 'Dailton Bastos'
+    return faker.name.findName()
   },
   email() {
-    return 'dailtonbastos@gmail.com'
+    return faker.internet.email().toLowerCase()
   },
   avatar() {
-    return ''
+    return faker.image.avatar()
+  },
+  password() {
+    return '123456'
   },
   permissions() {
-    return ['users.list', 'deliverymen.rank']
+    return ['users.list', 'deliverymen.list']
   },
   roles() {
-    return ['administrator']
+    return ['editor']
   },
   createdAt() {
-    return new Date()
+    return faker.date.past(10)
   },
   updatedAt() {
-    return new Date()
+    return faker.date.recent(10)
   },
 })
