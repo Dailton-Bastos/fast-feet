@@ -1,17 +1,23 @@
 import React from 'react'
 
-import { Flex, Text, Icon, ScaleFade } from '@chakra-ui/react'
+import { Flex, Text, Icon, ScaleFade, Spinner } from '@chakra-ui/react'
 import { useSpring, animated } from '@react-spring/web'
 
 import { useMounted } from '~/hooks/useMounted'
 
 interface CardProps {
+  isLoading?: boolean
   value: number
   icon: React.ElementType
   children: string
 }
 
-export const Card = ({ value, icon, children }: CardProps) => {
+export const Card = ({
+  isLoading = false,
+  value,
+  icon,
+  children,
+}: CardProps) => {
   const { hasMounted } = useMounted()
 
   const randomNumber = Math.floor(Math.random() * (value - 1) + 1)
@@ -19,7 +25,7 @@ export const Card = ({ value, icon, children }: CardProps) => {
   const { number } = useSpring({
     from: { number: randomNumber },
     number: value,
-    delay: 300,
+    delay: 1000,
   })
 
   const formattedNumber = number.to((n) => Math.floor(n))
@@ -35,20 +41,30 @@ export const Card = ({ value, icon, children }: CardProps) => {
         py={['6', '8']}
         shadow="md"
       >
-        <Flex direction="column">
-          <Text
-            color="#222"
-            fontSize={['xl', null, null, '4xl']}
-            fontWeight="semibold"
-          >
-            {hasMounted && <animated.span>{formattedNumber}</animated.span>}
-          </Text>
-          <Text color="#666" fontSize={['md', null, null, 'lg']}>
-            {children}
-          </Text>
-        </Flex>
+        {isLoading ? (
+          <Spinner size="lg" color="purple.500" />
+        ) : (
+          <>
+            <Flex direction="column">
+              <Text
+                color="#222"
+                fontSize={['xl', null, null, '4xl']}
+                fontWeight="semibold"
+              >
+                {hasMounted && <animated.span>{formattedNumber}</animated.span>}
+              </Text>
+              <Text color="#666" fontSize={['md', null, null, 'lg']}>
+                {children}
+              </Text>
+            </Flex>
 
-        <Icon as={icon} boxSize={['6', '8', null, '10']} color="purple.500" />
+            <Icon
+              as={icon}
+              boxSize={['6', '8', null, '10']}
+              color="purple.500"
+            />
+          </>
+        )}
       </Flex>
     </ScaleFade>
   )
