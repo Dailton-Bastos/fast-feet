@@ -7,11 +7,15 @@ import { RecentDeliveries } from '~/components/Deliveries/Recent'
 import { RankDeliverymen } from '~/components/Deliverymen/Rank'
 import { Head } from '~/components/Head'
 import { Statistics } from '~/components/Statistics'
+import { useFetchQuery } from '~/hooks/useFetchQuery'
 import { appLayout } from '~/layouts/App'
 import { NextPageWithLayout } from '~/utils/types'
 import { withSSRAuth } from '~/utils/withSSRAuth'
 
 export const Dashboard: NextPageWithLayout = () => {
+  const { data } = useFetchQuery('users', 'users', 'GET')
+
+  console.log(data)
   return (
     <>
       <Container as="section" maxW="container.xl">
