@@ -27,8 +27,8 @@ export function makeServer({ environment = 'development' } = {}) {
         email: 'dailtonbastos@gmail.com',
       })
 
-      _server.createList('user', 23)
-      _server.createList('deliveryman', 12)
+      _server.createList('user', 13)
+      _server.createList('deliveryman', 6)
     },
 
     routes() {
