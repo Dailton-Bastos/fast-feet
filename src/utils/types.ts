@@ -15,3 +15,12 @@ export interface DisclosureProps {
   isOpen?: boolean
   handleClick?: () => void
 }
+
+export type Deliveryman = {
+  id: string
+  name: string
+  email: string
+  avatar: string
+  createdAt: string
+  updatedAt: string
+}
