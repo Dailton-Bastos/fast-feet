@@ -1,4 +1,5 @@
 import React from 'react'
+import { ReactQueryDevtools } from 'react-query/devtools'
 
 import { AppStorage } from '~/contexts'
 import { mockApi } from '~/mock-api'
@@ -11,7 +12,13 @@ if (ENV === 'development') mockApi({ environment: 'development' })
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page)
 
-  return <AppStorage>{getLayout(<Component {...pageProps} />)}</AppStorage>
+  return (
+    <AppStorage>
+      {getLayout(<Component {...pageProps} />)}
+
+      <ReactQueryDevtools />
+    </AppStorage>
+  )
 }
 
 export default MyApp
