@@ -5,6 +5,7 @@ import { api } from '~/services/apiClient'
 type GetStatisticsResponse = {
   users: number
   deliverymen: number
+  recipients: number
 }
 
 export const getStatistics = async (): Promise<GetStatisticsResponse> => {
@@ -13,6 +14,7 @@ export const getStatistics = async (): Promise<GetStatisticsResponse> => {
   return {
     users: data?.total.users,
     deliverymen: data?.total.deliverymen,
+    recipients: data?.total.recipients,
   }
 }
 

@@ -24,7 +24,7 @@ export const Statistics = () => {
         Entregadores
       </Card>
 
-      <Card icon={RiHome2Line} value={23} isLoading={isLoading}>
+      <Card icon={RiHome2Line} value={data?.recipients} isLoading={isLoading}>
         Destinatários
       </Card>
 

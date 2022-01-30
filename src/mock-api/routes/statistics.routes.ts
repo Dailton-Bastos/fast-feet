@@ -5,6 +5,7 @@ export function registerStatisticsRoutes(context: Server) {
     const total = {
       users: schema.all('user').length,
       deliverymen: schema.all('deliveryman').length,
+      recipients: schema.all('recipient').length,
     }
 
     return new Response(201, {}, { total })

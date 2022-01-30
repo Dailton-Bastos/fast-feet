@@ -3,6 +3,7 @@ import { createServer } from 'miragejs'
 import { factories } from './factories'
 import { models } from './models'
 import { registerDeliverymenRoutes } from './routes/deliveryman'
+import { registerRecipientsRoutes } from './routes/recipient'
 import { registerRefreshToken } from './routes/refresh.routes'
 import { registerSessionRoutes } from './routes/session.routes'
 import { registerStatisticsRoutes } from './routes/statistics.routes'
@@ -30,6 +31,7 @@ export function makeServer({ environment = 'development' } = {}) {
 
       _server.createList('user', 13)
       _server.createList('deliveryman', 18)
+      _server.createList('recipient', 10)
     },
 
     routes() {
@@ -41,6 +43,7 @@ export function makeServer({ environment = 'development' } = {}) {
       registerRefreshToken(this)
       registerDeliverymenRoutes(this)
       registerStatisticsRoutes(this)
+      registerRecipientsRoutes(this)
 
       this.namespace = ''
       this.passthrough()
