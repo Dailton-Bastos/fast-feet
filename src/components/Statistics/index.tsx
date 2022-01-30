@@ -1,30 +1,36 @@
 import React from 'react'
+import {
+  RiShoppingBagLine,
+  RiEBike2Line,
+  RiHome2Line,
+  RiAlertLine,
+} from 'react-icons/ri'
 
 import { SimpleGrid } from '@chakra-ui/react'
 
 import { Card } from '~/components/Card'
+import { useStatistics } from '~/hooks/useStatistics'
 
-import { Cards } from './content'
-import { Icons } from './icons'
+export const Statistics = () => {
+  const { data, isLoading } = useStatistics()
 
-interface StatisticsProps {
-  isLoading?: boolean
-  error?: boolean | unknown
-}
-
-export const Statistics = ({ isLoading, error }: StatisticsProps) => {
   return (
     <SimpleGrid columns={[1, 2, null, 4]} spacing={5}>
-      {!error &&
-        Cards.map((card) => {
-          const Icon = Icons[card.label]
+      <Card isLoading={isLoading} icon={RiShoppingBagLine} value={36}>
+        Encomendas
+      </Card>
 
-          return (
-            <Card key={card.label} value={80} icon={Icon} isLoading={isLoading}>
-              {card.title}
-            </Card>
-          )
-        })}
+      <Card icon={RiEBike2Line} value={data?.deliverymen} isLoading={isLoading}>
+        Entregadores
+      </Card>
+
+      <Card icon={RiHome2Line} value={23} isLoading={isLoading}>
+        Destinatários
+      </Card>
+
+      <Card icon={RiAlertLine} value={9} isLoading={isLoading}>
+        Problemas
+      </Card>
     </SimpleGrid>
   )
 }

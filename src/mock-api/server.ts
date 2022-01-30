@@ -5,6 +5,7 @@ import { models } from './models'
 import { registerDeliverymenRoutes } from './routes/deliveryman'
 import { registerRefreshToken } from './routes/refresh.routes'
 import { registerSessionRoutes } from './routes/session.routes'
+import { registerStatisticsRoutes } from './routes/statistics.routes'
 import { registerUserRoutes } from './routes/user'
 
 export function makeServer({ environment = 'development' } = {}) {
@@ -28,7 +29,7 @@ export function makeServer({ environment = 'development' } = {}) {
       })
 
       _server.createList('user', 13)
-      _server.createList('deliveryman', 6)
+      _server.createList('deliveryman', 18)
     },
 
     routes() {
@@ -39,6 +40,7 @@ export function makeServer({ environment = 'development' } = {}) {
       registerUserRoutes(this)
       registerRefreshToken(this)
       registerDeliverymenRoutes(this)
+      registerStatisticsRoutes(this)
 
       this.namespace = ''
       this.passthrough()

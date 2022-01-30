@@ -7,36 +7,30 @@ import { RecentDeliveries } from '~/components/Deliveries/Recent'
 import { RankDeliverymen } from '~/components/Deliverymen/Rank'
 import { Head } from '~/components/Head'
 import { Statistics } from '~/components/Statistics'
-import { useFetchQuery } from '~/hooks/useFetchQuery'
 import { appLayout } from '~/layouts/App'
 import { NextPageWithLayout } from '~/utils/types'
 import { withSSRAuth } from '~/utils/withSSRAuth'
 
 export const Dashboard: NextPageWithLayout = () => {
-  const { data } = useFetchQuery('users', 'users', 'GET')
-
-  console.log(data)
   return (
-    <>
-      <Container as="section" maxW="container.xl">
-        <Head title="Dashbaord" description="Fastfeet - Visão geral" />
+    <Container as="section" maxW="container.xl">
+      <Head title="Dashbaord" description="Fastfeet - Visão geral" />
 
-        <Statistics />
+      <Statistics />
 
-        <Flex
-          flexDirection={['column', null, null, 'row']}
-          gap={5}
-          justifyContent={['center', 'space-between']}
-          mt="5"
-        >
-          <RecentDeliveries />
+      <Flex
+        flexDirection={['column', null, null, 'row']}
+        gap={5}
+        justifyContent={['center', 'space-between']}
+        mt="5"
+      >
+        <RecentDeliveries />
 
-          <Can permissions={['deliverymen.rank']}>
-            <RankDeliverymen />
-          </Can>
-        </Flex>
-      </Container>
-    </>
+        <Can permissions={['deliverymen.rank']}>
+          <RankDeliverymen />
+        </Can>
+      </Flex>
+    </Container>
   )
 }
 

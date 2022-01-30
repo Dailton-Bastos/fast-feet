@@ -7,14 +7,14 @@ import { useMounted } from '~/hooks/useMounted'
 
 interface CardProps {
   isLoading?: boolean
-  value: number
+  value: number | undefined
   icon: React.ElementType
   children: string
 }
 
 export const Card = ({
   isLoading = false,
-  value,
+  value = 0,
   icon,
   children,
 }: CardProps) => {
@@ -25,7 +25,7 @@ export const Card = ({
   const { number } = useSpring({
     from: { number: randomNumber },
     number: value,
-    delay: 1000,
+    delay: 300,
   })
 
   const formattedNumber = number.to((n) => Math.floor(n))
