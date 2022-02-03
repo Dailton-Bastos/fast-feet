@@ -1,19 +1,15 @@
 import { faker } from '@faker-js/faker'
 import { Factory } from 'miragejs'
 
+const status = ['pending', 'shipped', 'cancelled', 'delivered']
+
+const randomNumber = Math.floor(Math.random() * (status.length - 1 + 1) + 0)
+
 export const delivery = Factory.extend({
-  recipient() {
-    return '1'
-  },
-
-  deliveryman() {
-    return '1'
-  },
-
   status() {
-    return 'pending'
+    return status[randomNumber]
   },
-  recipient_signature() {
+  signature() {
     return faker.image.imageUrl()
   },
   createdAt() {

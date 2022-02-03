@@ -1,8 +1,9 @@
-import { Model, belongsTo } from 'miragejs'
+import { Model, belongsTo, hasMany } from 'miragejs'
 
-import { Deliveries } from './types'
+import { Delivery } from './types'
 
-export const delivery = Model.extend<Partial<Deliveries>>({
-  recipient: belongsTo('recipient'),
-  deliveryman: belongsTo('deliveryman'),
+export const delivery = Model.extend<Partial<Delivery>>({
+  recipient: belongsTo(),
+  deliveryman: belongsTo(),
+  problems: hasMany(),
 })

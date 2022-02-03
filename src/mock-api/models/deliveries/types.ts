@@ -1,10 +1,11 @@
-import { Recipients } from '../recipients/types'
+import { BelongsTo, HasMany } from 'miragejs/-types'
 
-export type Deliveries = {
-  recipient: Recipients
-  deliveryman: number
+export type Delivery = {
+  recipient: BelongsTo<string>
+  deliveryman: BelongsTo<string>
+  problems: HasMany<string>
   status: 'pending' | 'shipped' | 'cancelled' | 'delivered'
-  recipient_signature: string
+  signature: string
   shipped_at?: string
   delivered_at?: string
   cancelled_at?: string

@@ -3,18 +3,20 @@ import { useQuery } from 'react-query'
 import { api } from '~/services/apiClient'
 
 type GetStatisticsResponse = {
-  users: number
   deliverymen: number
   recipients: number
+  problems: number
+  deliveries: number
 }
 
 export const getStatistics = async (): Promise<GetStatisticsResponse> => {
   const { data } = await api.get('statistics')
 
   return {
-    users: data?.total.users,
-    deliverymen: data?.total.deliverymen,
-    recipients: data?.total.recipients,
+    deliverymen: data?.deliverymen,
+    recipients: data?.recipients,
+    problems: data?.problems,
+    deliveries: data?.deliveries,
   }
 }
 

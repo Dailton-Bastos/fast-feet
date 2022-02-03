@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { Factory } from 'miragejs'
+import { Factory, trait, Server } from 'miragejs'
 
 export const recipient = Factory.extend({
   name() {
@@ -14,4 +14,12 @@ export const recipient = Factory.extend({
   updatedAt() {
     return faker.date.recent(10)
   },
+
+  withAddress: trait({
+    afterCreate(recipient, server: Server) {
+      server.create('address', {
+        recipient,
+      })
+    },
+  }),
 })

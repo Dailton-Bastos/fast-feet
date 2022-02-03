@@ -16,7 +16,11 @@ export const Statistics = () => {
 
   return (
     <SimpleGrid columns={[1, 2, null, 4]} spacing={5}>
-      <Card isLoading={isLoading} icon={RiShoppingBagLine} value={36}>
+      <Card
+        isLoading={isLoading}
+        icon={RiShoppingBagLine}
+        value={data?.deliveries}
+      >
         Encomendas
       </Card>
 
@@ -28,7 +32,7 @@ export const Statistics = () => {
         Destinatários
       </Card>
 
-      <Card icon={RiAlertLine} value={9} isLoading={isLoading}>
+      <Card icon={RiAlertLine} value={data?.problems} isLoading={isLoading}>
         Problemas
       </Card>
     </SimpleGrid>
