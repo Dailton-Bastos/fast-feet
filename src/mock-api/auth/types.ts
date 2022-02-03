@@ -21,7 +21,7 @@ export type DecodedToken = {
   sub: string
 }
 
-export type AuthRequest = Request & {
+export type UserRequest = Request & {
   user?: string
 }
 

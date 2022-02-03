@@ -1,5 +1,7 @@
-import { Model } from 'miragejs'
+import { Model, hasMany } from 'miragejs'
 
 import { Deliveryman } from './types'
 
-export const deliveryman = Model.extend<Partial<Deliveryman>>({})
+export const deliveryman = Model.extend<Partial<Deliveryman>>({
+  delivery: hasMany(),
+})

@@ -1,9 +1,9 @@
 import decode from 'jwt-decode'
 import { Response } from 'miragejs'
 
-import { AuthRequest, DecodedToken } from '~/mock-api/auth/types'
+import { UserRequest, DecodedToken } from '~/mock-api/auth/types'
 
-export function addUserInformationToRequest(request: AuthRequest) {
+export function addUserInformationToRequest(request: UserRequest) {
   const { Authorization } = request.requestHeaders
 
   if (!Authorization) {

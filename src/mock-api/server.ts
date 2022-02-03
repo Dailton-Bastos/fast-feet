@@ -1,13 +1,11 @@
 import { createServer } from 'miragejs'
 
+import { UserRequest } from './auth/types'
 import { factories } from './factories'
+import { createSession } from './middlewares/createSession'
+import { refreshToken } from './middlewares/refreshToken'
+import { me } from './middlewares/userProfile'
 import { models } from './models'
-import { registerDeliverymenRoutes } from './routes/deliveryman'
-import { registerRecipientsRoutes } from './routes/recipient'
-import { registerRefreshToken } from './routes/refresh.routes'
-import { registerSessionRoutes } from './routes/session.routes'
-import { registerStatisticsRoutes } from './routes/statistics.routes'
-import { registerUserRoutes } from './routes/user'
 
 export function makeServer({ environment = 'development' } = {}) {
   const server = createServer({
@@ -24,26 +22,32 @@ export function makeServer({ environment = 'development' } = {}) {
         permissions: ['users.list', 'users.create', 'deliverymen.rank'],
         roles: ['administrator'],
       })
+
       _server.create('user', {
         name: 'Dailton Bastos',
         email: 'dailtonbastos@gmail.com',
+        permissions: ['deliverymen.list'],
+        roles: ['editor'],
       })
 
-      _server.createList('user', 13)
-      _server.createList('deliveryman', 18)
-      _server.createList('recipient', 10)
+      _server.createList('user', 8)
     },
 
     routes() {
       this.namespace = '/mock-api'
       this.timing = 750
 
-      registerSessionRoutes(this)
-      registerUserRoutes(this)
-      registerRefreshToken(this)
-      registerDeliverymenRoutes(this)
-      registerStatisticsRoutes(this)
-      registerRecipientsRoutes(this)
+      this.get('/users')
+
+      this.post('/sessions', (schema, request) =>
+        createSession(schema, request)
+      )
+
+      this.get('/me', (schema, request: UserRequest) => me(schema, request))
+
+      this.post('/refresh', (schema, request: UserRequest) =>
+        refreshToken(schema, request)
+      )
 
       this.namespace = ''
       this.passthrough()

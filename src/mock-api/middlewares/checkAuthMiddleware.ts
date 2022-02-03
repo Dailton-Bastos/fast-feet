@@ -2,33 +2,25 @@ import jwt from 'jsonwebtoken'
 import { Response } from 'miragejs'
 
 import { auth } from '~/mock-api/auth/config'
-import { AuthRequest, DecodedToken } from '~/mock-api/auth/types'
+import { UserRequest, DecodedToken } from '~/mock-api/auth/types'
 
-export function checkAuthMiddleware(request: AuthRequest) {
+export function checkAuthMiddleware(request: UserRequest) {
   const { Authorization } = request.requestHeaders
 
   if (!Authorization) {
-    return new Response(
-      401,
-      { error: 'true' },
-      {
-        code: 'token.invalid',
-        message: 'Token not present.',
-      }
-    )
+    return new Response(401, undefined, {
+      code: 'token.invalid',
+      message: 'Token not present.',
+    })
   }
 
   const [, token] = Authorization?.split(' ')
 
   if (!token) {
-    return new Response(
-      401,
-      { error: 'true' },
-      {
-        code: 'token.invalid',
-        message: 'Token not present.',
-      }
-    )
+    return new Response(401, undefined, {
+      code: 'token.invalid',
+      message: 'Token not present.',
+    })
   }
 
   try {
@@ -36,13 +28,9 @@ export function checkAuthMiddleware(request: AuthRequest) {
 
     request.user = decoded.sub
   } catch (error) {
-    return new Response(
-      401,
-      { error: 'true' },
-      {
-        code: 'token.expired',
-        message: 'Token invalid.',
-      }
-    )
+    return new Response(401, undefined, {
+      code: 'token.expired',
+      message: 'Token invalid.',
+    })
   }
 }
