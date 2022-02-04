@@ -1,6 +1,8 @@
 import { faker } from '@faker-js/faker'
 import { Factory, trait, Server } from 'miragejs'
 
+import { Recipient } from '~/utils/types'
+
 export const recipient = Factory.extend({
   name() {
     return faker.name.findName()
@@ -16,7 +18,7 @@ export const recipient = Factory.extend({
   },
 
   withAddress: trait({
-    afterCreate(recipient, server: Server) {
+    afterCreate(recipient: Recipient, server: Server) {
       server.create('address', {
         recipient,
       })

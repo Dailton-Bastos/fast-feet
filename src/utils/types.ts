@@ -24,3 +24,38 @@ export type Deliveryman = {
   createdAt: string
   updatedAt: string
 }
+
+export type Address = {
+  zipCode: string
+  street: string
+  number: string
+  complement?: string
+  city: string
+  neighborhood: string
+  state: string
+  created_at: string
+  updated_at: string
+}
+
+export type Recipient = {
+  name: string
+  addresses: Address[]
+  deliveries: Delivery[]
+  contact: string
+  created_at: string
+  updated_at: string
+}
+
+export type Delivery = {
+  id: string
+  recipient: Recipient
+  deliveryman: Deliveryman
+  problems: string
+  status: 'pending' | 'shipped' | 'cancelled' | 'delivered'
+  signature: string
+  shipped_at?: string
+  delivered_at?: string
+  cancelled_at?: string
+  created_at: string
+  updated_at: string
+}
