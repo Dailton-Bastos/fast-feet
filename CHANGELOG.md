@@ -1,3 +1,23 @@
+# [1.10.0](https://github.com/Dailton-Bastos/fast-feet/compare/v1.9.0...v1.10.0) (2022-02-04)
+
+
+### Bug Fixes
+
+* **miragejs:** init server ([585a2c6](https://github.com/Dailton-Bastos/fast-feet/commit/585a2c6f6fb18c90d4481274c79bcec1be1a3d43))
+
+
+### Features
+
+* add fetch data infos ([fe3284f](https://github.com/Dailton-Bastos/fast-feet/commit/fe3284f9bf4f4b089bc63ee17939d38791ddc8c8))
+* add hook to fetch data with react query ([c8f45b3](https://github.com/Dailton-Bastos/fast-feet/commit/c8f45b35d40cb4f841055b558656bd6478bfb1e7))
+* add recent deliveries ([c541cad](https://github.com/Dailton-Bastos/fast-feet/commit/c541cad54b43ef4daa690c70205df6a334ed4b95))
+* add recipients data ([8b155f7](https://github.com/Dailton-Bastos/fast-feet/commit/8b155f7a85578f9757fc0cf5d1c3254624540e79))
+* add server faker datas ([3fc56f3](https://github.com/Dailton-Bastos/fast-feet/commit/3fc56f3af7f448182d38d7e7f4266c967c435871))
+* **dashboard:** add statistics component ([c974891](https://github.com/Dailton-Bastos/fast-feet/commit/c97489106151abbcce643c9cd85d96a9e9d37251))
+* **deliverymen/rank:** add rank deliveryman info to dashboard ([3f4a5b3](https://github.com/Dailton-Bastos/fast-feet/commit/3f4a5b32e662867988addd14d0ad0897163af4ef))
+* get statistics info ([be3225b](https://github.com/Dailton-Bastos/fast-feet/commit/be3225bfe2dec66df357d08e22ca7fdc60d1feed))
+* **miragejs:** add deliverymen data ([77ca601](https://github.com/Dailton-Bastos/fast-feet/commit/77ca60176a57bfc50546ba83b4d29deb474246b1))
+
 # [1.9.0](https://github.com/Dailton-Bastos/fast-feet/compare/v1.8.0...v1.9.0) (2022-01-27)
 
 
