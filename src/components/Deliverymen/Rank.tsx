@@ -8,10 +8,15 @@ import {
   ListItem,
   Avatar,
   Text,
+  Spinner,
 } from '@chakra-ui/react'
 import NextLink from 'next/link'
 
+import { useRankDeliverymen } from '~/hooks/useRankDeliverymen'
+
 export const RankDeliverymen = () => {
+  const { data, isLoading, isFetching } = useRankDeliverymen()
+
   return (
     <Box
       bg="white"
@@ -21,7 +26,14 @@ export const RankDeliverymen = () => {
       py="10"
       px="6"
     >
-      <Heading fontSize={['lg', 'xl']}>Top entregadores</Heading>
+      <Heading fontSize={['lg', 'xl']}>
+        <Flex align="center">
+          Top entregadores
+          {!isLoading && isFetching && (
+            <Spinner size="sm" color="gray.500" ml="4" />
+          )}
+        </Flex>
+      </Heading>
 
       <List mt="6">
         <Flex
@@ -30,115 +42,31 @@ export const RankDeliverymen = () => {
           gap={2}
           mt={['0', null]}
         >
-          <ListItem
-            flex={['1 1 100%', '1 1 45%']}
-            p="2"
-            _hover={{
-              bg: 'purple.500',
-              color: 'white',
-              transition: 'all 0.3s',
-            }}
-          >
-            <NextLink href="/deliverymen" passHref>
-              <Flex as="a" alignItems="center" gap="4">
-                <Avatar name="Dailton Bastos" size="md" />
-                <Box>
+          {data?.deliverymen.map((deliveryman) => (
+            <ListItem
+              key={deliveryman.id}
+              flex={['1 1 100%', '1 1 45%']}
+              p="2"
+              _hover={{
+                bg: 'purple.500',
+                color: 'white',
+                transition: 'all 0.3s',
+              }}
+            >
+              <NextLink href={`/deliverymen/${deliveryman.id}`} passHref>
+                <Flex as="a" alignItems="center" gap="4">
+                  <Avatar
+                    name={deliveryman.name}
+                    src={deliveryman.avatar}
+                    size="md"
+                  />
                   <Text fontWeight="semibold" fontSize="md">
-                    Dailton Bastos
+                    {deliveryman.name}
                   </Text>
-                  <Text fontSize="sm">35 entregas</Text>
-                </Box>
-              </Flex>
-            </NextLink>
-          </ListItem>
-
-          <ListItem
-            flex={['1 1 100%', '1 1 45%']}
-            p="2"
-            _hover={{
-              bg: 'purple.500',
-              color: 'white',
-              transition: 'all 0.3s',
-            }}
-          >
-            <NextLink href="/deliverymen" passHref>
-              <Flex as="a" alignItems="center" gap="4">
-                <Avatar name="José Sousa" size="md" />
-                <Box>
-                  <Text fontWeight="semibold" fontSize="md">
-                    José Sousa
-                  </Text>
-                  <Text fontSize="sm">28 entregas</Text>
-                </Box>
-              </Flex>
-            </NextLink>
-          </ListItem>
-
-          <ListItem
-            flex={['1 1 100%', '1 1 45%']}
-            p="2"
-            _hover={{
-              bg: 'purple.500',
-              color: 'white',
-              transition: 'all 0.3s',
-            }}
-          >
-            <NextLink href="/deliverymen" passHref>
-              <Flex as="a" alignItems="center" gap="4">
-                <Avatar name="Adriana de Gomes" size="md" />
-                <Box>
-                  <Text fontWeight="semibold" fontSize="md">
-                    Adriana de Gomes
-                  </Text>
-                  <Text fontSize="sm">24 entregas</Text>
-                </Box>
-              </Flex>
-            </NextLink>
-          </ListItem>
-
-          <ListItem
-            flex={['1 1 100%', '1 1 45%']}
-            p="2"
-            _hover={{
-              bg: 'purple.500',
-              color: 'white',
-              transition: 'all 0.3s',
-            }}
-          >
-            <NextLink href="/deliverymen" passHref>
-              <Flex as="a" alignItems="center" gap="4">
-                <Avatar name="Bernardo Oliveira" size="md" />
-                <Box>
-                  <Text fontWeight="semibold" fontSize="md">
-                    Bernardo Oliveira
-                  </Text>
-                  <Text fontSize="sm">20 entregas</Text>
-                </Box>
-              </Flex>
-            </NextLink>
-          </ListItem>
-
-          <ListItem
-            flex={['1 1 100%', '1 1 45%']}
-            p="2"
-            _hover={{
-              bg: 'purple.500',
-              color: 'white',
-              transition: 'all 0.3s',
-            }}
-          >
-            <NextLink href="/deliverymen" passHref>
-              <Flex as="a" alignItems="center" gap="4">
-                <Avatar name="Bruno Lima" size="md" />
-                <Box>
-                  <Text fontWeight="semibold" fontSize="md">
-                    Bruno Lima
-                  </Text>
-                  <Text fontSize="sm">18 entregas</Text>
-                </Box>
-              </Flex>
-            </NextLink>
-          </ListItem>
+                </Flex>
+              </NextLink>
+            </ListItem>
+          ))}
         </Flex>
       </List>
     </Box>
