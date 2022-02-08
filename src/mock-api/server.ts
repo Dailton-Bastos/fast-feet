@@ -23,7 +23,7 @@ export function makeServer({ environment = 'development' } = {}) {
       _server.create('user', {
         name: 'Distribuidora FastFeet',
         email: 'admin@fastfeet.com',
-        permissions: ['users.list', 'users.create', 'deliverymen.rank'],
+        permissions: ['deliverymen.rank', 'deliverymen.list'],
         roles: ['administrator'],
       })
 

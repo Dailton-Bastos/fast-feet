@@ -5,8 +5,8 @@ export const deliveryman = Factory.extend({
   name() {
     return faker.name.findName()
   },
-  email() {
-    return faker.internet.email().toLowerCase()
+  contact() {
+    return faker.phone.phoneNumberFormat()
   },
   avatar() {
     return faker.image.avatar()

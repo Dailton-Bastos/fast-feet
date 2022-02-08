@@ -14,7 +14,7 @@ export const getDeliverymen = async (): Promise<GetDeliverymenResponse> => {
     return {
       id: deliveryman.id,
       name: deliveryman.name,
-      email: deliveryman.email,
+      contact: deliveryman.contact,
       avatar: deliveryman.avatar,
       createdAt: new Date(deliveryman.createdAt).toLocaleDateString('pt-BR', {
         day: '2-digit',
