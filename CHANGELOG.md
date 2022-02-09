@@ -1,3 +1,11 @@
+# [1.11.0](https://github.com/Dailton-Bastos/fast-feet/compare/v1.10.0...v1.11.0) (2022-02-09)
+
+
+### Features
+
+* **deliverymen:** add pagination ([1cac74f](https://github.com/Dailton-Bastos/fast-feet/commit/1cac74f9d7868e479fdc333f453c371b258e0420))
+* **deliverymen:** list all deliverymen on page ([01fd1fd](https://github.com/Dailton-Bastos/fast-feet/commit/01fd1fda620369fb24cc9736e42b0ee6493ef039))
+
 # [1.10.0](https://github.com/Dailton-Bastos/fast-feet/compare/v1.9.0...v1.10.0) (2022-02-04)
 
 
