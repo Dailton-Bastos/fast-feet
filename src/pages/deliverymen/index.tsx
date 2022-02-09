@@ -1,11 +1,10 @@
 import React from 'react'
-import { RiAddLine } from 'react-icons/ri'
 
-import { Container, Flex, Heading, Text, Icon } from '@chakra-ui/react'
-import NextLink from 'next/link'
+import { Container, Box } from '@chakra-ui/react'
 
 import { ListDeliverymen } from '~/components/Deliverymen/List'
 import { Head } from '~/components/Head'
+import { ListHeader } from '~/components/ListHeader'
 import { appLayout } from '~/layouts/App'
 import { NextPageWithLayout } from '~/utils/types'
 import { withSSRAuth } from '~/utils/withSSRAuth'
@@ -18,35 +17,12 @@ const Deliverymen: NextPageWithLayout = () => {
         description="Fastfeet - Gerenciamento de entregadores"
       />
 
-      <Flex align="center" justify="space-between" mt="3.5" mb="10">
-        <Heading as="h2" size="md">
-          Gerenciando entregadores
-        </Heading>
-
-        <NextLink href="/deliverymen/new" passHref>
-          <Flex
-            as="a"
-            alignItems="center"
-            bgColor="purple.500"
-            borderRadius="base"
-            gap="2"
-            height="9"
-            justifyContent="center"
-            width="40"
-          >
-            <Icon as={RiAddLine} color="white" h={6} w={6} />
-
-            <Text
-              color="white"
-              fontWeight="bold"
-              fontSize="sm"
-              textTransform="uppercase"
-            >
-              Cadastrar
-            </Text>
-          </Flex>
-        </NextLink>
-      </Flex>
+      <Box mt="3.5" mb="10">
+        <ListHeader
+          title="Gerenciando entregadores"
+          linkTo="/deliverymen/new"
+        />
+      </Box>
 
       <ListDeliverymen />
     </Container>

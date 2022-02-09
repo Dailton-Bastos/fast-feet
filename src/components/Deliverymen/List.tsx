@@ -24,9 +24,12 @@ import {
   Text,
   Icon,
   Link,
+  Spinner,
+  Flex,
 } from '@chakra-ui/react'
 import NextLink from 'next/link'
 
+import { useQueryContext } from '~/contexts/QueryContext'
 import { useDeliverymen } from '~/hooks/useDeliverymen'
 import { Deliveryman } from '~/utils/types'
 
@@ -35,7 +38,22 @@ import { Pagination } from '../Pagination'
 export const ListDeliverymen = () => {
   const [page, setPage] = React.useState(1)
 
-  const { data } = useDeliverymen(page)
+  const { data, isLoading, isFetching } = useDeliverymen(page)
+
+  const { setIsLoading, setIsFetching } = useQueryContext()
+
+  React.useEffect(() => {
+    setIsLoading(isLoading)
+    setIsFetching(isFetching)
+  }, [isLoading, isFetching, setIsLoading, setIsFetching])
+
+  if (isLoading) {
+    return (
+      <Flex align="center" justify="center">
+        <Spinner size="lg" color="purple.500" />
+      </Flex>
+    )
+  }
 
   return (
     <Box overflowX="auto" pb="5">
