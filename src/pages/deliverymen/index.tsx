@@ -4,7 +4,7 @@ import { Container, Box } from '@chakra-ui/react'
 
 import { ListDeliverymen } from '~/components/Deliverymen/List'
 import { Head } from '~/components/Head'
-import { ListHeader } from '~/components/ListHeader'
+import { ListHeader } from '~/components/Listing/Header'
 import { appLayout } from '~/layouts/App'
 import { NextPageWithLayout } from '~/utils/types'
 import { withSSRAuth } from '~/utils/withSSRAuth'
