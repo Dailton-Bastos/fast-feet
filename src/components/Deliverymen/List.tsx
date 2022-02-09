@@ -30,11 +30,15 @@ import NextLink from 'next/link'
 import { useDeliverymen } from '~/hooks/useDeliverymen'
 import { Deliveryman } from '~/utils/types'
 
+import { Pagination } from '../Pagination'
+
 export const ListDeliverymen = () => {
-  const { data } = useDeliverymen()
+  const [page, setPage] = React.useState(1)
+
+  const { data } = useDeliverymen(page)
 
   return (
-    <Box overflowX="auto">
+    <Box overflowX="auto" pb="5">
       <Table variant="simple">
         <Thead>
           <Tr>
@@ -112,6 +116,12 @@ export const ListDeliverymen = () => {
           ))}
         </Tbody>
       </Table>
+
+      <Pagination
+        totalCountOfRegisters={data?.totalCount || 0}
+        currentPage={page}
+        onPageChange={setPage}
+      />
     </Box>
   )
 }

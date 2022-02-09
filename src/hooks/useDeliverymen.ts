@@ -5,10 +5,19 @@ import { Deliveryman } from '~/utils/types'
 
 type GetDeliverymenResponse = {
   deliverymen: Deliveryman[]
+  totalCount: number
 }
 
-export const getDeliverymen = async (): Promise<GetDeliverymenResponse> => {
-  const { data } = await api.get('deliverymen')
+export const getDeliverymen = async (
+  page: number
+): Promise<GetDeliverymenResponse> => {
+  const { data, headers } = await api.get('deliverymen', {
+    params: {
+      page,
+    },
+  })
+
+  const totalCount = Number(headers['x-total-count'])
 
   const deliverymen = data?.deliverymen?.map((deliveryman: Deliveryman) => {
     return {
@@ -29,11 +38,11 @@ export const getDeliverymen = async (): Promise<GetDeliverymenResponse> => {
     }
   })
 
-  return { deliverymen }
+  return { deliverymen, totalCount }
 }
 
-export function useDeliverymen() {
-  return useQuery('deliverymen', () => getDeliverymen(), {
+export function useDeliverymen(page: number) {
+  return useQuery(['deliverymen', page], () => getDeliverymen(page), {
     staleTime: 1000 * 60 * 10, // 10 minutes
   })
 }

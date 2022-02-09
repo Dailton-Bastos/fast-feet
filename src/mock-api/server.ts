@@ -3,6 +3,7 @@ import { createServer } from 'miragejs'
 import { UserRequest } from './auth/types'
 import { factories } from './factories'
 import { createSession } from './middlewares/createSession'
+import { deliverymen } from './middlewares/deliverymen'
 import { refreshToken } from './middlewares/refreshToken'
 import { statistics } from './middlewares/statistics'
 import { me } from './middlewares/userProfile'
@@ -76,7 +77,9 @@ export function makeServer({ environment = 'development' } = {}) {
         refreshToken(schema, request)
       )
 
-      this.get('/deliverymen')
+      this.get('/deliverymen', (schema, request) =>
+        deliverymen(schema, request)
+      )
 
       this.get('/recipients')
 
