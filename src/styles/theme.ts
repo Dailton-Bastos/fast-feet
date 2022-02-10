@@ -13,6 +13,7 @@ const colors = {
   gray: {
     '10': '#DDDDDD',
     '50': '#F5F5F5',
+    '300': '#CCCCCC',
     '600': '#444444',
   },
   purple: {
