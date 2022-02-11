@@ -12,6 +12,7 @@ import {
   Link,
   Spinner,
   Flex,
+  Text,
 } from '@chakra-ui/react'
 import NextLink from 'next/link'
 
@@ -27,7 +28,7 @@ import { Pagination } from '../Pagination'
 export const ListDeliverymen = () => {
   const [page, setPage] = React.useState(1)
 
-  const { data, isLoading, isFetching } = useDeliverymen(page)
+  const { data, isLoading, isFetching, isError } = useDeliverymen(page)
 
   const { setIsLoading, setIsFetching } = useQueryContext()
 
@@ -41,6 +42,14 @@ export const ListDeliverymen = () => {
       <Flex align="center" justify="center">
         <Spinner size="lg" color="purple.500" />
       </Flex>
+    )
+  }
+
+  if (isError) {
+    return (
+      <Text fontSize="sm" fontWeight="semibold" color="red.500" mt="6">
+        Erro ao carregar listagem de entregadores
+      </Text>
     )
   }
 
