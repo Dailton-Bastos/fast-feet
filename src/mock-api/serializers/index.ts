@@ -1,11 +1,11 @@
-import { RestSerializer } from 'miragejs'
+import { ActiveModelSerializer } from 'miragejs'
 
 import { delivery } from './delivery'
 import { problem } from './problem'
 import { recipient } from './recipient'
 
 export const serializers = {
-  application: RestSerializer,
+  application: ActiveModelSerializer,
   recipient,
   delivery,
   problem,

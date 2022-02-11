@@ -84,6 +84,7 @@ export function makeServer({ environment = 'development' } = {}) {
       this.get('/deliverymen', (schema, request) =>
         deliverymen(schema, request)
       )
+      this.post('/deliverymen')
 
       this.get('/recipients')
 
