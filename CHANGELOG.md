@@ -1,3 +1,14 @@
+# [1.12.0](https://github.com/Dailton-Bastos/fast-feet/compare/v1.11.0...v1.12.0) (2022-02-11)
+
+
+### Features
+
+* add list header ([e7e8acf](https://github.com/Dailton-Bastos/fast-feet/commit/e7e8acf30bc7891274b1a2520070f39216a5d3ea))
+* add listing header, table and menu component ([65d03c6](https://github.com/Dailton-Bastos/fast-feet/commit/65d03c648b7f1a63b6e0c05a503285fa0e8e0ffa))
+* add new deliveryman ([42cd30f](https://github.com/Dailton-Bastos/fast-feet/commit/42cd30f73b839943bd4fb2b743bbcfd9c459834e))
+* add page create new deliveryman ([b68fd85](https://github.com/Dailton-Bastos/fast-feet/commit/b68fd853b317145d10e73df4f7014b6208729e69))
+* **deliverymen:** add error message ([089b254](https://github.com/Dailton-Bastos/fast-feet/commit/089b254fc5c2a19d326901ebe2d4b2491abd62ef))
+
 # [1.11.0](https://github.com/Dailton-Bastos/fast-feet/compare/v1.10.0...v1.11.0) (2022-02-09)
 
 
