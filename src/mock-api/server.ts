@@ -28,6 +28,7 @@ export function makeServer({ environment = 'development' } = {}) {
           'deliverymen.rank',
           'deliverymen.list',
           'deliverymen.create',
+          'deliverymen.edit',
         ],
         roles: ['administrator'],
       })
@@ -85,6 +86,8 @@ export function makeServer({ environment = 'development' } = {}) {
         deliverymen(schema, request)
       )
       this.post('/deliverymen')
+      this.get('/deliverymen/:id')
+      this.patch('/deliverymen/:id')
 
       this.get('/recipients')
 
