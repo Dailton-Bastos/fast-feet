@@ -2,21 +2,15 @@ import React from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { useQueryClient, useMutation } from 'react-query'
 
-import {
-  Container,
-  Box,
-  VStack,
-  Flex,
-  Avatar,
-  Spinner,
-  Text,
-} from '@chakra-ui/react'
+import { Container, Box, VStack, Flex, Avatar } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useRouter } from 'next/router'
 
+import { ErrorMessage } from '~/components/ErrorMessage'
 import { HeaderForm } from '~/components/Form/Header'
 import { Input } from '~/components/Form/Input'
 import { Head } from '~/components/Head'
+import { Loading } from '~/components/Loading'
 import { useDeliveryman } from '~/hooks/useDeliveryman'
 import { appLayout } from '~/layouts/App'
 import { api } from '~/services/apiClient'
@@ -73,18 +67,16 @@ const EditDeliveryman: NextPageWithLayout = () => {
 
   if (isLoading) {
     return (
-      <Flex align="center" justify="center">
-        <Spinner size="lg" color="purple.500" />
+      <Flex align="center" justify="center" mt="8">
+        <Loading size="xl" color="purple.500" />
       </Flex>
     )
   }
 
   if (isError) {
     return (
-      <Flex align="center" justify="center">
-        <Text fontSize="sm" fontWeight="semibold" color="red.500" mt="6">
-          Erro ao carregar informações do entregador
-        </Text>
+      <Flex align="center" justify="center" mt="8">
+        <ErrorMessage message="Erro ao carregar informações do entregador" />
       </Flex>
     )
   }

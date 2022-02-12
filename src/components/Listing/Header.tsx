@@ -1,10 +1,12 @@
 import React from 'react'
 import { RiAddLine } from 'react-icons/ri'
 
-import { Flex, Heading, Icon, Spinner, Text } from '@chakra-ui/react'
+import { Box, Flex, Heading, Icon, Text } from '@chakra-ui/react'
 import NextLink from 'next/link'
 
 import { useQueryContext } from '~/contexts/QueryContext'
+
+import { Loading } from '../Loading'
 
 interface ListHeaderProps {
   title: string
@@ -22,7 +24,9 @@ export const ListHeader = ({ title, linkTo }: ListHeaderProps) => {
         </Heading>
 
         {!isLoading && isFetching && (
-          <Spinner size="sm" color="gray.500" ml="4" />
+          <Box ml="4">
+            <Loading size="sm" color="gray.500" />
+          </Box>
         )}
       </Flex>
 

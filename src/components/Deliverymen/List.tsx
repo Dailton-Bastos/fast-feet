@@ -10,9 +10,7 @@ import {
   MenuDivider,
   Icon,
   Link,
-  Spinner,
   Flex,
-  Text,
 } from '@chakra-ui/react'
 import NextLink from 'next/link'
 
@@ -20,9 +18,11 @@ import { useQueryContext } from '~/contexts/QueryContext'
 import { useDeliverymen } from '~/hooks/useDeliverymen'
 import { Deliveryman } from '~/utils/types'
 
+import { ErrorMessage } from '../ErrorMessage'
 import { ListMenu } from '../Listing/Menu'
 import { MenuItem } from '../Listing/MenuItem'
 import { ListTable } from '../Listing/Table'
+import { Loading } from '../Loading'
 import { Pagination } from '../Pagination'
 
 export const ListDeliverymen = () => {
@@ -40,16 +40,16 @@ export const ListDeliverymen = () => {
   if (isLoading) {
     return (
       <Flex align="center" justify="center">
-        <Spinner size="lg" color="purple.500" />
+        <Loading size="xl" color="purple.500" />
       </Flex>
     )
   }
 
   if (isError) {
     return (
-      <Text fontSize="sm" fontWeight="semibold" color="red.500" mt="6">
-        Erro ao carregar listagem de entregadores
-      </Text>
+      <Flex align="center" justify="center" mt="8">
+        <ErrorMessage message="Erro ao carregar listagem de entregadores" />
+      </Flex>
     )
   }
 

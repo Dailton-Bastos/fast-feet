@@ -14,7 +14,7 @@ import {
   InputProps,
 } from '@chakra-ui/react'
 
-import { Error } from '~/components/Error'
+import { Error } from '~/components/Form/Error'
 
 interface InputPasswordProps extends InputProps {
   name: string
