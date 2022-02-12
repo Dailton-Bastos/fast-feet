@@ -1,3 +1,11 @@
+# [1.13.0](https://github.com/Dailton-Bastos/fast-feet/compare/v1.12.0...v1.13.0) (2022-02-12)
+
+
+### Features
+
+* add loading and error message component ([d0bf950](https://github.com/Dailton-Bastos/fast-feet/commit/d0bf9501b10d4e72744d2f5e0ded94f8a4053700))
+* **deliveryman:** update deliveryman info ([2335517](https://github.com/Dailton-Bastos/fast-feet/commit/2335517927d07be03cabb4cf979485fc4fc9f25f))
+
 # [1.12.0](https://github.com/Dailton-Bastos/fast-feet/compare/v1.11.0...v1.12.0) (2022-02-11)
 
 
