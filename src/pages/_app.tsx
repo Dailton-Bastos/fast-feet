@@ -1,6 +1,7 @@
 import React from 'react'
 import { ReactQueryDevtools } from 'react-query/devtools'
 
+import { Head } from '~/components/Head'
 import { AppStorage } from '~/contexts'
 import { mockApi } from '~/mock-api'
 import { AppPropsWithLayout } from '~/utils/types'
@@ -14,6 +15,10 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 
   return (
     <AppStorage>
+      <Head
+        title="Frete e Entregas"
+        description="FastFeet - Suas encomendas com segurança e velocidade."
+      />
       {getLayout(<Component {...pageProps} />)}
 
       <ReactQueryDevtools />
