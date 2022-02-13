@@ -18,7 +18,7 @@ export const getRecipients = async (
   const totalCount = Number(headers['x-total-count'])
 
   const recipients = data.recipients?.map((recipient: Recipient) => {
-    const formattedAddresses = recipient.addresses.map((address) => {
+    const formattedAddresses = recipient?.addresses?.map((address) => {
       return `Rua ${address.street}, ${address.number}, ${address.city} - ${address.state}`
     })
 

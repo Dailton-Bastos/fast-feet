@@ -1,15 +1,62 @@
 import React from 'react'
+import { useForm, SubmitHandler } from 'react-hook-form'
+import { useQueryClient, useMutation } from 'react-query'
 
 import { Container, Box, SimpleGrid } from '@chakra-ui/react'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { useRouter } from 'next/router'
 
 import { HeaderForm } from '~/components/Form/Header'
 import { Input } from '~/components/Form/Input'
 import { Head } from '~/components/Head'
 import { appLayout } from '~/layouts/App'
+import { api } from '~/services/apiClient'
 import { NextPageWithLayout } from '~/utils/types'
 import { withSSRAuth } from '~/utils/withSSRAuth'
+import { NewRecipientFormSchema } from '~/validators/newRecipient'
+
+type CreateRecipientFormData = {
+  name: string
+  contact: string
+}
 
 const NewRecipient: NextPageWithLayout = () => {
+  const queryClient = useQueryClient()
+  const router = useRouter()
+
+  const createRecipient = useMutation(
+    async (recipient: CreateRecipientFormData) => {
+      const response = await api.post('/recipients', {
+        recipient: {
+          ...recipient,
+          created_at: new Date(),
+          updated_at: new Date(),
+        },
+      })
+
+      return response.data.recipient
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('recipients')
+      },
+    }
+  )
+
+  const { register, handleSubmit, formState } = useForm({
+    resolver: yupResolver(NewRecipientFormSchema),
+  })
+
+  const { errors, isSubmitting } = formState
+
+  const handleCreateRecipient: SubmitHandler<CreateRecipientFormData> = async (
+    data
+  ) => {
+    await createRecipient.mutateAsync(data)
+
+    router.push('/recipients')
+  }
+
   return (
     <Container as="section" maxW="container.lg">
       <Head
@@ -17,11 +64,16 @@ const NewRecipient: NextPageWithLayout = () => {
         description="Fastfeet - Adicionar novo destinatário"
       />
 
-      <Box as="form" mt="3.5" mb="10">
+      <Box
+        as="form"
+        mt="3.5"
+        mb="10"
+        onSubmit={handleSubmit(handleCreateRecipient)}
+      >
         <HeaderForm
           title="Cadastro de destinatário"
           linkBack="/recipients"
-          isLoading={false}
+          isLoading={isSubmitting}
         />
 
         <Box
@@ -35,17 +87,21 @@ const NewRecipient: NextPageWithLayout = () => {
         >
           <SimpleGrid spacing={4} columns={2}>
             <Input
+              {...register('name')}
               id="name"
               name="name"
               label="Nome completo"
               placeholder="John Doe"
+              error={errors.name}
             />
 
             <Input
+              {...register('contact')}
               id="contact"
               name="contact"
               label="Contato"
               placeholder="(xx) xxxxx-xxxx"
+              error={errors.contact}
             />
           </SimpleGrid>
         </Box>
