@@ -1,3 +1,12 @@
+# [1.14.0](https://github.com/Dailton-Bastos/fast-feet/compare/v1.13.0...v1.14.0) (2022-02-13)
+
+
+### Features
+
+* **_app.tsx:** add global title and description page ([2f75912](https://github.com/Dailton-Bastos/fast-feet/commit/2f7591216baaca778dae5c3282f4a1c82c1d1193))
+* add delete deliveryman ([d5e59dd](https://github.com/Dailton-Bastos/fast-feet/commit/d5e59dd62a417a4feff6e95d42008747b29cefac))
+* add modal confirmation ([f4c994f](https://github.com/Dailton-Bastos/fast-feet/commit/f4c994f421ad37e25a403aed30520d7efc167b24))
+
 # [1.13.0](https://github.com/Dailton-Bastos/fast-feet/compare/v1.12.0...v1.13.0) (2022-02-12)
 
 
