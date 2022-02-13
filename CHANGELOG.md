@@ -1,3 +1,11 @@
+# [1.15.0](https://github.com/Dailton-Bastos/fast-feet/compare/v1.14.0...v1.15.0) (2022-02-13)
+
+
+### Features
+
+* add recipients page ([8f2a1e3](https://github.com/Dailton-Bastos/fast-feet/commit/8f2a1e312dd44b98aad96935adfa1d0f8252f3c0))
+* **listing/header:** add roles to see button ([baf1324](https://github.com/Dailton-Bastos/fast-feet/commit/baf1324450b1a90d12089f75c34252f239cc8d0c))
+
 # [1.14.0](https://github.com/Dailton-Bastos/fast-feet/compare/v1.13.0...v1.14.0) (2022-02-13)
 
 
