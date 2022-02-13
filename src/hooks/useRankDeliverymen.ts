@@ -24,7 +24,7 @@ export const getRankDeliverymen = async (): Promise<GetDeliverymenResponse> => {
 }
 
 export function useRankDeliverymen() {
-  return useQuery('rank_deliverymen', () => getRankDeliverymen(), {
+  return useQuery('rankDeliverymen', () => getRankDeliverymen(), {
     staleTime: 1000 * 60 * 30, // 30 minutes
   })
 }
