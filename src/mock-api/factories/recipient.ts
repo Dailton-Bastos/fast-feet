@@ -8,7 +8,7 @@ export const recipient = Factory.extend({
     return faker.name.findName()
   },
   contact() {
-    return faker.phone.phoneNumber()
+    return faker.phone.phoneNumberFormat()
   },
   createdAt() {
     return faker.date.past(10)

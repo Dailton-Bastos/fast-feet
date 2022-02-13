@@ -4,6 +4,7 @@ import { UserRequest } from './auth/types'
 import { factories } from './factories'
 import { createSession } from './middlewares/createSession'
 import { deliverymen } from './middlewares/deliverymen'
+import { recipients } from './middlewares/recipients'
 import { refreshToken } from './middlewares/refreshToken'
 import { statistics } from './middlewares/statistics'
 import { me } from './middlewares/userProfile'
@@ -29,6 +30,7 @@ export function makeServer({ environment = 'development' } = {}) {
           'deliverymen.list',
           'deliverymen.create',
           'deliverymen.edit',
+          'recipients.list',
         ],
         roles: ['administrator'],
       })
@@ -36,7 +38,7 @@ export function makeServer({ environment = 'development' } = {}) {
       _server.create('user', {
         name: 'Dailton Bastos',
         email: 'dailtonbastos@gmail.com',
-        permissions: ['deliverymen.list'],
+        permissions: ['deliverymen.list', 'recipients.list'],
         roles: ['editor'],
       })
 
@@ -90,7 +92,7 @@ export function makeServer({ environment = 'development' } = {}) {
       this.patch('/deliverymen/:id')
       this.delete('/deliverymen/:id')
 
-      this.get('/recipients')
+      this.get('/recipients', (schema, request) => recipients(schema, request))
 
       this.get('/deliveries')
 

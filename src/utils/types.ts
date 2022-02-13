@@ -38,12 +38,14 @@ export type Address = {
 }
 
 export type Recipient = {
+  id: string
   name: string
   addresses: Address[]
+  formattedAddresses?: Address[]
   deliveries: Delivery[]
   contact: string
-  created_at: string
-  updated_at: string
+  createdAt: string
+  updatedAt: string
 }
 
 export type Delivery = {
