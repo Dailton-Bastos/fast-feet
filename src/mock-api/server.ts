@@ -96,6 +96,8 @@ export function makeServer({ environment = 'development' } = {}) {
 
       this.get('/recipients', (schema, request) => recipients(schema, request))
       this.post('/recipients')
+      this.get('/recipients/:id')
+      this.patch('/recipients/:id')
 
       this.get('/deliveries')
 
