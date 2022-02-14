@@ -32,6 +32,7 @@ export function makeServer({ environment = 'development' } = {}) {
           'deliverymen.edit',
           'recipients.list',
           'recipients.create',
+          'recipients.edit',
         ],
         roles: ['administrator'],
       })
