@@ -1,3 +1,11 @@
+# [1.17.0](https://github.com/Dailton-Bastos/fast-feet/compare/v1.16.0...v1.17.0) (2022-02-14)
+
+
+### Features
+
+* add page to edit recipient ([8a22250](https://github.com/Dailton-Bastos/fast-feet/commit/8a22250d61f2ddd1df1b2f5a03878f96bc9599ef))
+* **recipients:** add update recipient ([e65df78](https://github.com/Dailton-Bastos/fast-feet/commit/e65df7816bd8c8015dc412bd03eb19ab3169dc9d))
+
 # [1.16.0](https://github.com/Dailton-Bastos/fast-feet/compare/v1.15.0...v1.16.0) (2022-02-13)
 
 
