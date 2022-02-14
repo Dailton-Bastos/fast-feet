@@ -1,5 +1,6 @@
 import React from 'react'
 import { RiEdit2Fill, RiDeleteBin2Fill } from 'react-icons/ri'
+import { useMutation, useQueryClient } from 'react-query'
 
 import {
   Box,
@@ -9,6 +10,7 @@ import {
   Text,
   MenuList,
   MenuDivider,
+  useDisclosure,
 } from '@chakra-ui/react'
 import NextLink from 'next/link'
 
@@ -18,15 +20,36 @@ import { ListMenu } from '~/components/Listing/Menu'
 import { MenuItem } from '~/components/Listing/MenuItem'
 import { ListTable } from '~/components/Listing/Table'
 import { Loading } from '~/components/Loading'
+import { ModalConfirm } from '~/components/ModalConfirm'
 import { Pagination } from '~/components/Pagination'
 import { useQueryContext } from '~/contexts/QueryContext'
 import { useRecipients } from '~/hooks/useRecipients'
+import { api } from '~/services/apiClient'
 import { Recipient } from '~/utils/types'
 
 export const ListRecipients = () => {
   const [page, setPage] = React.useState(1)
+  const [recipientId, setRecipientId] = React.useState('')
   const { data, isLoading, isFetching, isError } = useRecipients(page)
   const { setIsLoading, setIsFetching } = useQueryContext()
+  const { isOpen, onOpen, onClose } = useDisclosure()
+
+  const queryClient = useQueryClient()
+
+  const deleteRecipient = useMutation(
+    async () => await api.delete(`/recipients/${recipientId}`),
+    {
+      onSuccess: () => {
+        onClose()
+        queryClient.invalidateQueries('recipients')
+        queryClient.invalidateQueries('deliveries')
+        queryClient.invalidateQueries('statistics')
+        queryClient.setQueryData(['recipient', recipientId], null)
+      },
+
+      onError: () => onClose(),
+    }
+  )
 
   React.useEffect(() => {
     setIsLoading(isLoading)
@@ -86,10 +109,17 @@ export const ListRecipients = () => {
 
                       <MenuDivider />
 
-                      <MenuItem
-                        Icon={<RiDeleteBin2Fill color="#de3b3b" size={18} />}
-                        buttonTitle="Excluir"
-                      />
+                      <Box
+                        onClick={() => {
+                          onOpen()
+                          setRecipientId(recipient.id)
+                        }}
+                      >
+                        <MenuItem
+                          Icon={<RiDeleteBin2Fill color="#de3b3b" size={18} />}
+                          buttonTitle="Excluir"
+                        />
+                      </Box>
                     </MenuList>
                   </ListMenu>
                 </Can>
@@ -108,6 +138,13 @@ export const ListRecipients = () => {
           onPageChange={setPage}
         />
       )}
+
+      <ModalConfirm
+        isOpen={isOpen}
+        onClose={onClose}
+        handleClick={() => deleteRecipient.mutate()}
+        isLoading={deleteRecipient.isLoading}
+      />
     </Box>
   )
 }

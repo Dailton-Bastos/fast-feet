@@ -64,14 +64,14 @@ export const getDeliveries = async (): Promise<GetDeliveriesResponse> => {
     return {
       id: delivery.id,
       status,
-      recipient: delivery.recipient.name,
+      recipient: delivery.recipient?.name ?? null,
       deliveryman: {
         name: delivery.deliveryman ? delivery.deliveryman.name : null,
         avatar: delivery.deliveryman ? delivery.deliveryman.avatar : null,
       },
       address: {
-        city: delivery.recipient.addresses[0].city,
-        state: delivery.recipient.addresses[0].state,
+        city: delivery.recipient?.addresses[0].city ?? null,
+        state: delivery.recipient?.addresses[0].state ?? null,
       },
     }
   })
