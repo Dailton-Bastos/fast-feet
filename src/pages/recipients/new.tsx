@@ -16,7 +16,14 @@ import { NextPageWithLayout } from '~/utils/types'
 import { withSSRAuth } from '~/utils/withSSRAuth'
 import { RecipientFormSchema } from '~/validators/recipientFormSchema'
 
-type CreateRecipientFormData = {
+type CreateAddressAndRecipientFormData = {
+  zipCode: string
+  street: string
+  number: string
+  complement?: string
+  city: string
+  neighborhood: string
+  state: string
   name: string
   contact: string
 }
@@ -25,24 +32,45 @@ const NewRecipient: NextPageWithLayout = () => {
   const queryClient = useQueryClient()
   const router = useRouter()
 
-  const createRecipient = useMutation(
-    async (recipient: CreateRecipientFormData) => {
-      const response = await api.post('/recipients', {
-        recipient: {
-          ...recipient,
+  async function handleMutation(formData: CreateAddressAndRecipientFormData) {
+    const addressIds = []
+
+    try {
+      const addressResponse = await api.post('/addresses', {
+        address: {
+          zipCode: formData.zipCode,
+          street: formData.street,
+          number: formData.number,
+          complement: formData.complement,
+          city: formData.city,
+          neighborhood: formData.neighborhood,
+          state: formData.state,
           created_at: new Date(),
           updated_at: new Date(),
         },
       })
 
-      return response.data.recipient
-    },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries('recipients')
-      },
+      addressIds.push(addressResponse.data.address.id)
+
+      const recipientResponse = await api.post('/recipients', {
+        recipient: {
+          name: formData.name,
+          contact: formData.contact,
+          addressIds,
+          created_at: new Date(),
+          updated_at: new Date(),
+        },
+      })
+
+      return recipientResponse.data.recipient
+    } catch (error) {
+      queryClient.cancelMutations()
     }
-  )
+  }
+
+  const createRecipient = useMutation(handleMutation, {
+    onSuccess: () => queryClient.invalidateQueries('recipients'),
+  })
 
   const { register, handleSubmit, formState } = useForm({
     resolver: yupResolver(RecipientFormSchema),
@@ -50,10 +78,10 @@ const NewRecipient: NextPageWithLayout = () => {
 
   const { errors, isSubmitting } = formState
 
-  const handleCreateRecipient: SubmitHandler<CreateRecipientFormData> = async (
-    data
-  ) => {
-    await createRecipient.mutateAsync(data)
+  const handleCreateRecipient: SubmitHandler<
+    CreateAddressAndRecipientFormData
+  > = async (formData) => {
+    await createRecipient.mutateAsync(formData)
 
     router.push('/recipients')
   }

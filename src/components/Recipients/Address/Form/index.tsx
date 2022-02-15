@@ -41,7 +41,12 @@ export const RecipientAddressForm = ({
         />
       </SimpleGrid>
 
-      <Input id="complement" name="complement" label="Complemento" />
+      <Input
+        {...register('complement')}
+        id="complement"
+        name="complement"
+        label="Complemento"
+      />
 
       <SimpleGrid spacing={4} columns={3}>
         <Input
