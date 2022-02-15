@@ -16,7 +16,7 @@ import { appLayout } from '~/layouts/App'
 import { api } from '~/services/apiClient'
 import { NextPageWithLayout } from '~/utils/types'
 import { withSSRAuth } from '~/utils/withSSRAuth'
-import { NewRecipientFormSchema } from '~/validators/newRecipient'
+import { RecipientFormSchema } from '~/validators/recipientFormSchema'
 
 type EditRecipientFormData = {
   name: string
@@ -52,7 +52,7 @@ const EditRecipient: NextPageWithLayout = () => {
   )
 
   const { register, handleSubmit, formState } = useForm({
-    resolver: yupResolver(NewRecipientFormSchema),
+    resolver: yupResolver(RecipientFormSchema),
   })
 
   const { errors, isSubmitting } = formState
