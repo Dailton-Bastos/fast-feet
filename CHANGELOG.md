@@ -1,3 +1,11 @@
+# [1.19.0](https://github.com/Dailton-Bastos/fast-feet/compare/v1.18.0...v1.19.0) (2022-02-15)
+
+
+### Features
+
+* **recipients/new:** add address form ([1fda80f](https://github.com/Dailton-Bastos/fast-feet/commit/1fda80f780afaf2be6b640393cc43acfd7cd4b35))
+* **recipients:** add new recipient with address ([c2fdebb](https://github.com/Dailton-Bastos/fast-feet/commit/c2fdebbda0d8f42176d495a2f29a0cab9a317543))
+
 # [1.18.0](https://github.com/Dailton-Bastos/fast-feet/compare/v1.17.0...v1.18.0) (2022-02-14)
 
 
