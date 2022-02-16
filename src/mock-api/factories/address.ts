@@ -12,7 +12,7 @@ export const address = Factory.extend({
     return faker.address.cityPrefix()
   },
   number() {
-    return faker.random.alphaNumeric()
+    return Math.floor(Math.random() * (2000 - 1050 + 1) + 1050)
   },
   complement() {
     return faker.lorem.sentence()

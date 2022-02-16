@@ -11,6 +11,7 @@ import { HeaderForm } from '~/components/Form/Header'
 import { Input } from '~/components/Form/Input'
 import { Head } from '~/components/Head'
 import { Loading } from '~/components/Loading'
+import { AddressList } from '~/components/Recipients/Address/List'
 import { useRecipient } from '~/hooks/useRecipient'
 import { appLayout } from '~/layouts/App'
 import { api } from '~/services/apiClient'
@@ -91,7 +92,7 @@ const EditRecipient: NextPageWithLayout = () => {
       <Box
         as="form"
         mt="3.5"
-        mb="10"
+        mb="5"
         onSubmit={handleSubmit(handleUpdateRecipient)}
       >
         <HeaderForm
@@ -100,15 +101,7 @@ const EditRecipient: NextPageWithLayout = () => {
           isLoading={isSubmitting}
         />
 
-        <Box
-          bg="white"
-          borderRadius={4}
-          boxShadow="sm"
-          flex="1"
-          py="10"
-          px="8"
-          mt="5"
-        >
+        <Box bg="white" borderRadius={4} boxShadow="sm" py="10" px="8" mt="5">
           <SimpleGrid spacing={4} columns={2}>
             <Input
               {...register('name')}
@@ -132,6 +125,10 @@ const EditRecipient: NextPageWithLayout = () => {
           </SimpleGrid>
         </Box>
       </Box>
+
+      <SimpleGrid spacing={4} columns={3}>
+        <AddressList addresses={data?.recipient.addresses} />
+      </SimpleGrid>
     </Container>
   )
 }

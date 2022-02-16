@@ -19,7 +19,8 @@ export const recipient = Factory.extend({
 
   withAddress: trait({
     afterCreate(recipient: Recipient, server: Server) {
-      server.create('address', {
+      const totalAddress = Math.floor(Math.random() * (1 - 4 + 1) + 4)
+      server.createList('address', totalAddress, {
         recipient,
       })
     },
