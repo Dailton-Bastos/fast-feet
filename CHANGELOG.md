@@ -1,3 +1,11 @@
+# [1.20.0](https://github.com/Dailton-Bastos/fast-feet/compare/v1.19.0...v1.20.0) (2022-02-16)
+
+
+### Features
+
+* **recipients:** add news addresses ([f06a154](https://github.com/Dailton-Bastos/fast-feet/commit/f06a154c248ab9d7694fc355e5c07b378f1d6a3e))
+* **recipients:** add recipient address list ([7313456](https://github.com/Dailton-Bastos/fast-feet/commit/73134563ec8a78b40893c0c4ed664f8244e5bd9a))
+
 # [1.19.0](https://github.com/Dailton-Bastos/fast-feet/compare/v1.18.0...v1.19.0) (2022-02-15)
 
 
