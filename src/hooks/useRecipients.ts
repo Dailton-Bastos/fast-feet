@@ -19,7 +19,7 @@ export const getRecipients = async (
 
   const recipients = data.recipients?.map((recipient: Recipient) => {
     const formattedAddresses = recipient?.addresses?.map((address) => {
-      return `Rua ${address.street}, ${address.number}, ${address.city} - ${address.state}`
+      return `${address.street}, ${address.number}, ${address.city} - ${address.state}`
     })
 
     return {
