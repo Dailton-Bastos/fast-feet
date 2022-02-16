@@ -5,6 +5,7 @@ import { useQueryClient, useMutation } from 'react-query'
 import { Container, Box, SimpleGrid, Stack } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useRouter } from 'next/router'
+import * as yup from 'yup'
 
 import { HeaderForm } from '~/components/Form/Header'
 import { Input } from '~/components/Form/Input'
@@ -14,6 +15,7 @@ import { appLayout } from '~/layouts/App'
 import { api } from '~/services/apiClient'
 import { NextPageWithLayout } from '~/utils/types'
 import { withSSRAuth } from '~/utils/withSSRAuth'
+import { RecipientAddressFormSchema } from '~/validators/recipientAddressFormSchema'
 import { RecipientFormSchema } from '~/validators/recipientFormSchema'
 
 type CreateAddressAndRecipientFormData = {
@@ -31,6 +33,13 @@ type CreateAddressAndRecipientFormData = {
 const NewRecipient: NextPageWithLayout = () => {
   const queryClient = useQueryClient()
   const router = useRouter()
+
+  const formDataSchema = yup
+    .object({
+      ...RecipientFormSchema,
+      ...RecipientAddressFormSchema,
+    })
+    .required()
 
   async function handleMutation(formData: CreateAddressAndRecipientFormData) {
     const addressIds = []
@@ -73,7 +82,7 @@ const NewRecipient: NextPageWithLayout = () => {
   })
 
   const { register, handleSubmit, formState } = useForm({
-    resolver: yupResolver(RecipientFormSchema),
+    resolver: yupResolver(formDataSchema),
   })
 
   const { errors, isSubmitting } = formState

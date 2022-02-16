@@ -9,7 +9,9 @@ interface AddressListProps {
   addresses?: Address[]
 }
 
-export const AddressList = ({ addresses = [] }: AddressListProps) => {
+export const AddressList = ({ addresses }: AddressListProps) => {
+  if (!addresses) return null
+
   return (
     <React.Fragment>
       {addresses.map((address) => (
@@ -35,7 +37,7 @@ export const AddressList = ({ addresses = [] }: AddressListProps) => {
             </Stack>
           </List>
 
-          <Flex align="flex-end" justifyContent="flex-end" mt="auto">
+          <Flex align="center" justifyContent="center" mt="auto">
             <Button
               borderRadius="base"
               colorScheme="purple"
