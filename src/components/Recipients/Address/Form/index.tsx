@@ -18,11 +18,11 @@ export const RecipientAddressForm = ({
     <Stack spacing={4}>
       <SimpleGrid spacing={4} columns={3}>
         <Input
-          {...register('zipCode')}
-          id="zipCode"
-          name="zipCode"
+          {...register('zip_code')}
+          id="zip_code"
+          name="zip_code"
           label="CEP"
-          error={errors.zipCode}
+          error={errors.zip_code}
         />
         <Input
           {...register('street')}

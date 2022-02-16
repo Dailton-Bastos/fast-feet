@@ -26,7 +26,8 @@ export type Deliveryman = {
 }
 
 export type Address = {
-  zipCode: string
+  id: number
+  zip_code: string
   street: string
   number: string
   complement?: string

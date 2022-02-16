@@ -1,7 +1,7 @@
 import * as yup from 'yup'
 
 export const RecipientAddressFormSchema = {
-  zipCode: yup
+  zip_code: yup
     .string()
     .required('CEP obrigatório*')
     .matches(/^[0-9]{5}[0-9]{3}$/, 'CEP inválido')

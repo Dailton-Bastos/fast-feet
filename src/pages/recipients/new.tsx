@@ -17,7 +17,7 @@ import { withSSRAuth } from '~/utils/withSSRAuth'
 import { RecipientFormSchema } from '~/validators/recipientFormSchema'
 
 type CreateAddressAndRecipientFormData = {
-  zipCode: string
+  zip_code: string
   street: string
   number: string
   complement?: string
@@ -38,7 +38,7 @@ const NewRecipient: NextPageWithLayout = () => {
     try {
       const addressResponse = await api.post('/addresses', {
         address: {
-          zipCode: formData.zipCode,
+          zip_code: formData.zip_code,
           street: formData.street,
           number: formData.number,
           complement: formData.complement,
