@@ -17,7 +17,7 @@ import { AddressList } from '~/components/Recipients/Address/List'
 import { useRecipient } from '~/hooks/useRecipient'
 import { appLayout } from '~/layouts/App'
 import { api } from '~/services/apiClient'
-import { NextPageWithLayout } from '~/utils/types'
+import { Address, NextPageWithLayout } from '~/utils/types'
 import { withSSRAuth } from '~/utils/withSSRAuth'
 import { RecipientAddressFormSchema } from '~/validators/recipientAddressFormSchema'
 import { RecipientFormSchema } from '~/validators/recipientFormSchema'
@@ -35,8 +35,10 @@ type AddressAndRecipientFormData = {
 }
 
 const EditRecipient: NextPageWithLayout = () => {
-  const [editOrNewAddress, setEditOrNewAddress] = React.useState(false)
+  const [editAddress, setEditAddress] = React.useState(false)
   const [addNewAddress, setAddNewAddress] = React.useState(false)
+  const [showAddressForm, setShowAddressForm] = React.useState(false)
+  const [address, setAddress] = React.useState<Address>()
 
   const router = useRouter()
   const { id } = router.query
@@ -56,6 +58,12 @@ const EditRecipient: NextPageWithLayout = () => {
       ...RecipientAddressFormSchema,
     })
     .required()
+
+  function showEditAddressForm() {
+    setAddNewAddress(false)
+    setShowAddressForm(true)
+    setEditAddress(true)
+  }
 
   async function handleMutation(formData: AddressAndRecipientFormData) {
     const addressFormData = {
@@ -87,6 +95,17 @@ const EditRecipient: NextPageWithLayout = () => {
         return response.data.address
       }
 
+      if (editAddress) {
+        const response = await api.patch(`/addresses/${address?.id}`, {
+          address: {
+            ...addressFormData,
+            updated_at: new Date(),
+          },
+        })
+
+        return response.data.address
+      }
+
       const response = await api.patch(`/recipients/${id}`, {
         recipient: {
           ...recipientFormData,
@@ -102,9 +121,11 @@ const EditRecipient: NextPageWithLayout = () => {
 
   const editRecipient = useMutation(handleMutation, {
     onSuccess: (data) => {
-      if (addNewAddress) {
+      if (addNewAddress || editAddress) {
         queryClient.invalidateQueries(['recipient', id])
         setAddNewAddress(false)
+        setEditAddress(false)
+        setShowAddressForm(false)
       }
       queryClient.setQueryData(['recipient', id], {
         recipient: { ...data },
@@ -113,9 +134,9 @@ const EditRecipient: NextPageWithLayout = () => {
     },
   })
 
-  const { register, handleSubmit, formState } = useForm({
+  const { register, handleSubmit, formState, reset } = useForm({
     resolver: yupResolver(
-      editOrNewAddress
+      editAddress || addNewAddress
         ? formDataSchemaWithAddress
         : formDataSchemaWithoutAddress
     ),
@@ -176,7 +197,7 @@ const EditRecipient: NextPageWithLayout = () => {
               placeholder="John Doe"
               defaultValue={data?.recipient.name}
               error={errors.name}
-              isDisabled={addNewAddress}
+              isDisabled={addNewAddress || editAddress}
             />
 
             <Input
@@ -187,40 +208,74 @@ const EditRecipient: NextPageWithLayout = () => {
               placeholder="(xx) xxxxx-xxxx"
               defaultValue={data?.recipient.contact}
               error={errors.contact}
-              isDisabled={addNewAddress}
+              isDisabled={addNewAddress || editAddress}
             />
           </SimpleGrid>
 
-          {editOrNewAddress && (
-            <Box mt="4">
+          <Box mt="4">
+            {showAddressForm && editAddress && (
+              <RecipientAddressForm
+                register={register}
+                errors={errors}
+                address={address}
+              />
+            )}
+
+            {showAddressForm && addNewAddress && (
               <RecipientAddressForm register={register} errors={errors} />
-            </Box>
-          )}
+            )}
+          </Box>
         </Box>
       </Box>
 
-      {!editOrNewAddress && (
+      {!showAddressForm && (
         <SimpleGrid spacing={4} columns={3} mb="4">
-          <AddressList addresses={data?.recipient.addresses} />
+          <AddressList
+            setAddress={setAddress}
+            addresses={data?.recipient.addresses}
+            handleClick={showEditAddressForm}
+          />
         </SimpleGrid>
       )}
 
-      <Button
-        borderRadius="base"
-        colorScheme={!editOrNewAddress ? 'purple' : 'red'}
-        fontSize="sm"
-        height="9"
-        size="md"
-        type="button"
-        textTransform="uppercase"
-        variant="solid"
-        onClick={() => {
-          setEditOrNewAddress(!editOrNewAddress)
-          setAddNewAddress(!addNewAddress)
-        }}
-      >
-        {!editOrNewAddress ? 'Adicionar endereço' : 'Cancelar'}
-      </Button>
+      {!showAddressForm ? (
+        <Button
+          borderRadius="base"
+          colorScheme="purple"
+          fontSize="sm"
+          height="9"
+          size="md"
+          type="button"
+          textTransform="uppercase"
+          variant="solid"
+          onClick={() => {
+            setAddNewAddress(true)
+            setShowAddressForm(true)
+            setEditAddress(false)
+          }}
+        >
+          Adicionar endereço
+        </Button>
+      ) : (
+        <Button
+          borderRadius="base"
+          colorScheme="red"
+          fontSize="sm"
+          height="9"
+          size="md"
+          type="button"
+          textTransform="uppercase"
+          variant="solid"
+          onClick={() => {
+            setAddNewAddress(false)
+            setShowAddressForm(false)
+            setEditAddress(false)
+            reset()
+          }}
+        >
+          Cancelar
+        </Button>
+      )}
     </Container>
   )
 }

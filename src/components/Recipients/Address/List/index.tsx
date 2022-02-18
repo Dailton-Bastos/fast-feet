@@ -7,10 +7,22 @@ import { Address } from '~/utils/types'
 
 interface AddressListProps {
   addresses?: Address[]
+  handleClick: () => void
+  setAddress: React.Dispatch<React.SetStateAction<Address | undefined>>
 }
 
-export const AddressList = ({ addresses }: AddressListProps) => {
+export const AddressList = ({
+  addresses,
+  handleClick,
+  setAddress,
+}: AddressListProps) => {
   if (!addresses) return null
+
+  function findAddress(id: number) {
+    const address = addresses?.find((address) => address.id === id)
+
+    setAddress(address)
+  }
 
   return (
     <React.Fragment>
@@ -49,6 +61,10 @@ export const AddressList = ({ addresses }: AddressListProps) => {
               textTransform="uppercase"
               variant="outline"
               width="28"
+              onClick={() => {
+                handleClick()
+                findAddress(address.id)
+              }}
             >
               Editar
             </Button>

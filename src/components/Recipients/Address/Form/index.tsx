@@ -4,15 +4,18 @@ import { FieldErrors, FieldValues, UseFormRegister } from 'react-hook-form'
 import { SimpleGrid, Stack } from '@chakra-ui/react'
 
 import { Input } from '~/components/Form/Input'
+import { Address } from '~/utils/types'
 
 interface RecipientAddressFormProps {
   register: UseFormRegister<FieldValues>
   errors: FieldErrors
+  address?: Address
 }
 
 export const RecipientAddressForm = ({
   register,
   errors,
+  address,
 }: RecipientAddressFormProps) => {
   return (
     <Stack spacing={4}>
@@ -22,6 +25,7 @@ export const RecipientAddressForm = ({
           id="zip_code"
           name="zip_code"
           label="CEP"
+          defaultValue={address?.zip_code}
           error={errors.zip_code}
         />
         <Input
@@ -29,6 +33,7 @@ export const RecipientAddressForm = ({
           id="street"
           name="street"
           label="Rua"
+          defaultValue={address?.street}
           error={errors.street}
         />
 
@@ -37,6 +42,7 @@ export const RecipientAddressForm = ({
           id="number"
           name="number"
           label="Número"
+          defaultValue={address?.number}
           error={errors.number}
         />
       </SimpleGrid>
@@ -46,6 +52,7 @@ export const RecipientAddressForm = ({
         id="complement"
         name="complement"
         label="Complemento"
+        defaultValue={address?.complement}
       />
 
       <SimpleGrid spacing={4} columns={3}>
@@ -54,6 +61,7 @@ export const RecipientAddressForm = ({
           id="neighborhood"
           name="neighborhood"
           label="Bairro"
+          defaultValue={address?.neighborhood}
           error={errors.neighborhood}
         />
 
@@ -62,6 +70,7 @@ export const RecipientAddressForm = ({
           id="city"
           name="city"
           label="Cidade"
+          defaultValue={address?.city}
           error={errors.city}
         />
 
@@ -70,6 +79,7 @@ export const RecipientAddressForm = ({
           id="state"
           name="state"
           label="Estado"
+          defaultValue={address?.state}
           error={errors.state}
         />
       </SimpleGrid>
