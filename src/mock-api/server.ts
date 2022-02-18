@@ -102,6 +102,7 @@ export function makeServer({ environment = 'development' } = {}) {
 
       this.post('/addresses')
       this.patch('/addresses/:id')
+      this.delete('/addresses/:id')
 
       this.get('/deliveries')
 

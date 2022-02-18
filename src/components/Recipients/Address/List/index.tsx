@@ -1,8 +1,20 @@
 import React from 'react'
-import { RiEdit2Fill } from 'react-icons/ri'
+import { RiEdit2Fill, RiDeleteBin2Fill } from 'react-icons/ri'
+import { useMutation, useQueryClient } from 'react-query'
 
-import { Button, Flex, List, ListItem, Stack } from '@chakra-ui/react'
+import {
+  Button,
+  ButtonGroup,
+  Flex,
+  List,
+  ListItem,
+  Stack,
+  useDisclosure,
+} from '@chakra-ui/react'
+import { useRouter } from 'next/router'
 
+import { ModalConfirm } from '~/components/ModalConfirm'
+import { api } from '~/services/apiClient'
 import { Address } from '~/utils/types'
 
 interface AddressListProps {
@@ -16,13 +28,33 @@ export const AddressList = ({
   handleClick,
   setAddress,
 }: AddressListProps) => {
-  if (!addresses) return null
+  const [address, setCurrentAddress] = React.useState<Address>()
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const queryClient = useQueryClient()
+
+  const router = useRouter()
+  const { id: recipientId } = router.query
+
+  const deleteAddress = useMutation(
+    async () => await api.delete(`/addresses/${address?.id}`),
+    {
+      onSuccess: () => {
+        onClose()
+        queryClient.invalidateQueries(['recipient', recipientId])
+        queryClient.invalidateQueries('recipients')
+      },
+
+      onError: () => onClose(),
+    }
+  )
 
   function findAddress(id: number) {
     const address = addresses?.find((address) => address.id === id)
 
     setAddress(address)
   }
+
+  if (!addresses) return null
 
   return (
     <React.Fragment>
@@ -49,18 +81,17 @@ export const AddressList = ({
             </Stack>
           </List>
 
-          <Flex align="center" justifyContent="center" mt="auto">
+          <ButtonGroup variant="outline" spacing="4" fontSize="sm" mt="auto">
             <Button
               borderRadius="base"
               colorScheme="purple"
-              fontSize="sm"
               height="9"
               leftIcon={<RiEdit2Fill size={20} />}
               size="md"
               type="button"
               textTransform="uppercase"
-              variant="outline"
-              width="28"
+              fontWeight="normal"
+              width="50%"
               onClick={() => {
                 handleClick()
                 findAddress(address.id)
@@ -68,9 +99,34 @@ export const AddressList = ({
             >
               Editar
             </Button>
-          </Flex>
+
+            <Button
+              borderRadius="base"
+              colorScheme="red"
+              fontSize="sm"
+              height="9"
+              leftIcon={<RiDeleteBin2Fill size={20} />}
+              type="button"
+              textTransform="uppercase"
+              fontWeight="normal"
+              width="50%"
+              onClick={() => {
+                onOpen()
+                setCurrentAddress(address)
+              }}
+            >
+              Excluir
+            </Button>
+          </ButtonGroup>
         </Flex>
       ))}
+
+      <ModalConfirm
+        isOpen={isOpen}
+        onClose={onClose}
+        handleClick={() => deleteAddress.mutate()}
+        isLoading={deleteAddress.isLoading}
+      />
     </React.Fragment>
   )
 }
