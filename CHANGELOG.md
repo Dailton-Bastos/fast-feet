@@ -1,3 +1,10 @@
+# [1.21.0](https://github.com/Dailton-Bastos/fast-feet/compare/v1.20.0...v1.21.0) (2022-02-18)
+
+
+### Features
+
+* **recipients/edit:** edit recipient address ([3d402c4](https://github.com/Dailton-Bastos/fast-feet/commit/3d402c4e648757a3b3e410d410e5fc359541e284))
+
 # [1.20.0](https://github.com/Dailton-Bastos/fast-feet/compare/v1.19.0...v1.20.0) (2022-02-16)
 
 
