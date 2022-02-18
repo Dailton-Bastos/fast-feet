@@ -1,6 +1,5 @@
 import React from 'react'
 import { RiEdit2Fill, RiDeleteBin2Fill } from 'react-icons/ri'
-import { useMutation, useQueryClient } from 'react-query'
 
 import {
   Button,
@@ -9,12 +8,10 @@ import {
   List,
   ListItem,
   Stack,
-  useDisclosure,
 } from '@chakra-ui/react'
-import { useRouter } from 'next/router'
 
 import { ModalConfirm } from '~/components/ModalConfirm'
-import { api } from '~/services/apiClient'
+import { useDeleteAddress } from '~/hooks/useAddress'
 import { Address } from '~/utils/types'
 
 interface AddressListProps {
@@ -28,24 +25,10 @@ export const AddressList = ({
   handleClick,
   setAddress,
 }: AddressListProps) => {
-  const [address, setCurrentAddress] = React.useState<Address>()
-  const { isOpen, onOpen, onClose } = useDisclosure()
-  const queryClient = useQueryClient()
+  const [addressId, setAddressId] = React.useState<number>()
 
-  const router = useRouter()
-  const { id: recipientId } = router.query
-
-  const deleteAddress = useMutation(
-    async () => await api.delete(`/addresses/${address?.id}`),
-    {
-      onSuccess: () => {
-        onClose()
-        queryClient.invalidateQueries(['recipient', recipientId])
-        queryClient.invalidateQueries('recipients')
-      },
-
-      onError: () => onClose(),
-    }
+  const { onToggle, isOpen, mutate, isLoading } = useDeleteAddress(
+    addressId as number
   )
 
   function findAddress(id: number) {
@@ -111,8 +94,8 @@ export const AddressList = ({
               fontWeight="normal"
               width="50%"
               onClick={() => {
-                onOpen()
-                setCurrentAddress(address)
+                onToggle()
+                setAddressId(address.id)
               }}
             >
               Excluir
@@ -123,9 +106,9 @@ export const AddressList = ({
 
       <ModalConfirm
         isOpen={isOpen}
-        onClose={onClose}
-        handleClick={() => deleteAddress.mutate()}
-        isLoading={deleteAddress.isLoading}
+        onToggle={onToggle}
+        handleClick={mutate}
+        isLoading={isLoading}
       />
     </React.Fragment>
   )

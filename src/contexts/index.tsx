@@ -1,8 +1,9 @@
 import React from 'react'
-import { QueryClient, QueryClientProvider } from 'react-query'
+import { QueryClientProvider } from 'react-query'
 
 import { ChakraProvider } from '@chakra-ui/react'
 
+import { queryClient } from '~/services/queryClient'
 import { theme } from '~/styles/theme'
 
 import { AuthProvider } from './AuthContext'
@@ -11,8 +12,6 @@ import { QueryContextProvider } from './QueryContext'
 interface AppStoreProps {
   children: React.ReactNode
 }
-
-const queryClient = new QueryClient()
 
 export const AppStorage = ({ children }: AppStoreProps) => {
   return (

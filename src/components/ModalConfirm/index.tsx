@@ -15,14 +15,14 @@ import {
 } from '@chakra-ui/react'
 
 interface ModalProps extends UseDisclosureProps {
-  onClose: () => void
+  onToggle: () => void
   handleClick: () => void
   isLoading?: boolean
 }
 
 export const ModalConfirm = ({
   isOpen = false,
-  onClose,
+  onToggle,
   handleClick,
   isLoading,
 }: ModalProps) => {
@@ -30,7 +30,7 @@ export const ModalConfirm = ({
     <ChakraModal
       isCentered
       isOpen={isOpen}
-      onClose={onClose}
+      onClose={onToggle}
       motionPreset="slideInBottom"
     >
       <ModalOverlay bg="rgba(0,0,0,0.6)" />
@@ -58,7 +58,7 @@ export const ModalConfirm = ({
           gap={3}
           justifyContent="center"
         >
-          <Button colorScheme="gray" w="50%" onClick={onClose}>
+          <Button colorScheme="gray" w="50%" onClick={onToggle}>
             Cancelar
           </Button>
 
