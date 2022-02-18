@@ -1,3 +1,10 @@
+# [1.22.0](https://github.com/Dailton-Bastos/fast-feet/compare/v1.21.0...v1.22.0) (2022-02-18)
+
+
+### Features
+
+* **recipient:** delete recipient address ([c6743d7](https://github.com/Dailton-Bastos/fast-feet/commit/c6743d70e358a0bdda1462b48315c1a257594cd3))
+
 # [1.21.0](https://github.com/Dailton-Bastos/fast-feet/compare/v1.20.0...v1.21.0) (2022-02-18)
 
 
