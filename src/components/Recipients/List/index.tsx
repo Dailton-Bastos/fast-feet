@@ -1,6 +1,5 @@
 import React from 'react'
 import { RiEdit2Fill, RiDeleteBin2Fill } from 'react-icons/ri'
-import { useMutation, useQueryClient } from 'react-query'
 
 import {
   Box,
@@ -10,7 +9,6 @@ import {
   Text,
   MenuList,
   MenuDivider,
-  useDisclosure,
 } from '@chakra-ui/react'
 import NextLink from 'next/link'
 
@@ -23,33 +21,22 @@ import { Loading } from '~/components/Loading'
 import { ModalConfirm } from '~/components/ModalConfirm'
 import { Pagination } from '~/components/Pagination'
 import { useQueryContext } from '~/contexts/QueryContext'
+import { useDeleteRecipient } from '~/hooks/useRecipient'
 import { useRecipients } from '~/hooks/useRecipients'
-import { api } from '~/services/apiClient'
 import { Recipient } from '~/utils/types'
 
 export const ListRecipients = () => {
   const [page, setPage] = React.useState(1)
-  const [recipientId, setRecipientId] = React.useState('')
+  const [recipientId, setRecipientId] = React.useState<string>()
   const { data, isLoading, isFetching, isError } = useRecipients(page)
   const { setIsLoading, setIsFetching } = useQueryContext()
-  const { isOpen, onOpen, onClose } = useDisclosure()
 
-  const queryClient = useQueryClient()
-
-  const deleteRecipient = useMutation(
-    async () => await api.delete(`/recipients/${recipientId}`),
-    {
-      onSuccess: () => {
-        onClose()
-        queryClient.invalidateQueries('recipients')
-        queryClient.invalidateQueries('deliveries')
-        queryClient.invalidateQueries('statistics')
-        queryClient.setQueryData(['recipient', recipientId], null)
-      },
-
-      onError: () => onClose(),
-    }
-  )
+  const {
+    onToggle,
+    isOpen,
+    mutate,
+    isLoading: isLoadingDelete,
+  } = useDeleteRecipient(recipientId as string)
 
   React.useEffect(() => {
     setIsLoading(isLoading)
@@ -111,7 +98,7 @@ export const ListRecipients = () => {
 
                       <Box
                         onClick={() => {
-                          onOpen()
+                          onToggle()
                           setRecipientId(recipient.id)
                         }}
                       >
@@ -141,9 +128,9 @@ export const ListRecipients = () => {
 
       <ModalConfirm
         isOpen={isOpen}
-        onClose={onClose}
-        handleClick={() => deleteRecipient.mutate()}
-        isLoading={deleteRecipient.isLoading}
+        onToggle={onToggle}
+        handleClick={mutate}
+        isLoading={isLoadingDelete}
       />
     </Box>
   )

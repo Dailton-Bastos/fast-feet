@@ -1,6 +1,9 @@
-import { useQuery } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
+
+import { useDisclosure } from '@chakra-ui/react'
 
 import { api } from '~/services/apiClient'
+import { queryClient } from '~/services/queryClient'
 import { Recipient } from '~/utils/types'
 
 type GetRecipientResponse = {
@@ -31,6 +34,27 @@ export const getRecipient = async (
   }
 
   return { recipient }
+}
+
+export const useDeleteRecipient = (recipientId: string) => {
+  const { onToggle, isOpen } = useDisclosure()
+
+  const { mutate, isLoading } = useMutation(
+    async () => await api.delete(`/recipients/${recipientId}`),
+    {
+      onSuccess: () => {
+        onToggle()
+        queryClient.invalidateQueries('recipients')
+        queryClient.invalidateQueries('deliveries')
+        queryClient.invalidateQueries('statistics')
+        queryClient.setQueryData(['recipient', recipientId], null)
+      },
+
+      onError: () => onToggle(),
+    }
+  )
+
+  return { mutate, isLoading, onToggle, isOpen }
 }
 
 export function useRecipient(id: string) {
