@@ -10,6 +10,20 @@ type GetRecipientResponse = {
   recipient: Recipient
 }
 
+export const handlePrefetchRecipient = async (recipientId: string) => {
+  await queryClient.prefetchQuery(
+    ['recipient', recipientId],
+    async () => {
+      const response = await api.get(`/recipients/${recipientId}`)
+
+      return response.data
+    },
+    {
+      staleTime: 1000 * 60 * 10, // 10 minutes
+    }
+  )
+}
+
 export const getRecipient = async (
   id: string
 ): Promise<GetRecipientResponse> => {

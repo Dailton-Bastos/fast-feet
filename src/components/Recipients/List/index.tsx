@@ -21,7 +21,10 @@ import { Loading } from '~/components/Loading'
 import { ModalConfirm } from '~/components/ModalConfirm'
 import { Pagination } from '~/components/Pagination'
 import { useQueryContext } from '~/contexts/QueryContext'
-import { useDeleteRecipient } from '~/hooks/useRecipient'
+import {
+  handlePrefetchRecipient,
+  useDeleteRecipient,
+} from '~/hooks/useRecipient'
 import { useRecipients } from '~/hooks/useRecipients'
 import { Recipient } from '~/utils/types'
 
@@ -83,32 +86,38 @@ export const ListRecipients = () => {
 
               <Td textAlign="right" width="20%">
                 <Can roles={['administrator']}>
-                  <ListMenu>
-                    <MenuList minW={40}>
-                      <NextLink href={`/recipients/${recipient.id}/edit`}>
-                        <a>
+                  <Box
+                    onMouseEnter={() => handlePrefetchRecipient(recipient.id)}
+                  >
+                    <ListMenu>
+                      <MenuList minW={40}>
+                        <NextLink href={`/recipients/${recipient.id}/edit`}>
+                          <a>
+                            <MenuItem
+                              Icon={<RiEdit2Fill color="#4d85ee" size={18} />}
+                              buttonTitle="Editar"
+                            />
+                          </a>
+                        </NextLink>
+
+                        <MenuDivider />
+
+                        <Box
+                          onClick={() => {
+                            onToggle()
+                            setRecipientId(recipient.id)
+                          }}
+                        >
                           <MenuItem
-                            Icon={<RiEdit2Fill color="#4d85ee" size={18} />}
-                            buttonTitle="Editar"
+                            Icon={
+                              <RiDeleteBin2Fill color="#de3b3b" size={18} />
+                            }
+                            buttonTitle="Excluir"
                           />
-                        </a>
-                      </NextLink>
-
-                      <MenuDivider />
-
-                      <Box
-                        onClick={() => {
-                          onToggle()
-                          setRecipientId(recipient.id)
-                        }}
-                      >
-                        <MenuItem
-                          Icon={<RiDeleteBin2Fill color="#de3b3b" size={18} />}
-                          buttonTitle="Excluir"
-                        />
-                      </Box>
-                    </MenuList>
-                  </ListMenu>
+                        </Box>
+                      </MenuList>
+                    </ListMenu>
+                  </Box>
                 </Can>
               </Td>
             </Tr>
