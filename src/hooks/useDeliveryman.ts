@@ -55,6 +55,20 @@ export const getDeliveryman = async (
   return { deliveryman }
 }
 
+export const updateDeliveryman = async (
+  deliveryman: Deliveryman,
+  deliverymanId: string
+) => {
+  const response = await api.patch(`/deliverymen/${deliverymanId}`, {
+    deliveryman: {
+      ...deliveryman,
+      updated_at: new Date(),
+    },
+  })
+
+  return response.data.deliveryman
+}
+
 export const useDeleteDeliveryman = (deliverymanId: string) => {
   const { onToggle, isOpen } = useDisclosure()
 

@@ -11,17 +11,11 @@ import { HeaderForm } from '~/components/Form/Header'
 import { Input } from '~/components/Form/Input'
 import { Head } from '~/components/Head'
 import { Loading } from '~/components/Loading'
-import { useDeliveryman } from '~/hooks/useDeliveryman'
+import { updateDeliveryman, useDeliveryman } from '~/hooks/useDeliveryman'
 import { appLayout } from '~/layouts/App'
-import { api } from '~/services/apiClient'
-import { NextPageWithLayout } from '~/utils/types'
+import { Deliveryman, NextPageWithLayout } from '~/utils/types'
 import { withSSRAuth } from '~/utils/withSSRAuth'
 import { NewDeliverymanFormSchema } from '~/validators/newDeliveryman'
-
-type EditDeliverymanFormData = {
-  name: string
-  contact: string
-}
 
 const EditDeliveryman: NextPageWithLayout = () => {
   const router = useRouter()
@@ -31,22 +25,14 @@ const EditDeliveryman: NextPageWithLayout = () => {
   const { data, isLoading, isError } = useDeliveryman(id as string)
 
   const editDeliveryman = useMutation(
-    async (deliveryman: EditDeliverymanFormData) => {
-      const response = await api.patch(`/deliverymen/${id}`, {
-        deliveryman: {
-          ...deliveryman,
-          updated_at: new Date(),
-        },
-      })
-
-      return response.data.deliveryman
+    async (deliveryman: Deliveryman) => {
+      await updateDeliveryman(deliveryman, id as string)
     },
     {
-      onSuccess: (data) => {
-        queryClient.setQueryData(['deliveryman', id], {
-          deliveryman: { ...data },
-        })
+      onSuccess: () => {
+        queryClient.invalidateQueries(['deliveryman', id])
         queryClient.invalidateQueries('deliverymen')
+        queryClient.invalidateQueries('rankDeliverymen')
       },
     }
   )
@@ -57,9 +43,9 @@ const EditDeliveryman: NextPageWithLayout = () => {
 
   const { errors, isSubmitting } = formState
 
-  const handleUpdateDeliveryman: SubmitHandler<
-    EditDeliverymanFormData
-  > = async (values) => {
+  const handleUpdateDeliveryman: SubmitHandler<Deliveryman> = async (
+    values
+  ) => {
     await editDeliveryman.mutateAsync(values)
 
     router.push('/deliverymen')
