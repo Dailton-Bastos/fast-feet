@@ -1,6 +1,5 @@
 import React from 'react'
 import { RiEdit2Fill, RiDeleteBin2Fill, RiWhatsappLine } from 'react-icons/ri'
-import { useMutation, useQueryClient } from 'react-query'
 
 import {
   Box,
@@ -12,14 +11,13 @@ import {
   Icon,
   Link,
   Flex,
-  useDisclosure,
   Text,
 } from '@chakra-ui/react'
 import NextLink from 'next/link'
 
 import { useQueryContext } from '~/contexts/QueryContext'
+import { useDeleteDeliveryman } from '~/hooks/useDeliveryman'
 import { useDeliverymen } from '~/hooks/useDeliverymen'
-import { api } from '~/services/apiClient'
 import { Deliveryman } from '~/utils/types'
 
 import { ErrorMessage } from '../ErrorMessage'
@@ -35,25 +33,13 @@ export const ListDeliverymen = () => {
   const [deliverymanId, setDeliverymanId] = React.useState('')
   const { data, isLoading, isFetching, isError } = useDeliverymen(page)
   const { setIsLoading, setIsFetching } = useQueryContext()
-  const { isOpen, onOpen, onClose } = useDisclosure()
 
-  const queryClient = useQueryClient()
-
-  const deleteDeliveryman = useMutation(
-    async () => await api.delete(`/deliverymen/${deliverymanId}`),
-    {
-      onSuccess: () => {
-        onClose()
-        queryClient.invalidateQueries('deliverymen')
-        queryClient.invalidateQueries('deliveries')
-        queryClient.invalidateQueries('rankDeliverymen')
-        queryClient.invalidateQueries('statistics')
-        queryClient.setQueryData(['deliveryman', deliverymanId], null)
-      },
-
-      onError: () => onClose(),
-    }
-  )
+  const {
+    onToggle,
+    isOpen,
+    mutate,
+    isLoading: isLoadingDelete,
+  } = useDeleteDeliveryman(deliverymanId as string)
 
   React.useEffect(() => {
     setIsLoading(isLoading)
@@ -121,7 +107,7 @@ export const ListDeliverymen = () => {
 
                     <Box
                       onClick={() => {
-                        onOpen()
+                        onToggle()
                         setDeliverymanId(deliveryman.id)
                       }}
                     >
@@ -150,9 +136,9 @@ export const ListDeliverymen = () => {
 
       <ModalConfirm
         isOpen={isOpen}
-        onClose={onClose}
-        handleClick={() => deleteDeliveryman.mutate()}
-        isLoading={deleteDeliveryman.isLoading}
+        onToggle={onToggle}
+        handleClick={mutate}
+        isLoading={isLoadingDelete}
       />
     </Box>
   )

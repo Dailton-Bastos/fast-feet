@@ -1,6 +1,9 @@
-import { useQuery } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
+
+import { useDisclosure } from '@chakra-ui/react'
 
 import { api } from '~/services/apiClient'
+import { queryClient } from '~/services/queryClient'
 import { Deliveryman } from '~/utils/types'
 
 type GetDeliverymanResponse = {
@@ -36,6 +39,28 @@ export const getDeliveryman = async (
   }
 
   return { deliveryman }
+}
+
+export const useDeleteDeliveryman = (deliverymanId: string) => {
+  const { onToggle, isOpen } = useDisclosure()
+
+  const { mutate, isLoading } = useMutation(
+    async () => await api.delete(`/deliverymen/${deliverymanId}`),
+    {
+      onSuccess: () => {
+        onToggle()
+        queryClient.invalidateQueries('deliverymen')
+        queryClient.invalidateQueries('deliveries')
+        queryClient.invalidateQueries('rankDeliverymen')
+        queryClient.invalidateQueries('statistics')
+        queryClient.setQueryData(['deliveryman', deliverymanId], null)
+      },
+
+      onError: () => onToggle(),
+    }
+  )
+
+  return { mutate, isLoading, onToggle, isOpen }
 }
 
 export function useDeliveryman(id: string) {
