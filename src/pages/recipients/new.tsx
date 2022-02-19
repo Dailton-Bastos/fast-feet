@@ -10,15 +10,12 @@ import { HeaderForm } from '~/components/Form/Header'
 import { Input } from '~/components/Form/Input'
 import { Head } from '~/components/Head'
 import { RecipientAddressForm } from '~/components/Recipients/Address/Form'
-import { createAddressMutation } from '~/hooks/useAddress'
+import { createAddress } from '~/hooks/useAddress'
 import { createRecipientMutation } from '~/hooks/useRecipient'
 import { appLayout } from '~/layouts/App'
-import {
-  CreateRecipientAndAddressFormData,
-  NextPageWithLayout,
-} from '~/utils/types'
+import { RecipientAndAddressFormData, NextPageWithLayout } from '~/utils/types'
 import { withSSRAuth } from '~/utils/withSSRAuth'
-import { NewRecipientFormSchema } from '~/validators/newRecipientFormSchema'
+import { NewRecipientWithAddressFormSchema } from '~/validators/newRecipientFormSchema'
 
 const NewRecipient: NextPageWithLayout = () => {
   const queryClient = useQueryClient()
@@ -31,16 +28,16 @@ const NewRecipient: NextPageWithLayout = () => {
     onError: () => queryClient.cancelMutations(),
   })
 
-  const createAddress = useMutation(createAddressMutation)
+  const createAddressMutation = useMutation(createAddress)
 
   const { register, handleSubmit, formState } = useForm({
-    resolver: yupResolver(NewRecipientFormSchema),
+    resolver: yupResolver(NewRecipientWithAddressFormSchema),
   })
 
   const { errors, isSubmitting } = formState
 
   const handleCreateRecipient: SubmitHandler<
-    CreateRecipientAndAddressFormData
+    RecipientAndAddressFormData
   > = async (formData) => {
     const {
       name,
@@ -56,7 +53,7 @@ const NewRecipient: NextPageWithLayout = () => {
 
     const recipient = await createRecipient.mutateAsync({ name, contact })
 
-    await createAddress.mutateAsync({
+    await createAddressMutation.mutateAsync({
       zip_code,
       street,
       number,

@@ -6,6 +6,12 @@ import { RecipientFormSchema } from './recipientFormSchema'
 export const NewRecipientFormSchema = yup
   .object({
     ...RecipientFormSchema,
+  })
+  .required()
+
+export const NewRecipientWithAddressFormSchema = yup
+  .object({
+    ...RecipientFormSchema,
     ...RecipientAddressFormSchema,
   })
   .required()
