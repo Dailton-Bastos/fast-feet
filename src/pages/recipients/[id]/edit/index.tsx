@@ -1,11 +1,10 @@
 import React from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { useMutation, useQueryClient } from 'react-query'
+import { useMutation } from 'react-query'
 
 import { Container, Box, SimpleGrid, Flex, Button } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useRouter } from 'next/router'
-import * as yup from 'yup'
 
 import { ErrorMessage } from '~/components/ErrorMessage'
 import { HeaderForm } from '~/components/Form/Header'
@@ -14,143 +13,117 @@ import { Head } from '~/components/Head'
 import { Loading } from '~/components/Loading'
 import { RecipientAddressForm } from '~/components/Recipients/Address/Form'
 import { AddressList } from '~/components/Recipients/Address/List'
-import { useRecipient } from '~/hooks/useRecipient'
+import { createAddress, updateAddress } from '~/hooks/useAddress'
+import { updateRecipient, useRecipient } from '~/hooks/useRecipient'
 import { appLayout } from '~/layouts/App'
-import { api } from '~/services/apiClient'
-import { Address, NextPageWithLayout } from '~/utils/types'
+import { queryClient } from '~/services/queryClient'
+import {
+  Address,
+  RecipientAndAddressFormData,
+  NextPageWithLayout,
+  RecipientFormData,
+  AddressFormData,
+} from '~/utils/types'
 import { withSSRAuth } from '~/utils/withSSRAuth'
-import { RecipientAddressFormSchema } from '~/validators/recipientAddressFormSchema'
-import { RecipientFormSchema } from '~/validators/recipientFormSchema'
-
-type AddressAndRecipientFormData = {
-  zip_code: string
-  street: string
-  number: string
-  complement?: string
-  city: string
-  neighborhood: string
-  state: string
-  name: string
-  contact: string
-}
+import {
+  NewRecipientFormSchema,
+  NewRecipientWithAddressFormSchema,
+} from '~/validators/newRecipientFormSchema'
 
 const EditRecipient: NextPageWithLayout = () => {
   const [editAddress, setEditAddress] = React.useState(false)
   const [addNewAddress, setAddNewAddress] = React.useState(false)
   const [showAddressForm, setShowAddressForm] = React.useState(false)
   const [address, setAddress] = React.useState<Address>()
+  const [addressId, setAddressId] = React.useState<number | undefined>()
 
   const router = useRouter()
-  const { id } = router.query
-  const queryClient = useQueryClient()
+  const { id: recipientId } = router.query
 
-  const { data, isLoading, isError } = useRecipient(id as string)
+  const { data, isLoading, isError } = useRecipient(String(recipientId))
 
-  const formDataSchemaWithoutAddress = yup
-    .object({
-      ...RecipientFormSchema,
-    })
-    .required()
+  const updateRecipientMutation = useMutation(
+    (recipient: RecipientFormData) => {
+      return updateRecipient(recipient, String(recipientId))
+    },
 
-  const formDataSchemaWithAddress = yup
-    .object({
-      ...RecipientFormSchema,
-      ...RecipientAddressFormSchema,
-    })
-    .required()
-
-  function showEditAddressForm() {
-    setAddNewAddress(false)
-    setShowAddressForm(true)
-    setEditAddress(true)
-  }
-
-  async function handleMutation(formData: AddressAndRecipientFormData) {
-    const addressFormData = {
-      zip_code: formData.zip_code,
-      street: formData.street,
-      number: formData.number,
-      complement: formData.complement,
-      city: formData.city,
-      neighborhood: formData.neighborhood,
-      state: formData.state,
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['recipient', recipientId])
+        queryClient.invalidateQueries('recipients')
+      },
+      onError: () => queryClient.cancelMutations(),
     }
+  )
 
-    const recipientFormData = {
-      name: formData.name,
-      contact: formData.contact,
-    }
+  const createAddressMutation = useMutation(createAddress, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['recipient', recipientId])
 
-    try {
-      if (addNewAddress) {
-        const response = await api.post('/addresses', {
-          address: {
-            ...addressFormData,
-            recipientId: id,
-            created_at: new Date(),
-            updated_at: new Date(),
-          },
-        })
+      setAddNewAddress(false)
+      setShowAddressForm(false)
+    },
+    onError: () => queryClient.cancelMutations(),
+  })
 
-        return response.data.address
-      }
+  const updateAddressMutation = useMutation(
+    (address: AddressFormData) => {
+      return updateAddress(address, Number(addressId))
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['recipient', recipientId])
 
-      if (editAddress) {
-        const response = await api.patch(`/addresses/${address?.id}`, {
-          address: {
-            ...addressFormData,
-            updated_at: new Date(),
-          },
-        })
-
-        return response.data.address
-      }
-
-      const response = await api.patch(`/recipients/${id}`, {
-        recipient: {
-          ...recipientFormData,
-          updated_at: new Date(),
-        },
-      })
-
-      return response.data.recipient
-    } catch (error) {
-      queryClient.cancelMutations()
-    }
-  }
-
-  const editRecipient = useMutation(handleMutation, {
-    onSuccess: (data) => {
-      if (addNewAddress || editAddress) {
-        queryClient.invalidateQueries(['recipient', id])
-        setAddNewAddress(false)
         setEditAddress(false)
         setShowAddressForm(false)
-      }
-      queryClient.setQueryData(['recipient', id], {
-        recipient: { ...data },
-      })
-      queryClient.invalidateQueries('recipients')
-    },
-  })
+      },
+      onError: () => queryClient.cancelMutations(),
+    }
+  )
 
   const { register, handleSubmit, formState, reset } = useForm({
     resolver: yupResolver(
       editAddress || addNewAddress
-        ? formDataSchemaWithAddress
-        : formDataSchemaWithoutAddress
+        ? NewRecipientWithAddressFormSchema
+        : NewRecipientFormSchema
     ),
   })
 
   const { errors, isSubmitting } = formState
 
-  const handleUpdateRecipient: SubmitHandler<
-    AddressAndRecipientFormData
-  > = async (data) => {
-    await editRecipient.mutateAsync(data)
+  const handleSubmitForm: SubmitHandler<RecipientAndAddressFormData> = async (
+    formData
+  ) => {
+    const address = {
+      zip_code: formData.zip_code,
+      street: formData.street,
+      number: formData.number,
+      complement: formData.complement,
+      neighborhood: formData.neighborhood,
+      city: formData.city,
+      state: formData.state,
+      recipientId: String(recipientId),
+    }
 
-    router.push('/recipients')
+    const recipient = {
+      name: formData.name,
+      contact: formData.contact,
+    }
+
+    if (addNewAddress) {
+      await createAddressMutation.mutateAsync({ ...address })
+    }
+
+    if (editAddress) {
+      await updateAddressMutation.mutateAsync({ ...address })
+    }
+
+    await updateRecipientMutation.mutateAsync(recipient)
   }
+
+  React.useEffect(() => {
+    setAddressId(Number(address?.id))
+  }, [address])
 
   if (isLoading) {
     return (
@@ -175,12 +148,7 @@ const EditRecipient: NextPageWithLayout = () => {
         description="Fastfeet - Editar destinatário"
       />
 
-      <Box
-        as="form"
-        mt="3.5"
-        mb="5"
-        onSubmit={handleSubmit(handleUpdateRecipient)}
-      >
+      <Box as="form" mt="3.5" mb="5" onSubmit={handleSubmit(handleSubmitForm)}>
         <HeaderForm
           title="Edição de destinatário"
           linkBack="/recipients"
@@ -233,7 +201,11 @@ const EditRecipient: NextPageWithLayout = () => {
           <AddressList
             setAddress={setAddress}
             addresses={data?.recipient.addresses}
-            handleClick={showEditAddressForm}
+            handleClick={() => {
+              setAddNewAddress(false)
+              setShowAddressForm(true)
+              setEditAddress(true)
+            }}
           />
         </SimpleGrid>
       )}

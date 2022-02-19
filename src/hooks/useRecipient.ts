@@ -4,15 +4,13 @@ import { useDisclosure } from '@chakra-ui/react'
 
 import { api } from '~/services/apiClient'
 import { queryClient } from '~/services/queryClient'
-import { CreateRecipientFormData, Recipient } from '~/utils/types'
+import { RecipientFormData, Recipient } from '~/utils/types'
 
 type GetRecipientResponse = {
   recipient: Recipient
 }
 
-export const createRecipientMutation = async (
-  recipient: CreateRecipientFormData
-) => {
+export const createRecipientMutation = async (recipient: RecipientFormData) => {
   try {
     const response = await api.post('/recipients', {
       recipient: {
@@ -66,6 +64,24 @@ export const getRecipient = async (
   }
 
   return { recipient }
+}
+
+export const updateRecipient = async (
+  recipient: RecipientFormData,
+  recipientId: string
+) => {
+  try {
+    const response = await api.patch(`/recipients/${recipientId}`, {
+      recipient: {
+        ...recipient,
+        updated_at: new Date(),
+      },
+    })
+
+    return response.data.recipient
+  } catch (error) {
+    throw new Error('Error')
+  }
 }
 
 export const useDeleteRecipient = (recipientId: string) => {
