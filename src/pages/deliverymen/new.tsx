@@ -17,52 +17,34 @@ import { useRouter } from 'next/router'
 import { HeaderForm } from '~/components/Form/Header'
 import { Input } from '~/components/Form/Input'
 import { Head } from '~/components/Head'
+import { createDeliveryman } from '~/hooks/useDeliveryman'
 import { appLayout } from '~/layouts/App'
-import { api } from '~/services/apiClient'
-import { NextPageWithLayout } from '~/utils/types'
+import { Deliveryman, NextPageWithLayout } from '~/utils/types'
 import { withSSRAuth } from '~/utils/withSSRAuth'
-import { NewDeliverymanFormSchema } from '~/validators/newDeliveryman'
+import { DeliverymanFormSchema } from '~/validators/deliverymanFormSchema'
 
 import avatarIcon from '../../../public/images/avatar_icon.png'
-
-type CreateDeliverymanFormData = {
-  name: string
-  contact: string
-}
 
 const NewDeliveryman: NextPageWithLayout = () => {
   const queryClient = useQueryClient()
   const router = useRouter()
 
-  const createDeliveryman = useMutation(
-    async (deliveryman: CreateDeliverymanFormData) => {
-      const response = await api.post('/deliverymen', {
-        deliveryman: {
-          ...deliveryman,
-          created_at: new Date(),
-          updated_at: new Date(),
-        },
-      })
-
-      return response.data.deliveryman
+  const createDeliverymanMutation = useMutation(createDeliveryman, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('deliverymen')
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries('deliverymen')
-      },
-    }
-  )
+  })
 
   const { register, handleSubmit, formState } = useForm({
-    resolver: yupResolver(NewDeliverymanFormSchema),
+    resolver: yupResolver(DeliverymanFormSchema),
   })
 
   const { errors, isSubmitting } = formState
 
-  const handleCreateDeliveryman: SubmitHandler<
-    CreateDeliverymanFormData
-  > = async (values) => {
-    await createDeliveryman.mutateAsync(values)
+  const handleSubmitForm: SubmitHandler<Partial<Deliveryman>> = async (
+    formData
+  ) => {
+    await createDeliverymanMutation.mutateAsync(formData)
 
     router.push('/deliverymen')
   }
@@ -74,12 +56,7 @@ const NewDeliveryman: NextPageWithLayout = () => {
         description="Fastfeet - Adicionar novo entregador"
       />
 
-      <Box
-        as="form"
-        mt="3.5"
-        mb="10"
-        onSubmit={handleSubmit(handleCreateDeliveryman)}
-      >
+      <Box as="form" mt="3.5" mb="10" onSubmit={handleSubmit(handleSubmitForm)}>
         <HeaderForm
           title="Cadastro de entregadores"
           linkBack="/deliverymen"

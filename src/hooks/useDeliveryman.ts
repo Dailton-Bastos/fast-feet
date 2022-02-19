@@ -10,6 +10,22 @@ type GetDeliverymanResponse = {
   deliveryman: Deliveryman
 }
 
+export const createDeliveryman = async (deliveryman: Partial<Deliveryman>) => {
+  try {
+    const response = await api.post('/deliverymen', {
+      deliveryman: {
+        ...deliveryman,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+    })
+
+    return response.data.deliveryman
+  } catch (error) {
+    throw new Error('Error')
+  }
+}
+
 export const handlePrefetchDeliveryman = async (deliverymanId: string) => {
   await queryClient.prefetchQuery(
     ['deliveryman', deliverymanId],

@@ -15,18 +15,18 @@ import { updateDeliveryman, useDeliveryman } from '~/hooks/useDeliveryman'
 import { appLayout } from '~/layouts/App'
 import { Deliveryman, NextPageWithLayout } from '~/utils/types'
 import { withSSRAuth } from '~/utils/withSSRAuth'
-import { NewDeliverymanFormSchema } from '~/validators/newDeliveryman'
+import { DeliverymanFormSchema } from '~/validators/deliverymanFormSchema'
 
 const EditDeliveryman: NextPageWithLayout = () => {
   const router = useRouter()
   const { id } = router.query
   const queryClient = useQueryClient()
 
-  const { data, isLoading, isError } = useDeliveryman(id as string)
+  const { data, isLoading, isError } = useDeliveryman(String(id))
 
   const editDeliveryman = useMutation(
     async (deliveryman: Deliveryman) => {
-      await updateDeliveryman(deliveryman, id as string)
+      await updateDeliveryman(deliveryman, String(id))
     },
     {
       onSuccess: () => {
@@ -38,15 +38,13 @@ const EditDeliveryman: NextPageWithLayout = () => {
   )
 
   const { register, handleSubmit, formState } = useForm({
-    resolver: yupResolver(NewDeliverymanFormSchema),
+    resolver: yupResolver(DeliverymanFormSchema),
   })
 
   const { errors, isSubmitting } = formState
 
-  const handleUpdateDeliveryman: SubmitHandler<Deliveryman> = async (
-    values
-  ) => {
-    await editDeliveryman.mutateAsync(values)
+  const handleSubmitForm: SubmitHandler<Deliveryman> = async (formData) => {
+    await editDeliveryman.mutateAsync(formData)
 
     router.push('/deliverymen')
   }
@@ -74,12 +72,7 @@ const EditDeliveryman: NextPageWithLayout = () => {
         description="Fastfeet - Editar entregador"
       />
 
-      <Box
-        as="form"
-        mt="3.5"
-        mb="10"
-        onSubmit={handleSubmit(handleUpdateDeliveryman)}
-      >
+      <Box as="form" mt="3.5" mb="10" onSubmit={handleSubmit(handleSubmitForm)}>
         <HeaderForm
           title="Edição de entregadores"
           linkBack="/deliverymen"

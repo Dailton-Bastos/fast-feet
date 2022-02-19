@@ -1,6 +1,6 @@
 import * as yup from 'yup'
 
-export const NewDeliverymanFormSchema = yup
+export const DeliverymanFormSchema = yup
   .object({
     name: yup
       .string()

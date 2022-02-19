@@ -17,7 +17,7 @@ export interface DisclosureProps {
 }
 
 export type Deliveryman = {
-  id: string
+  id: number
   name: string
   contact: string
   avatar: string
