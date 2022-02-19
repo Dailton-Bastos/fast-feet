@@ -10,6 +10,20 @@ type GetDeliverymanResponse = {
   deliveryman: Deliveryman
 }
 
+export const handlePrefetchDeliveryman = async (deliverymanId: string) => {
+  await queryClient.prefetchQuery(
+    ['deliveryman', deliverymanId],
+    async () => {
+      const response = await api.get(`/deliverymen/${deliverymanId}`)
+
+      return response.data
+    },
+    {
+      staleTime: 1000 * 60 * 10, // 10 minutes
+    }
+  )
+}
+
 export const getDeliveryman = async (
   id: string
 ): Promise<GetDeliverymanResponse> => {

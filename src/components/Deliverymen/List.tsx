@@ -16,7 +16,10 @@ import {
 import NextLink from 'next/link'
 
 import { useQueryContext } from '~/contexts/QueryContext'
-import { useDeleteDeliveryman } from '~/hooks/useDeliveryman'
+import {
+  handlePrefetchDeliveryman,
+  useDeleteDeliveryman,
+} from '~/hooks/useDeliveryman'
 import { useDeliverymen } from '~/hooks/useDeliverymen'
 import { Deliveryman } from '~/utils/types'
 
@@ -92,32 +95,36 @@ export const ListDeliverymen = () => {
                 </Link>
               </Td>
               <Td textAlign="right" width="20%">
-                <ListMenu>
-                  <MenuList minW={40}>
-                    <NextLink href={`/deliverymen/${deliveryman.id}/edit`}>
-                      <a>
+                <Box
+                  onMouseEnter={() => handlePrefetchDeliveryman(deliveryman.id)}
+                >
+                  <ListMenu>
+                    <MenuList minW={40}>
+                      <NextLink href={`/deliverymen/${deliveryman.id}/edit`}>
+                        <a>
+                          <MenuItem
+                            Icon={<RiEdit2Fill color="#4d85ee" size={18} />}
+                            buttonTitle="Editar"
+                          />
+                        </a>
+                      </NextLink>
+
+                      <MenuDivider />
+
+                      <Box
+                        onClick={() => {
+                          onToggle()
+                          setDeliverymanId(deliveryman.id)
+                        }}
+                      >
                         <MenuItem
-                          Icon={<RiEdit2Fill color="#4d85ee" size={18} />}
-                          buttonTitle="Editar"
+                          Icon={<RiDeleteBin2Fill color="#de3b3b" size={18} />}
+                          buttonTitle="Excluir"
                         />
-                      </a>
-                    </NextLink>
-
-                    <MenuDivider />
-
-                    <Box
-                      onClick={() => {
-                        onToggle()
-                        setDeliverymanId(deliveryman.id)
-                      }}
-                    >
-                      <MenuItem
-                        Icon={<RiDeleteBin2Fill color="#de3b3b" size={18} />}
-                        buttonTitle="Excluir"
-                      />
-                    </Box>
-                  </MenuList>
-                </ListMenu>
+                      </Box>
+                    </MenuList>
+                  </ListMenu>
+                </Box>
               </Td>
             </Tr>
 
