@@ -21,8 +21,7 @@ import {
   Address,
   RecipientAndAddressFormData,
   NextPageWithLayout,
-  RecipientFormData,
-  AddressFormData,
+  Recipient,
 } from '~/utils/types'
 import { withSSRAuth } from '~/utils/withSSRAuth'
 import {
@@ -43,7 +42,7 @@ const EditRecipient: NextPageWithLayout = () => {
   const { data, isLoading, isError } = useRecipient(String(recipientId))
 
   const updateRecipientMutation = useMutation(
-    (recipient: RecipientFormData) => {
+    (recipient: Partial<Recipient>) => {
       return updateRecipient(recipient, String(recipientId))
     },
 
@@ -67,7 +66,7 @@ const EditRecipient: NextPageWithLayout = () => {
   })
 
   const updateAddressMutation = useMutation(
-    (address: AddressFormData) => {
+    (address: Partial<Address>) => {
       return updateAddress(address, Number(addressId))
     },
     {

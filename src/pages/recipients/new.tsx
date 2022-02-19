@@ -36,8 +36,8 @@ const NewRecipient: NextPageWithLayout = () => {
 
   const { errors, isSubmitting } = formState
 
-  const handleCreateRecipient: SubmitHandler<
-    RecipientAndAddressFormData
+  const handleSubmitForm: SubmitHandler<
+    Partial<RecipientAndAddressFormData>
   > = async (formData) => {
     const {
       name,
@@ -74,12 +74,7 @@ const NewRecipient: NextPageWithLayout = () => {
         description="Fastfeet - Adicionar novo destinatário"
       />
 
-      <Box
-        as="form"
-        mt="3.5"
-        mb="10"
-        onSubmit={handleSubmit(handleCreateRecipient)}
-      >
+      <Box as="form" mt="3.5" mb="10" onSubmit={handleSubmit(handleSubmitForm)}>
         <HeaderForm
           title="Cadastro de destinatário"
           linkBack="/recipients"

@@ -5,9 +5,9 @@ import { useRouter } from 'next/router'
 
 import { api } from '~/services/apiClient'
 import { queryClient } from '~/services/queryClient'
-import { AddressFormData } from '~/utils/types'
+import { Address } from '~/utils/types'
 
-export const createAddress = async (address: AddressFormData) => {
+export const createAddress = async (address: Partial<Address>) => {
   try {
     const response = await api.post('/addresses', {
       address: {
@@ -24,7 +24,7 @@ export const createAddress = async (address: AddressFormData) => {
 }
 
 export const updateAddress = async (
-  address: AddressFormData,
+  address: Partial<Address>,
   addressId: number
 ) => {
   try {

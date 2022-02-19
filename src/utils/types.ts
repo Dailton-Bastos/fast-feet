@@ -27,6 +27,7 @@ export type Deliveryman = {
 
 export type Address = {
   id: number
+  recipientId: string
   zip_code: string
   street: string
   number: string
@@ -34,8 +35,8 @@ export type Address = {
   city: string
   neighborhood: string
   state: string
-  created_at: string
-  updated_at: string
+  createdAt: string
+  updatedAt: string
 }
 
 export type Recipient = {
@@ -63,21 +64,4 @@ export type Delivery = {
   updated_at: string
 }
 
-export type RecipientFormData = {
-  name: string
-  contact: string
-}
-
-export type AddressFormData = {
-  id?: number
-  zip_code: string
-  street: string
-  number: string
-  complement?: string
-  neighborhood: string
-  city: string
-  state: string
-  recipientId: string
-}
-
-export type RecipientAndAddressFormData = RecipientFormData & AddressFormData
+export type RecipientAndAddressFormData = Address & Recipient

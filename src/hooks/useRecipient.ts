@@ -4,13 +4,15 @@ import { useDisclosure } from '@chakra-ui/react'
 
 import { api } from '~/services/apiClient'
 import { queryClient } from '~/services/queryClient'
-import { RecipientFormData, Recipient } from '~/utils/types'
+import { Recipient } from '~/utils/types'
 
 type GetRecipientResponse = {
   recipient: Recipient
 }
 
-export const createRecipientMutation = async (recipient: RecipientFormData) => {
+export const createRecipientMutation = async (
+  recipient: Partial<Recipient>
+) => {
   try {
     const response = await api.post('/recipients', {
       recipient: {
@@ -67,7 +69,7 @@ export const getRecipient = async (
 }
 
 export const updateRecipient = async (
-  recipient: RecipientFormData,
+  recipient: Partial<Recipient>,
   recipientId: string
 ) => {
   try {
