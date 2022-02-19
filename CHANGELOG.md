@@ -1,3 +1,11 @@
+# [1.23.0](https://github.com/Dailton-Bastos/fast-feet/compare/v1.22.0...v1.23.0) (2022-02-19)
+
+
+### Features
+
+* **deliveryman:** add prefetch info ([fb451f2](https://github.com/Dailton-Bastos/fast-feet/commit/fb451f2c47b351e8b6a64fde9d8de8481e1c732b))
+* **recipient:** add prefetch info ([790dc50](https://github.com/Dailton-Bastos/fast-feet/commit/790dc50fbb8f4c523598daea09d3d4362b77105c))
+
 # [1.22.0](https://github.com/Dailton-Bastos/fast-feet/compare/v1.21.0...v1.22.0) (2022-02-18)
 
 
