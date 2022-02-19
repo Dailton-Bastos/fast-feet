@@ -5,6 +5,23 @@ import { useRouter } from 'next/router'
 
 import { api } from '~/services/apiClient'
 import { queryClient } from '~/services/queryClient'
+import { CreateAddressFormData } from '~/utils/types'
+
+export const createAddressMutation = async (address: CreateAddressFormData) => {
+  try {
+    const response = await api.post('/addresses', {
+      address: {
+        ...address,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+    })
+
+    return response.data.address
+  } catch (error) {
+    throw new Error('Error')
+  }
+}
 
 export const useDeleteAddress = (addressId: number) => {
   const { onToggle, isOpen } = useDisclosure()

@@ -5,92 +5,67 @@ import { useQueryClient, useMutation } from 'react-query'
 import { Container, Box, SimpleGrid, Stack } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useRouter } from 'next/router'
-import * as yup from 'yup'
 
 import { HeaderForm } from '~/components/Form/Header'
 import { Input } from '~/components/Form/Input'
 import { Head } from '~/components/Head'
 import { RecipientAddressForm } from '~/components/Recipients/Address/Form'
+import { createAddressMutation } from '~/hooks/useAddress'
+import { createRecipientMutation } from '~/hooks/useRecipient'
 import { appLayout } from '~/layouts/App'
-import { api } from '~/services/apiClient'
-import { NextPageWithLayout } from '~/utils/types'
+import {
+  CreateRecipientAndAddressFormData,
+  NextPageWithLayout,
+} from '~/utils/types'
 import { withSSRAuth } from '~/utils/withSSRAuth'
-import { RecipientAddressFormSchema } from '~/validators/recipientAddressFormSchema'
-import { RecipientFormSchema } from '~/validators/recipientFormSchema'
-
-type CreateAddressAndRecipientFormData = {
-  zip_code: string
-  street: string
-  number: string
-  complement?: string
-  city: string
-  neighborhood: string
-  state: string
-  name: string
-  contact: string
-}
+import { NewRecipientFormSchema } from '~/validators/newRecipientFormSchema'
 
 const NewRecipient: NextPageWithLayout = () => {
   const queryClient = useQueryClient()
   const router = useRouter()
 
-  const formDataSchema = yup
-    .object({
-      ...RecipientFormSchema,
-      ...RecipientAddressFormSchema,
-    })
-    .required()
-
-  async function handleMutation(formData: CreateAddressAndRecipientFormData) {
-    const addressIds = []
-
-    try {
-      const addressResponse = await api.post('/addresses', {
-        address: {
-          zip_code: formData.zip_code,
-          street: formData.street,
-          number: formData.number,
-          complement: formData.complement,
-          city: formData.city,
-          neighborhood: formData.neighborhood,
-          state: formData.state,
-          created_at: new Date(),
-          updated_at: new Date(),
-        },
-      })
-
-      addressIds.push(addressResponse.data.address.id)
-
-      const recipientResponse = await api.post('/recipients', {
-        recipient: {
-          name: formData.name,
-          contact: formData.contact,
-          addressIds,
-          created_at: new Date(),
-          updated_at: new Date(),
-        },
-      })
-
-      return recipientResponse.data.recipient
-    } catch (error) {
-      queryClient.cancelMutations()
-    }
-  }
-
-  const createRecipient = useMutation(handleMutation, {
-    onSuccess: () => queryClient.invalidateQueries('recipients'),
+  const createRecipient = useMutation(createRecipientMutation, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('recipients')
+    },
+    onError: () => queryClient.cancelMutations(),
   })
 
+  const createAddress = useMutation(createAddressMutation)
+
   const { register, handleSubmit, formState } = useForm({
-    resolver: yupResolver(formDataSchema),
+    resolver: yupResolver(NewRecipientFormSchema),
   })
 
   const { errors, isSubmitting } = formState
 
   const handleCreateRecipient: SubmitHandler<
-    CreateAddressAndRecipientFormData
+    CreateRecipientAndAddressFormData
   > = async (formData) => {
-    await createRecipient.mutateAsync(formData)
+    const {
+      name,
+      contact,
+      zip_code,
+      street,
+      number,
+      complement,
+      neighborhood,
+      city,
+      state,
+    } = formData
+
+    const recipient = await createRecipient.mutateAsync({ name, contact })
+
+    await createAddress.mutateAsync({
+      zip_code,
+      street,
+      number,
+      complement,
+      neighborhood,
+      city,
+      state,
+      recipientId: recipient.id,
+    })
 
     router.push('/recipients')
   }

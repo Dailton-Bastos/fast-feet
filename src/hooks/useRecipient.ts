@@ -4,10 +4,28 @@ import { useDisclosure } from '@chakra-ui/react'
 
 import { api } from '~/services/apiClient'
 import { queryClient } from '~/services/queryClient'
-import { Recipient } from '~/utils/types'
+import { CreateRecipientFormData, Recipient } from '~/utils/types'
 
 type GetRecipientResponse = {
   recipient: Recipient
+}
+
+export const createRecipientMutation = async (
+  recipient: CreateRecipientFormData
+) => {
+  try {
+    const response = await api.post('/recipients', {
+      recipient: {
+        ...recipient,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+    })
+
+    return response.data.recipient
+  } catch (error) {
+    throw new Error('Error')
+  }
 }
 
 export const handlePrefetchRecipient = async (recipientId: string) => {
