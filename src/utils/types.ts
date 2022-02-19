@@ -63,12 +63,13 @@ export type Delivery = {
   updated_at: string
 }
 
-export type CreateRecipientFormData = {
+export type RecipientFormData = {
   name: string
   contact: string
 }
 
-export type CreateAddressFormData = {
+export type AddressFormData = {
+  id?: number
   zip_code: string
   street: string
   number: string
@@ -79,5 +80,4 @@ export type CreateAddressFormData = {
   recipientId: string
 }
 
-export type CreateRecipientAndAddressFormData = CreateRecipientFormData &
-  CreateAddressFormData
+export type RecipientAndAddressFormData = RecipientFormData & AddressFormData
