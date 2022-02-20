@@ -26,7 +26,7 @@ export const createDeliveryman = async (deliveryman: Partial<Deliveryman>) => {
   }
 }
 
-export const handlePrefetchDeliveryman = async (deliverymanId: string) => {
+export const handlePrefetchDeliveryman = async (deliverymanId: number) => {
   await queryClient.prefetchQuery(
     ['deliveryman', deliverymanId],
     async () => {
@@ -85,7 +85,7 @@ export const updateDeliveryman = async (
   return response.data.deliveryman
 }
 
-export const useDeleteDeliveryman = (deliverymanId: string) => {
+export const useDeleteDeliveryman = (deliverymanId: number) => {
   const { onToggle, isOpen } = useDisclosure()
 
   const { mutate, isLoading } = useMutation(

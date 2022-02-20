@@ -33,7 +33,7 @@ import { Pagination } from '../Pagination'
 
 export const ListDeliverymen = () => {
   const [page, setPage] = React.useState(1)
-  const [deliverymanId, setDeliverymanId] = React.useState('')
+  const [deliverymanId, setDeliverymanId] = React.useState<number>()
   const { data, isLoading, isFetching, isError } = useDeliverymen(page)
   const { setIsLoading, setIsFetching } = useQueryContext()
 
@@ -42,7 +42,7 @@ export const ListDeliverymen = () => {
     isOpen,
     mutate,
     isLoading: isLoadingDelete,
-  } = useDeleteDeliveryman(deliverymanId as string)
+  } = useDeleteDeliveryman(Number(deliverymanId))
 
   React.useEffect(() => {
     setIsLoading(isLoading)
