@@ -57,11 +57,7 @@ const NewDeliveryman: NextPageWithLayout = () => {
       />
 
       <Box as="form" mt="3.5" mb="10" onSubmit={handleSubmit(handleSubmitForm)}>
-        <HeaderForm
-          title="Cadastro de entregadores"
-          linkBack="/deliverymen"
-          isLoading={isSubmitting}
-        />
+        <HeaderForm title="Cadastro de entregadores" isLoading={isSubmitting} />
 
         <Box
           bg="white"

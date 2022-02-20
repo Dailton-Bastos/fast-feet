@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { Button } from '@chakra-ui/react'
+import { useRouter } from 'next/router'
 
 interface PaginationItemProps {
   number: number
@@ -13,6 +14,14 @@ export const PaginationItem = ({
   isCurrent = false,
   onPageChange,
 }: PaginationItemProps) => {
+  const router = useRouter()
+
+  const { page = 1 } = router.query
+
+  React.useEffect(() => {
+    onPageChange(Number(page))
+  }, [page, onPageChange])
+
   if (isCurrent) {
     return (
       <Button
@@ -30,6 +39,7 @@ export const PaginationItem = ({
       </Button>
     )
   }
+
   return (
     <Button
       bg="white"
@@ -40,7 +50,7 @@ export const PaginationItem = ({
         bg: 'purple.500',
         color: 'white',
       }}
-      onClick={() => onPageChange(number)}
+      onClick={() => router.replace(`?page=${number}`)}
     >
       {number}
     </Button>

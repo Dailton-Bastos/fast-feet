@@ -75,11 +75,7 @@ const NewRecipient: NextPageWithLayout = () => {
       />
 
       <Box as="form" mt="3.5" mb="10" onSubmit={handleSubmit(handleSubmitForm)}>
-        <HeaderForm
-          title="Cadastro de destinatário"
-          linkBack="/recipients"
-          isLoading={isSubmitting}
-        />
+        <HeaderForm title="Cadastro de destinatário" isLoading={isSubmitting} />
 
         <Box
           bg="white"

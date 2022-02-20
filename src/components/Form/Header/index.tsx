@@ -1,66 +1,51 @@
 import React from 'react'
 import { RiArrowLeftSLine, RiCheckLine } from 'react-icons/ri'
 
-import { Flex, Heading, Icon, Text, Stack, Button } from '@chakra-ui/react'
-import NextLink from 'next/link'
+import { Flex, Heading, Button, ButtonGroup } from '@chakra-ui/react'
+import { useRouter } from 'next/router'
 
 interface HeaderFormProps {
   title: string
-  linkBack: string
   isLoading: boolean
 }
 
-export const HeaderForm = ({
-  title,
-  linkBack,
-  isLoading = false,
-}: HeaderFormProps) => {
+export const HeaderForm = ({ title, isLoading = false }: HeaderFormProps) => {
+  const router = useRouter()
+
   return (
     <Flex align="center" justify="space-between">
       <Heading as="h2" size="md">
         {title}
       </Heading>
 
-      <Stack direction="row" spacing={4}>
-        <NextLink href={linkBack} passHref>
-          <Flex
-            as="a"
-            alignItems="center"
-            bgColor="gray.300"
-            borderRadius="base"
-            height="9"
-            justifyContent="center"
-            width="28"
-          >
-            <Icon as={RiArrowLeftSLine} color="white" h={6} w={6} />
-
-            <Text
-              color="white"
-              fontWeight="semibold"
-              fontSize="sm"
-              textTransform="uppercase"
-            >
-              Voltar
-            </Text>
-          </Flex>
-        </NextLink>
+      <ButtonGroup variant="solid" spacing="4">
+        <Button
+          colorScheme="gray"
+          fontSize="sm"
+          height="9"
+          leftIcon={<RiArrowLeftSLine size={20} />}
+          size="sm"
+          textTransform="uppercase"
+          width="28"
+          onClick={() => router.back()}
+        >
+          Voltar
+        </Button>
 
         <Button
-          borderRadius="base"
           colorScheme="purple"
           fontSize="sm"
           height="9"
           leftIcon={<RiCheckLine size={20} />}
-          size="md"
+          size="sm"
           type="submit"
           textTransform="uppercase"
-          variant="solid"
           width="28"
           isLoading={isLoading}
         >
           Salvar
         </Button>
-      </Stack>
+      </ButtonGroup>
     </Flex>
   )
 }

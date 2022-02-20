@@ -148,11 +148,7 @@ const EditRecipient: NextPageWithLayout = () => {
       />
 
       <Box as="form" mt="3.5" mb="5" onSubmit={handleSubmit(handleSubmitForm)}>
-        <HeaderForm
-          title="Edição de destinatário"
-          linkBack="/recipients"
-          isLoading={isSubmitting}
-        />
+        <HeaderForm title="Edição de destinatário" isLoading={isSubmitting} />
 
         <Box bg="white" borderRadius={4} boxShadow="sm" py="10" px="8" mt="5">
           <SimpleGrid spacing={4} columns={2}>
