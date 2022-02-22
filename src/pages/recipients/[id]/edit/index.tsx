@@ -138,14 +138,14 @@ const EditRecipient: NextPageWithLayout = () => {
   }
 
   React.useEffect(() => {
-    if (dataPostalCode) {
+    if (dataPostalCode?.zip_code) {
       setAddressFormValues(dataPostalCode, setValue)
       setShowFullAddressForm(true)
     }
   }, [dataPostalCode, setValue])
 
   React.useEffect(() => {
-    if (showFullAddressForm && dataPostalCode) {
+    if (showFullAddressForm && dataPostalCode?.zip_code) {
       setFocus('number')
     }
   }, [setFocus, showFullAddressForm, dataPostalCode])
