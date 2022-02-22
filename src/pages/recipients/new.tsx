@@ -10,16 +10,24 @@ import { HeaderForm } from '~/components/Form/Header'
 import { Input } from '~/components/Form/Input'
 import { Head } from '~/components/Head'
 import { RecipientAddressForm } from '~/components/Recipients/Address/Form'
-import { createAddress } from '~/hooks/useAddress'
+import { createAddress, usePostalCode } from '~/hooks/useAddress'
 import { createRecipientMutation } from '~/hooks/useRecipient'
 import { appLayout } from '~/layouts/App'
+import { setAddressFormValues } from '~/utils/setAddressFormValues'
 import { RecipientAndAddressFormData, NextPageWithLayout } from '~/utils/types'
 import { withSSRAuth } from '~/utils/withSSRAuth'
 import { NewRecipientWithAddressFormSchema } from '~/validators/newRecipientFormSchema'
 
 const NewRecipient: NextPageWithLayout = () => {
+  const [postalCode, setPostalCode] = React.useState('')
+  const [showFullAddressForm, setShowFullAddressForm] = React.useState(false)
   const queryClient = useQueryClient()
   const router = useRouter()
+
+  const { data, isLoading } = usePostalCode(
+    postalCode,
+    postalCode ? true : false
+  )
 
   const createRecipient = useMutation(createRecipientMutation, {
     onSuccess: () => {
@@ -30,8 +38,10 @@ const NewRecipient: NextPageWithLayout = () => {
 
   const createAddressMutation = useMutation(createAddress)
 
-  const { register, handleSubmit, formState } = useForm({
+  const { register, handleSubmit, formState, setValue, setFocus } = useForm({
     resolver: yupResolver(NewRecipientWithAddressFormSchema),
+    mode: 'all',
+    reValidateMode: 'onSubmit',
   })
 
   const { errors, isSubmitting } = formState
@@ -66,6 +76,19 @@ const NewRecipient: NextPageWithLayout = () => {
 
     router.push('/recipients')
   }
+
+  React.useEffect(() => {
+    if (data?.zip_code) {
+      setShowFullAddressForm(true)
+      setAddressFormValues(data, setValue)
+    }
+  }, [data, setValue])
+
+  React.useEffect(() => {
+    if (showFullAddressForm && data?.zip_code) {
+      setFocus('number')
+    }
+  }, [setFocus, showFullAddressForm, data])
 
   return (
     <Container as="section" maxW="container.lg">
@@ -107,7 +130,13 @@ const NewRecipient: NextPageWithLayout = () => {
               />
             </SimpleGrid>
 
-            <RecipientAddressForm register={register} errors={errors} />
+            <RecipientAddressForm
+              register={register}
+              errors={errors}
+              handleChangePostalCode={setPostalCode}
+              showFullAddressForm={showFullAddressForm}
+              isLoading={isLoading}
+            />
           </Stack>
         </Box>
       </Box>

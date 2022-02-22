@@ -1,22 +1,72 @@
 import React from 'react'
 import { FieldErrors, FieldValues, UseFormRegister } from 'react-hook-form'
 
-import { SimpleGrid, Stack } from '@chakra-ui/react'
+import { Box, Flex, SimpleGrid, Stack, Link } from '@chakra-ui/react'
 
 import { Input } from '~/components/Form/Input'
-import { Address } from '~/utils/types'
+import { Loading } from '~/components/Loading'
 
 interface RecipientAddressFormProps {
   register: UseFormRegister<FieldValues>
   errors: FieldErrors
-  address?: Address
+  handleChangePostalCode: (cep: string) => void
+  showFullAddressForm: boolean
+  isLoading: boolean
 }
 
 export const RecipientAddressForm = ({
   register,
   errors,
-  address,
+  handleChangePostalCode,
+  showFullAddressForm = false,
+  isLoading = false,
 }: RecipientAddressFormProps) => {
+  const [timer, setTimer] = React.useState<number>()
+
+  function handleChange(cep: string) {
+    const reg = /^[0-9]{5}-?[0-9]{3}$/
+
+    const isValid = reg.test(cep)
+
+    clearTimeout(timer)
+
+    if (isValid) {
+      setTimer(window.setTimeout(() => handleChangePostalCode(cep), 2000))
+    }
+  }
+
+  if (!showFullAddressForm) {
+    return (
+      <>
+        <Flex align="flex-end" gap={4} maxW="60" mb="4">
+          <Input
+            {...register('zip_code')}
+            id="zip_code"
+            name="zip_code"
+            label="CEP"
+            error={errors.zip_code}
+            onChange={({ target }) => handleChange(target.value)}
+            onBlur={({ target }) => handleChange(target.value)}
+          />
+
+          {!!isLoading && (
+            <Box mb="2">
+              <Loading size="sm" color="gray.500" />
+            </Box>
+          )}
+        </Flex>
+
+        <Link
+          href="https://buscacepinter.correios.com.br/app/endereco/index.php"
+          target="_blank"
+          fontSize="sm"
+        >
+          Não sei meu CEP
+        </Link>
+      </>
+    )
+  }
+
   return (
     <Stack spacing={4}>
       <SimpleGrid spacing={4} columns={3}>
@@ -25,15 +75,16 @@ export const RecipientAddressForm = ({
           id="zip_code"
           name="zip_code"
           label="CEP"
-          defaultValue={address?.zip_code}
           error={errors.zip_code}
+          onChange={({ target }) => handleChange(target.value)}
+          onBlur={({ target }) => handleChange(target.value)}
         />
+
         <Input
           {...register('street')}
           id="street"
           name="street"
           label="Rua"
-          defaultValue={address?.street}
           error={errors.street}
         />
 
@@ -42,7 +93,6 @@ export const RecipientAddressForm = ({
           id="number"
           name="number"
           label="Número"
-          defaultValue={address?.number}
           error={errors.number}
         />
       </SimpleGrid>
@@ -52,7 +102,6 @@ export const RecipientAddressForm = ({
         id="complement"
         name="complement"
         label="Complemento"
-        defaultValue={address?.complement}
       />
 
       <SimpleGrid spacing={4} columns={3}>
@@ -61,7 +110,6 @@ export const RecipientAddressForm = ({
           id="neighborhood"
           name="neighborhood"
           label="Bairro"
-          defaultValue={address?.neighborhood}
           error={errors.neighborhood}
         />
 
@@ -70,7 +118,6 @@ export const RecipientAddressForm = ({
           id="city"
           name="city"
           label="Cidade"
-          defaultValue={address?.city}
           error={errors.city}
         />
 
@@ -79,7 +126,6 @@ export const RecipientAddressForm = ({
           id="state"
           name="state"
           label="Estado"
-          defaultValue={address?.state}
           error={errors.state}
         />
       </SimpleGrid>

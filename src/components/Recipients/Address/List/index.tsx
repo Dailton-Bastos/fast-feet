@@ -1,4 +1,5 @@
 import React from 'react'
+import { FieldValues, UseFormSetValue } from 'react-hook-form'
 import { RiEdit2Fill, RiDeleteBin2Fill } from 'react-icons/ri'
 
 import {
@@ -12,32 +13,27 @@ import {
 
 import { ModalConfirm } from '~/components/ModalConfirm'
 import { useDeleteAddress } from '~/hooks/useAddress'
+import { setAddressFormValues } from '~/utils/setAddressFormValues'
 import { Address } from '~/utils/types'
 
 interface AddressListProps {
   addresses?: Address[]
   handleClick: () => void
-  setAddress: React.Dispatch<React.SetStateAction<Address | undefined>>
+  setCurrentAddressId: React.Dispatch<React.SetStateAction<number | undefined>>
+  setFormValues: UseFormSetValue<FieldValues>
 }
 
 export const AddressList = ({
-  addresses,
+  addresses = [],
   handleClick,
-  setAddress,
+  setCurrentAddressId,
+  setFormValues,
 }: AddressListProps) => {
   const [addressId, setAddressId] = React.useState<number>()
 
   const { onToggle, isOpen, mutate, isLoading } = useDeleteAddress(
     addressId as number
   )
-
-  function findAddress(id: number) {
-    const address = addresses?.find((address) => address.id === id)
-
-    setAddress(address)
-  }
-
-  if (!addresses) return null
 
   return (
     <React.Fragment>
@@ -77,7 +73,8 @@ export const AddressList = ({
               width="50%"
               onClick={() => {
                 handleClick()
-                findAddress(address.id)
+                setAddressFormValues(address, setFormValues)
+                setCurrentAddressId(address.id)
               }}
             >
               Editar

@@ -112,6 +112,7 @@ export function makeServer({ environment = 'development' } = {}) {
 
       this.namespace = ''
       this.passthrough()
+      this.passthrough('https://viacep.com.br/**')
     },
   })
 

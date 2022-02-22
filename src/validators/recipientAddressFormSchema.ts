@@ -4,9 +4,7 @@ export const RecipientAddressFormSchema = {
   zip_code: yup
     .string()
     .required('CEP obrigatório*')
-    .matches(/^[0-9]{5}[0-9]{3}$/, 'CEP inválido')
-    .max(8, 'CEP inválido')
-    .min(8, 'CEP inválido'),
+    .matches(/^[0-9]{5}-?[0-9]{3}$/, 'CEP inválido'),
 
   street: yup.string().required('Rua obrigatório*'),
   number: yup.string().required('Número obrigatório*'),

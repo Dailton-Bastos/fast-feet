@@ -1,9 +1,10 @@
-import { useMutation } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 
 import { useDisclosure } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 
 import { api } from '~/services/apiClient'
+import { getPostalCode } from '~/services/fetchPostalCode'
 import { queryClient } from '~/services/queryClient'
 import { Address } from '~/utils/types'
 
@@ -61,4 +62,15 @@ export const useDeleteAddress = (addressId: number) => {
   )
 
   return { mutate, isLoading, onToggle, isOpen }
+}
+
+export function usePostalCode(postalCode: string, hasPostalCode: boolean) {
+  return useQuery(
+    ['CEP', postalCode.replace(/\D/g, '')],
+    () => getPostalCode(postalCode),
+    {
+      enabled: hasPostalCode,
+      staleTime: 1000 * 60 * 10, // 10 minutes
+    }
+  )
 }

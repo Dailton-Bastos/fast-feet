@@ -13,10 +13,11 @@ import { Head } from '~/components/Head'
 import { Loading } from '~/components/Loading'
 import { RecipientAddressForm } from '~/components/Recipients/Address/Form'
 import { AddressList } from '~/components/Recipients/Address/List'
-import { createAddress, updateAddress } from '~/hooks/useAddress'
+import { createAddress, updateAddress, usePostalCode } from '~/hooks/useAddress'
 import { updateRecipient, useRecipient } from '~/hooks/useRecipient'
 import { appLayout } from '~/layouts/App'
 import { queryClient } from '~/services/queryClient'
+import { setAddressFormValues } from '~/utils/setAddressFormValues'
 import {
   Address,
   RecipientAndAddressFormData,
@@ -33,13 +34,19 @@ const EditRecipient: NextPageWithLayout = () => {
   const [editAddress, setEditAddress] = React.useState(false)
   const [addNewAddress, setAddNewAddress] = React.useState(false)
   const [showAddressForm, setShowAddressForm] = React.useState(false)
-  const [address, setAddress] = React.useState<Address>()
-  const [addressId, setAddressId] = React.useState<number | undefined>()
+  const [currentAddressId, setCurrentAddressId] = React.useState<
+    number | undefined
+  >()
+  const [postalCode, setPostalCode] = React.useState('')
+  const [showFullAddressForm, setShowFullAddressForm] = React.useState(false)
 
   const router = useRouter()
   const { id: recipientId } = router.query
 
   const { data, isLoading, isError } = useRecipient(String(recipientId))
+
+  const { data: dataPostalCode, isLoading: isLoadingPostalCode } =
+    usePostalCode(postalCode, postalCode ? true : false)
 
   const updateRecipientMutation = useMutation(
     (recipient: Partial<Recipient>) => {
@@ -67,7 +74,7 @@ const EditRecipient: NextPageWithLayout = () => {
 
   const updateAddressMutation = useMutation(
     (address: Partial<Address>) => {
-      return updateAddress(address, Number(addressId))
+      return updateAddress(address, Number(currentAddressId))
     },
     {
       onSuccess: () => {
@@ -80,12 +87,22 @@ const EditRecipient: NextPageWithLayout = () => {
     }
   )
 
-  const { register, handleSubmit, formState, reset } = useForm({
+  const {
+    register,
+    handleSubmit,
+    formState,
+    reset,
+    setValue,
+    setFocus,
+    clearErrors,
+  } = useForm({
     resolver: yupResolver(
       editAddress || addNewAddress
         ? NewRecipientWithAddressFormSchema
         : NewRecipientFormSchema
     ),
+    mode: 'all',
+    reValidateMode: 'onSubmit',
   })
 
   const { errors, isSubmitting } = formState
@@ -121,8 +138,17 @@ const EditRecipient: NextPageWithLayout = () => {
   }
 
   React.useEffect(() => {
-    setAddressId(Number(address?.id))
-  }, [address])
+    if (dataPostalCode) {
+      setAddressFormValues(dataPostalCode, setValue)
+      setShowFullAddressForm(true)
+    }
+  }, [dataPostalCode, setValue])
+
+  React.useEffect(() => {
+    if (showFullAddressForm && dataPostalCode) {
+      setFocus('number')
+    }
+  }, [setFocus, showFullAddressForm, dataPostalCode])
 
   if (isLoading) {
     return (
@@ -180,12 +206,20 @@ const EditRecipient: NextPageWithLayout = () => {
               <RecipientAddressForm
                 register={register}
                 errors={errors}
-                address={address}
+                handleChangePostalCode={setPostalCode}
+                showFullAddressForm={true}
+                isLoading={isLoadingPostalCode}
               />
             )}
 
             {showAddressForm && addNewAddress && (
-              <RecipientAddressForm register={register} errors={errors} />
+              <RecipientAddressForm
+                register={register}
+                errors={errors}
+                handleChangePostalCode={setPostalCode}
+                showFullAddressForm={showFullAddressForm}
+                isLoading={isLoadingPostalCode}
+              />
             )}
           </Box>
         </Box>
@@ -194,8 +228,9 @@ const EditRecipient: NextPageWithLayout = () => {
       {!showAddressForm && (
         <SimpleGrid spacing={4} columns={3} mb="4">
           <AddressList
-            setAddress={setAddress}
+            setFormValues={setValue}
             addresses={data?.recipient.addresses}
+            setCurrentAddressId={setCurrentAddressId}
             handleClick={() => {
               setAddNewAddress(false)
               setShowAddressForm(true)
@@ -218,6 +253,7 @@ const EditRecipient: NextPageWithLayout = () => {
           onClick={() => {
             setAddNewAddress(true)
             setShowAddressForm(true)
+            setShowFullAddressForm(false)
             setEditAddress(false)
           }}
         >
@@ -234,6 +270,7 @@ const EditRecipient: NextPageWithLayout = () => {
           textTransform="uppercase"
           variant="solid"
           onClick={() => {
+            clearErrors()
             setAddNewAddress(false)
             setShowAddressForm(false)
             setEditAddress(false)
