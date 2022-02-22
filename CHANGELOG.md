@@ -1,3 +1,11 @@
+# [1.24.0](https://github.com/Dailton-Bastos/fast-feet/compare/v1.23.0...v1.24.0) (2022-02-22)
+
+
+### Features
+
+* add next router back ([c8d39db](https://github.com/Dailton-Bastos/fast-feet/commit/c8d39dbe4cd3622e9150e3bed9b7ceef8756cbe6))
+* get address by postal code ([e730066](https://github.com/Dailton-Bastos/fast-feet/commit/e7300668fe788175a1510b197a11d5ad627d54d1))
+
 # [1.23.0](https://github.com/Dailton-Bastos/fast-feet/compare/v1.22.0...v1.23.0) (2022-02-19)
 
 
