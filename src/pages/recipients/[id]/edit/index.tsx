@@ -95,6 +95,7 @@ const EditRecipient: NextPageWithLayout = () => {
     setValue,
     setFocus,
     clearErrors,
+    setError,
   } = useForm({
     resolver: yupResolver(
       editAddress || addNewAddress
@@ -147,8 +148,24 @@ const EditRecipient: NextPageWithLayout = () => {
   React.useEffect(() => {
     if (showFullAddressForm && dataPostalCode?.zip_code) {
       setFocus('number')
+      clearErrors()
     }
-  }, [setFocus, showFullAddressForm, dataPostalCode])
+  }, [setFocus, showFullAddressForm, dataPostalCode, clearErrors])
+
+  React.useEffect(() => {
+    if (dataPostalCode && !dataPostalCode.zip_code) {
+      setError(
+        'zip_code',
+        {
+          type: 'manual',
+          message: 'CEP não encontrado*',
+        },
+        {
+          shouldFocus: true,
+        }
+      )
+    }
+  }, [dataPostalCode, setError])
 
   if (isLoading) {
     return (

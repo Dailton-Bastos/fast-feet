@@ -38,7 +38,15 @@ const NewRecipient: NextPageWithLayout = () => {
 
   const createAddressMutation = useMutation(createAddress)
 
-  const { register, handleSubmit, formState, setValue, setFocus } = useForm({
+  const {
+    register,
+    handleSubmit,
+    formState,
+    setValue,
+    setFocus,
+    setError,
+    clearErrors,
+  } = useForm({
     resolver: yupResolver(NewRecipientWithAddressFormSchema),
     mode: 'all',
     reValidateMode: 'onSubmit',
@@ -82,13 +90,29 @@ const NewRecipient: NextPageWithLayout = () => {
       setShowFullAddressForm(true)
       setAddressFormValues(data, setValue)
     }
-  }, [data, setValue])
+  }, [data, setValue, setError])
+
+  React.useEffect(() => {
+    if (data && !data.zip_code) {
+      setError(
+        'zip_code',
+        {
+          type: 'manual',
+          message: 'CEP não encontrado*',
+        },
+        {
+          shouldFocus: true,
+        }
+      )
+    }
+  }, [data, setError])
 
   React.useEffect(() => {
     if (showFullAddressForm && data?.zip_code) {
       setFocus('number')
+      clearErrors()
     }
-  }, [setFocus, showFullAddressForm, data])
+  }, [setFocus, showFullAddressForm, data, clearErrors])
 
   return (
     <Container as="section" maxW="container.lg">
