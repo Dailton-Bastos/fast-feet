@@ -1,3 +1,15 @@
+# [1.25.0](https://github.com/Dailton-Bastos/fast-feet/compare/v1.24.0...v1.25.0) (2022-02-23)
+
+
+### Bug Fixes
+
+* **recipient/edit:** add address only if has postal code ([4e5bff8](https://github.com/Dailton-Bastos/fast-feet/commit/4e5bff8fed62b4ee838b49f107d4391a04fe886c))
+
+
+### Features
+
+* **recipient/address:** add notify postal code not found ([dd43e95](https://github.com/Dailton-Bastos/fast-feet/commit/dd43e95c79fa9b8a430433330b6faec08f3c9ed9))
+
 # [1.24.0](https://github.com/Dailton-Bastos/fast-feet/compare/v1.23.0...v1.24.0) (2022-02-22)
 
 
