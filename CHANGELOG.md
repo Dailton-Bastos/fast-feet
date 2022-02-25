@@ -1,3 +1,10 @@
+## [1.25.1](https://github.com/Dailton-Bastos/fast-feet/compare/v1.25.0...v1.25.1) (2022-02-25)
+
+
+### Bug Fixes
+
+* **recipient/address:** memory leak ([e9779d4](https://github.com/Dailton-Bastos/fast-feet/commit/e9779d4fd2d925da8bd12dd21623d4a1030859de))
+
 # [1.25.0](https://github.com/Dailton-Bastos/fast-feet/compare/v1.24.0...v1.25.0) (2022-02-23)
 
 
