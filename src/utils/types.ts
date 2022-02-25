@@ -64,4 +64,13 @@ export type Delivery = {
   updated_at: string
 }
 
+export type DeliveriesProblems = {
+  id: string
+  deliveryId: string
+  descriptions: string[]
+  preview: string
+  createdAt: string
+  updatedAt: string
+}
+
 export type RecipientAndAddressFormData = Address & Recipient

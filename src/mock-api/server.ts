@@ -3,6 +3,7 @@ import { createServer } from 'miragejs'
 import { UserRequest } from './auth/types'
 import { factories } from './factories'
 import { createSession } from './middlewares/createSession'
+import { deliveriesProblems } from './middlewares/deliveriesProblems'
 import { deliverymen } from './middlewares/deliverymen'
 import { recipients } from './middlewares/recipients'
 import { refreshToken } from './middlewares/refreshToken'
@@ -33,6 +34,7 @@ export function makeServer({ environment = 'development' } = {}) {
           'recipients.list',
           'recipients.create',
           'recipients.edit',
+          'problems.list',
         ],
         roles: ['administrator'],
       })
@@ -40,7 +42,7 @@ export function makeServer({ environment = 'development' } = {}) {
       _server.create('user', {
         name: 'Dailton Bastos',
         email: 'dailtonbastos@gmail.com',
-        permissions: ['deliverymen.list', 'recipients.list'],
+        permissions: ['deliverymen.list', 'recipients.list', 'problems.list'],
         roles: ['editor'],
       })
 
@@ -106,7 +108,9 @@ export function makeServer({ environment = 'development' } = {}) {
 
       this.get('/deliveries')
 
-      this.get('/problems')
+      this.get('/problems', (schema, request) =>
+        deliveriesProblems(schema, request)
+      )
 
       this.get('/statistics', (schema) => statistics(schema))
 

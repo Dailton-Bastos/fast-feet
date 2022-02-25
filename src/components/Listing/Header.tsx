@@ -11,7 +11,7 @@ import { Loading } from '../Loading'
 
 interface ListHeaderProps {
   title: string
-  linkTo: string
+  linkTo?: string
 }
 
 export const ListHeader = ({ title, linkTo }: ListHeaderProps) => {
@@ -31,31 +31,33 @@ export const ListHeader = ({ title, linkTo }: ListHeaderProps) => {
         )}
       </Flex>
 
-      <Can roles={['administrator']}>
-        <NextLink href={linkTo} passHref>
-          <Flex
-            as="a"
-            alignItems="center"
-            bgColor="purple.500"
-            borderRadius="base"
-            gap="2"
-            height="9"
-            justifyContent="center"
-            width="40"
-          >
-            <Icon as={RiAddLine} color="white" h={6} w={6} />
-
-            <Text
-              color="white"
-              fontWeight="bold"
-              fontSize="sm"
-              textTransform="uppercase"
+      {!!linkTo && (
+        <Can roles={['administrator']}>
+          <NextLink href={linkTo} passHref>
+            <Flex
+              as="a"
+              alignItems="center"
+              bgColor="purple.500"
+              borderRadius="base"
+              gap="2"
+              height="9"
+              justifyContent="center"
+              width="40"
             >
-              Cadastrar
-            </Text>
-          </Flex>
-        </NextLink>
-      </Can>
+              <Icon as={RiAddLine} color="white" h={6} w={6} />
+
+              <Text
+                color="white"
+                fontWeight="bold"
+                fontSize="sm"
+                textTransform="uppercase"
+              >
+                Cadastrar
+              </Text>
+            </Flex>
+          </NextLink>
+        </Can>
+      )}
     </Flex>
   )
 }
