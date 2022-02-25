@@ -1,5 +1,10 @@
 import React from 'react'
-import { FieldErrors, FieldValues, UseFormRegister } from 'react-hook-form'
+import {
+  FieldErrors,
+  FieldValues,
+  UseFormRegister,
+  UseFormSetError,
+} from 'react-hook-form'
 
 import { Box, Flex, SimpleGrid, Stack, Link } from '@chakra-ui/react'
 
@@ -9,7 +14,9 @@ import { Loading } from '~/components/Loading'
 interface RecipientAddressFormProps {
   register: UseFormRegister<FieldValues>
   errors: FieldErrors
+  setError: UseFormSetError<FieldValues>
   handleChangePostalCode: (cep: string) => void
+  showPostalCodeInput: boolean
   showFullAddressForm: boolean
   isLoading: boolean
 }
@@ -17,11 +24,13 @@ interface RecipientAddressFormProps {
 export const RecipientAddressForm = ({
   register,
   errors,
+  setError,
   handleChangePostalCode,
-  showFullAddressForm = false,
+  showPostalCodeInput,
+  showFullAddressForm,
   isLoading = false,
 }: RecipientAddressFormProps) => {
-  const [timer, setTimer] = React.useState<number>()
+  const [timer, setTimer] = React.useState<number>(0)
 
   function handleChange(cep: string) {
     const reg = /^[0-9]{5}-?[0-9]{3}$/
@@ -30,15 +39,32 @@ export const RecipientAddressForm = ({
 
     clearTimeout(timer)
 
-    if (isValid) {
-      setTimer(window.setTimeout(() => handleChangePostalCode(cep), 2000))
-    }
+    setTimer(
+      window.setTimeout(() => {
+        if (isValid) {
+          handleChangePostalCode(cep)
+        }
+
+        if (!isValid && cep) {
+          setError(
+            'zip_code',
+            {
+              type: 'manual',
+              message: 'Digite um CEP válido.',
+            },
+            {
+              shouldFocus: true,
+            }
+          )
+        }
+      }, 2000)
+    )
   }
 
-  if (!showFullAddressForm) {
+  if (showPostalCodeInput && !showFullAddressForm) {
     return (
       <>
-        <Flex align="flex-end" gap={4} maxW="60" mb="4">
+        <Flex align="center" gap={4} maxW="60" mb="4">
           <Input
             {...register('zip_code')}
             id="zip_code"
@@ -50,7 +76,7 @@ export const RecipientAddressForm = ({
           />
 
           {!!isLoading && (
-            <Box mb="2">
+            <Box mx="auto">
               <Loading size="sm" color="gray.500" />
             </Box>
           )}
@@ -67,68 +93,72 @@ export const RecipientAddressForm = ({
     )
   }
 
-  return (
-    <Stack spacing={4}>
-      <SimpleGrid spacing={4} columns={3}>
-        <Input
-          {...register('zip_code')}
-          id="zip_code"
-          name="zip_code"
-          label="CEP"
-          error={errors.zip_code}
-          onChange={({ target }) => handleChange(target.value)}
-          onBlur={({ target }) => handleChange(target.value)}
-        />
+  if (showFullAddressForm)
+    return (
+      <Stack spacing={4}>
+        <SimpleGrid spacing={4} columns={3}>
+          <Input
+            {...register('zip_code')}
+            id="zip_code"
+            name="zip_code"
+            label="CEP"
+            error={errors.zip_code}
+            onChange={({ target }) => handleChange(target.value)}
+            onBlur={({ target }) => handleChange(target.value)}
+          />
+
+          <Input
+            {...register('street')}
+            id="street"
+            name="street"
+            label="Rua"
+            error={errors.street}
+          />
+
+          <Input
+            {...register('number')}
+            id="number"
+            name="number"
+            label="Número"
+            error={errors.number}
+          />
+        </SimpleGrid>
 
         <Input
-          {...register('street')}
-          id="street"
-          name="street"
-          label="Rua"
-          error={errors.street}
+          {...register('complement')}
+          id="complement"
+          name="complement"
+          label="Complemento"
+          placeholder="Opcional"
         />
 
-        <Input
-          {...register('number')}
-          id="number"
-          name="number"
-          label="Número"
-          error={errors.number}
-        />
-      </SimpleGrid>
+        <SimpleGrid spacing={4} columns={3}>
+          <Input
+            {...register('neighborhood')}
+            id="neighborhood"
+            name="neighborhood"
+            label="Bairro"
+            error={errors.neighborhood}
+          />
 
-      <Input
-        {...register('complement')}
-        id="complement"
-        name="complement"
-        label="Complemento"
-      />
+          <Input
+            {...register('city')}
+            id="city"
+            name="city"
+            label="Cidade"
+            error={errors.city}
+          />
 
-      <SimpleGrid spacing={4} columns={3}>
-        <Input
-          {...register('neighborhood')}
-          id="neighborhood"
-          name="neighborhood"
-          label="Bairro"
-          error={errors.neighborhood}
-        />
+          <Input
+            {...register('state')}
+            id="state"
+            name="state"
+            label="Estado"
+            error={errors.state}
+          />
+        </SimpleGrid>
+      </Stack>
+    )
 
-        <Input
-          {...register('city')}
-          id="city"
-          name="city"
-          label="Cidade"
-          error={errors.city}
-        />
-
-        <Input
-          {...register('state')}
-          id="state"
-          name="state"
-          label="Estado"
-          error={errors.state}
-        />
-      </SimpleGrid>
-    </Stack>
-  )
+  return null
 }

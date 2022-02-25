@@ -31,9 +31,10 @@ import {
 } from '~/validators/newRecipientFormSchema'
 
 const EditRecipient: NextPageWithLayout = () => {
-  const [editAddress, setEditAddress] = React.useState(false)
-  const [addNewAddress, setAddNewAddress] = React.useState(false)
-  const [showAddressForm, setShowAddressForm] = React.useState(false)
+  const [showListAddresses, setShowListAddresses] = React.useState(true)
+  const [isNewAddress, setIsNewAddress] = React.useState(false)
+  const [isEditAddress, setIsEditAddress] = React.useState(false)
+  const [showPostalCodeInput, setShowPostalCodeInput] = React.useState(false)
   const [currentAddressId, setCurrentAddressId] = React.useState<
     number | undefined
   >()
@@ -65,9 +66,6 @@ const EditRecipient: NextPageWithLayout = () => {
   const createAddressMutation = useMutation(createAddress, {
     onSuccess: () => {
       queryClient.invalidateQueries(['recipient', recipientId])
-
-      setAddNewAddress(false)
-      setShowAddressForm(false)
     },
     onError: () => queryClient.cancelMutations(),
   })
@@ -79,13 +77,20 @@ const EditRecipient: NextPageWithLayout = () => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries(['recipient', recipientId])
-
-        setEditAddress(false)
-        setShowAddressForm(false)
       },
       onError: () => queryClient.cancelMutations(),
     }
   )
+
+  function onUpdateAndNewAddressStateMutation() {
+    setIsEditAddress(false)
+    setIsNewAddress(false)
+    setShowFullAddressForm(false)
+    setShowPostalCodeInput(false)
+    setShowListAddresses(true)
+    setPostalCode('')
+    setValue('zip_code', '')
+  }
 
   const {
     register,
@@ -98,7 +103,7 @@ const EditRecipient: NextPageWithLayout = () => {
     setError,
   } = useForm({
     resolver: yupResolver(
-      editAddress || addNewAddress
+      isEditAddress || isNewAddress
         ? NewRecipientWithAddressFormSchema
         : NewRecipientFormSchema
     ),
@@ -127,12 +132,22 @@ const EditRecipient: NextPageWithLayout = () => {
       contact: formData.contact,
     }
 
-    if (addNewAddress) {
-      await createAddressMutation.mutateAsync({ ...address })
+    if (isNewAddress) {
+      await createAddressMutation.mutateAsync(
+        { ...address },
+        {
+          onSuccess: () => onUpdateAndNewAddressStateMutation(),
+        }
+      )
     }
 
-    if (editAddress) {
-      await updateAddressMutation.mutateAsync({ ...address })
+    if (isEditAddress) {
+      await updateAddressMutation.mutateAsync(
+        { ...address },
+        {
+          onSuccess: () => onUpdateAndNewAddressStateMutation(),
+        }
+      )
     }
 
     await updateRecipientMutation.mutateAsync(recipient)
@@ -141,6 +156,7 @@ const EditRecipient: NextPageWithLayout = () => {
   React.useEffect(() => {
     if (dataPostalCode?.zip_code) {
       setAddressFormValues(dataPostalCode, setValue)
+      setShowPostalCodeInput(false)
       setShowFullAddressForm(true)
     }
   }, [dataPostalCode, setValue])
@@ -154,18 +170,23 @@ const EditRecipient: NextPageWithLayout = () => {
 
   React.useEffect(() => {
     if (dataPostalCode && !dataPostalCode.zip_code) {
+      setShowFullAddressForm(false)
+      setShowPostalCodeInput(true)
+      setPostalCode('')
+      setValue('zip_code', '')
+
       setError(
         'zip_code',
         {
           type: 'manual',
-          message: 'CEP não encontrado*',
+          message: 'CEP não encontrado.',
         },
         {
           shouldFocus: true,
         }
       )
     }
-  }, [dataPostalCode, setError])
+  }, [dataPostalCode, setError, setPostalCode, setValue])
 
   if (isLoading) {
     return (
@@ -203,7 +224,7 @@ const EditRecipient: NextPageWithLayout = () => {
               placeholder="John Doe"
               defaultValue={data?.recipient.name}
               error={errors.name}
-              isDisabled={addNewAddress || editAddress}
+              isDisabled={isNewAddress || isEditAddress}
             />
 
             <Input
@@ -214,50 +235,40 @@ const EditRecipient: NextPageWithLayout = () => {
               placeholder="(xx) xxxxx-xxxx"
               defaultValue={data?.recipient.contact}
               error={errors.contact}
-              isDisabled={addNewAddress || editAddress}
+              isDisabled={isNewAddress || isEditAddress}
             />
           </SimpleGrid>
 
           <Box mt="4">
-            {showAddressForm && editAddress && (
-              <RecipientAddressForm
-                register={register}
-                errors={errors}
-                handleChangePostalCode={setPostalCode}
-                showFullAddressForm={true}
-                isLoading={isLoadingPostalCode}
-              />
-            )}
-
-            {showAddressForm && addNewAddress && (
-              <RecipientAddressForm
-                register={register}
-                errors={errors}
-                handleChangePostalCode={setPostalCode}
-                showFullAddressForm={showFullAddressForm}
-                isLoading={isLoadingPostalCode}
-              />
-            )}
+            <RecipientAddressForm
+              register={register}
+              errors={errors}
+              setError={setError}
+              showPostalCodeInput={showPostalCodeInput}
+              handleChangePostalCode={setPostalCode}
+              isLoading={isLoadingPostalCode}
+              showFullAddressForm={showFullAddressForm}
+            />
           </Box>
         </Box>
       </Box>
 
-      {!showAddressForm && (
+      {showListAddresses && (
         <SimpleGrid spacing={4} columns={3} mb="4">
           <AddressList
             setFormValues={setValue}
             addresses={data?.recipient.addresses}
             setCurrentAddressId={setCurrentAddressId}
-            handleClick={() => {
-              setAddNewAddress(false)
-              setShowAddressForm(true)
-              setEditAddress(true)
+            handleClickStates={() => {
+              setShowListAddresses(false)
+              setIsEditAddress(true)
+              setShowFullAddressForm(true)
             }}
           />
         </SimpleGrid>
       )}
 
-      {!showAddressForm ? (
+      {showListAddresses ? (
         <Button
           borderRadius="base"
           colorScheme="purple"
@@ -268,10 +279,9 @@ const EditRecipient: NextPageWithLayout = () => {
           textTransform="uppercase"
           variant="solid"
           onClick={() => {
-            setAddNewAddress(true)
-            setShowAddressForm(true)
-            setShowFullAddressForm(false)
-            setEditAddress(false)
+            setShowListAddresses(false)
+            setIsNewAddress(true)
+            setShowPostalCodeInput(true)
           }}
         >
           Adicionar endereço
@@ -288,10 +298,12 @@ const EditRecipient: NextPageWithLayout = () => {
           variant="solid"
           onClick={() => {
             clearErrors()
-            setAddNewAddress(false)
-            setShowAddressForm(false)
-            setEditAddress(false)
             reset()
+            setShowListAddresses(true)
+            setIsNewAddress(false)
+            setIsEditAddress(false)
+            setShowPostalCodeInput(false)
+            setShowFullAddressForm(false)
           }}
         >
           Cancelar

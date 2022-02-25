@@ -21,6 +21,8 @@ import { NewRecipientWithAddressFormSchema } from '~/validators/newRecipientForm
 const NewRecipient: NextPageWithLayout = () => {
   const [postalCode, setPostalCode] = React.useState('')
   const [showFullAddressForm, setShowFullAddressForm] = React.useState(false)
+  const [showPostalCodeInput, setShowPostalCodeInput] = React.useState(true)
+
   const queryClient = useQueryClient()
   const router = useRouter()
 
@@ -38,6 +40,13 @@ const NewRecipient: NextPageWithLayout = () => {
 
   const createAddressMutation = useMutation(createAddress)
 
+  function onCreateRecipeStateMutation() {
+    setShowFullAddressForm(false)
+    setShowPostalCodeInput(false)
+    setPostalCode('')
+    setValue('zip_code', '')
+  }
+
   const {
     register,
     handleSubmit,
@@ -46,6 +55,7 @@ const NewRecipient: NextPageWithLayout = () => {
     setFocus,
     setError,
     clearErrors,
+    resetField,
   } = useForm({
     resolver: yupResolver(NewRecipientWithAddressFormSchema),
     mode: 'all',
@@ -71,41 +81,52 @@ const NewRecipient: NextPageWithLayout = () => {
 
     const recipient = await createRecipient.mutateAsync({ name, contact })
 
-    await createAddressMutation.mutateAsync({
-      zip_code,
-      street,
-      number,
-      complement,
-      neighborhood,
-      city,
-      state,
-      recipientId: recipient.id,
-    })
+    await createAddressMutation.mutateAsync(
+      {
+        zip_code,
+        street,
+        number,
+        complement,
+        neighborhood,
+        city,
+        state,
+        recipientId: recipient.id,
+      },
+      {
+        onSuccess: () => onCreateRecipeStateMutation(),
+      }
+    )
 
     router.push('/recipients')
   }
 
   React.useEffect(() => {
     if (data?.zip_code) {
-      setShowFullAddressForm(true)
       setAddressFormValues(data, setValue)
+      setShowFullAddressForm(true)
+      setShowPostalCodeInput(false)
     }
   }, [data, setValue, setError])
 
   React.useEffect(() => {
     if (data && !data.zip_code) {
+      setShowFullAddressForm(false)
+      setShowPostalCodeInput(true)
+      setPostalCode('')
+      resetField('zip_code')
+
       setError(
         'zip_code',
         {
           type: 'manual',
-          message: 'CEP não encontrado*',
+          message: 'CEP não encontrado.',
         },
         {
           shouldFocus: true,
         }
       )
     }
-  }, [data, setError])
+  }, [data, setError, resetField])
 
   React.useEffect(() => {
     if (showFullAddressForm && data?.zip_code) {
@@ -157,8 +178,10 @@ const NewRecipient: NextPageWithLayout = () => {
             <RecipientAddressForm
               register={register}
               errors={errors}
+              setError={setError}
               handleChangePostalCode={setPostalCode}
               showFullAddressForm={showFullAddressForm}
+              showPostalCodeInput={showPostalCodeInput}
               isLoading={isLoading}
             />
           </Stack>

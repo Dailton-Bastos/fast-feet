@@ -18,14 +18,14 @@ import { Address } from '~/utils/types'
 
 interface AddressListProps {
   addresses?: Address[]
-  handleClick: () => void
+  handleClickStates: () => void
   setCurrentAddressId: React.Dispatch<React.SetStateAction<number | undefined>>
   setFormValues: UseFormSetValue<FieldValues>
 }
 
 export const AddressList = ({
   addresses = [],
-  handleClick,
+  handleClickStates,
   setCurrentAddressId,
   setFormValues,
 }: AddressListProps) => {
@@ -72,7 +72,7 @@ export const AddressList = ({
               fontWeight="normal"
               width="50%"
               onClick={() => {
-                handleClick()
+                handleClickStates()
                 setAddressFormValues(address, setFormValues)
                 setCurrentAddressId(address.id)
               }}
