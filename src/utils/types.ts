@@ -66,6 +66,7 @@ export type Delivery = {
 
 export type DeliveriesProblems = {
   id: string
+  delivery: Delivery
   deliveryId: string
   descriptions: string[]
   preview: string

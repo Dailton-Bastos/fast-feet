@@ -30,7 +30,7 @@ export const getDeliveriesProblems = async (
       id: problem.id,
       descriptions: problem.descriptions,
       preview: truncateString(problem.descriptions[0], 85),
-      deliveryId: problem.deliveryId,
+      delivery: problem.delivery,
       createdAt: new Date(problem.createdAt).toLocaleDateString('pt-BR', {
         day: '2-digit',
         month: 'long',

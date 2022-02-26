@@ -48,11 +48,11 @@ export function makeServer({ environment = 'development' } = {}) {
 
       _server.createList('user', 8)
 
-      const deliverymen = _server.createList('deliveryman', 12)
+      const deliverymen = _server.createList('deliveryman', 4)
 
-      const recipients = _server.createList('recipient', 18, 'withAddress')
+      const recipients = _server.createList('recipient', 13, 'withAddress')
 
-      const deliveries = _server.createList('delivery', 26)
+      const deliveries = _server.createList('delivery', 24)
 
       deliveries.forEach((delivery) => {
         const deliveryman = Math.floor(Math.random() * deliverymen.length)
@@ -65,9 +65,13 @@ export function makeServer({ environment = 'development' } = {}) {
       })
 
       _server.createList('problem', 8).forEach((problem) => {
-        const delivery = Math.floor(Math.random() * deliveries.length)
+        const delivery = _server.create('delivery', {
+          status: 'pending',
+          deliveryman: _server.create('deliveryman'),
+          recipient: _server.create('recipient', 'withAddress'),
+        })
         problem.update({
-          delivery: deliveries[delivery],
+          delivery,
         })
       })
     },
