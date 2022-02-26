@@ -1,3 +1,11 @@
+# [1.26.0](https://github.com/Dailton-Bastos/fast-feet/compare/v1.25.1...v1.26.0) (2022-02-26)
+
+
+### Features
+
+* **a:** add deliveries problems page ([5ee121d](https://github.com/Dailton-Bastos/fast-feet/commit/5ee121d4e4432ee79cbc228ee90c230eb5a70509))
+* **deliveriesproblems:** add problem description on modal ([83d1493](https://github.com/Dailton-Bastos/fast-feet/commit/83d14939ed49cf6412e66d843ab064602396f432))
+
 ## [1.25.1](https://github.com/Dailton-Bastos/fast-feet/compare/v1.25.0...v1.25.1) (2022-02-25)
 
 
