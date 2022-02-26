@@ -3,6 +3,7 @@ import { createServer } from 'miragejs'
 import { UserRequest } from './auth/types'
 import { factories } from './factories'
 import { createSession } from './middlewares/createSession'
+import { deliveries } from './middlewares/deliveries'
 import { deliveriesProblems } from './middlewares/deliveriesProblems'
 import { deliverymen } from './middlewares/deliverymen'
 import { recipients } from './middlewares/recipients'
@@ -35,6 +36,7 @@ export function makeServer({ environment = 'development' } = {}) {
           'recipients.create',
           'recipients.edit',
           'problems.list',
+          'deliveries.list',
         ],
         roles: ['administrator'],
       })
@@ -65,11 +67,18 @@ export function makeServer({ environment = 'development' } = {}) {
       })
 
       _server.createList('problem', 8).forEach((problem) => {
+        const status = {
+          name: 'pending' as const,
+          bgColor: '',
+          color: '',
+        }
+
         const delivery = _server.create('delivery', {
-          status: 'pending',
+          status,
           deliveryman: _server.create('deliveryman'),
           recipient: _server.create('recipient', 'withAddress'),
         })
+
         problem.update({
           delivery,
         })
@@ -110,7 +119,7 @@ export function makeServer({ environment = 'development' } = {}) {
       this.patch('/addresses/:id')
       this.delete('/addresses/:id')
 
-      this.get('/deliveries')
+      this.get('/deliveries', (schema, request) => deliveries(schema, request))
 
       this.get('/problems', (schema, request) =>
         deliveriesProblems(schema, request)

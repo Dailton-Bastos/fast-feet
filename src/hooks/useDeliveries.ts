@@ -3,30 +3,19 @@ import { useQuery } from 'react-query'
 import { api } from '~/services/apiClient'
 import { Delivery } from '~/utils/types'
 
-type DeliveryProps = {
-  id: string
-  recipient: string
-  deliveryman: {
-    name: string
-    avatar: string
-  }
-  address: {
-    city: string
-    state: string
-  }
-  status: {
-    name: string
-    color: string
-    bgColor: string
-  }
-}
-
 type GetDeliveriesResponse = {
-  deliveries: DeliveryProps[]
+  deliveries: Delivery[]
+  totalCount: number
 }
 
-export const getDeliveries = async (): Promise<GetDeliveriesResponse> => {
-  const { data } = await api.get('deliveries')
+export const getDeliveries = async (
+  page?: number
+): Promise<GetDeliveriesResponse> => {
+  const { data, headers } = await api.get('deliveries', {
+    params: { page },
+  })
+
+  const totalCount = Number(headers['x-total-count'])
 
   const deliveries = data?.deliveries?.map((delivery: Delivery) => {
     const status = {
@@ -35,7 +24,7 @@ export const getDeliveries = async (): Promise<GetDeliveriesResponse> => {
       bgColor: '',
     }
 
-    switch (delivery.status) {
+    switch (delivery.status.name) {
       case 'shipped':
         ;(status.name = 'Retirada'),
           (status.color = '#4d85ee'),
@@ -64,23 +53,51 @@ export const getDeliveries = async (): Promise<GetDeliveriesResponse> => {
     return {
       id: delivery.id,
       status,
-      recipient: delivery.recipient?.name ?? null,
-      deliveryman: {
-        name: delivery.deliveryman ? delivery.deliveryman.name : null,
-        avatar: delivery.deliveryman ? delivery.deliveryman.avatar : null,
-      },
-      address: {
-        city: delivery.recipient?.addresses[0].city ?? null,
-        state: delivery.recipient?.addresses[0].state ?? null,
-      },
+      recipient: delivery.recipient ?? null,
+      deliveryman: delivery.deliveryman ?? null,
+      selectedAddress: delivery.recipient?.addresses[0] ?? null,
+      shippedAt: delivery.shippedAt
+        ? new Date(delivery.shippedAt).toLocaleDateString('pt-BR', {
+            day: '2-digit',
+            month: 'long',
+            year: 'numeric',
+          })
+        : null,
+
+      deliveredAt: delivery.deliveredAt
+        ? new Date(delivery.deliveredAt).toLocaleDateString('pt-BR', {
+            day: '2-digit',
+            month: 'long',
+            year: 'numeric',
+          })
+        : null,
+
+      cancelledAt: delivery.cancelledAt
+        ? new Date(delivery.cancelledAt).toLocaleDateString('pt-BR', {
+            day: '2-digit',
+            month: 'long',
+            year: 'numeric',
+          })
+        : null,
+
+      createdAt: new Date(delivery.createdAt).toLocaleDateString('pt-BR', {
+        day: '2-digit',
+        month: 'long',
+        year: 'numeric',
+      }),
+      updatedAt: new Date(delivery.updatedAt).toLocaleDateString('pt-BR', {
+        day: '2-digit',
+        month: 'long',
+        year: 'numeric',
+      }),
     }
   })
 
-  return { deliveries }
+  return { deliveries, totalCount }
 }
 
-export function useDeliveries() {
-  return useQuery('deliveries', () => getDeliveries(), {
+export function useDeliveries(page?: number) {
+  return useQuery(['deliveries', page], () => getDeliveries(page), {
     staleTime: 1000 * 60 * 10, // 10 minutes
   })
 }

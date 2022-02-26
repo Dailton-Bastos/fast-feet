@@ -4,7 +4,11 @@ export type Delivery = {
   recipient: BelongsTo<string>
   deliveryman: BelongsTo<string>
   problems: HasMany<string>
-  status: 'pending' | 'shipped' | 'cancelled' | 'delivered'
+  status: {
+    name: 'pending' | 'shipped' | 'cancelled' | 'delivered'
+    color: string
+    bgColor: string
+  }
   signature: string
   shipped_at?: string
   delivered_at?: string

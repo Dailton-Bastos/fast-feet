@@ -1,6 +1,6 @@
-import { RestSerializer } from 'miragejs'
+import { ActiveModelSerializer } from 'miragejs'
 
-export const delivery = RestSerializer.extend({
+export const delivery = ActiveModelSerializer.extend({
   include: ['recipient', 'deliveryman'],
   embed: true,
 })

@@ -82,12 +82,12 @@ export const RecentDeliveries = () => {
           </Thead>
 
           <Tbody>
-            {deliveries?.map((delivery) => (
+            {/* {deliveries?.map((delivery) => (
               <Tr key={delivery.id}>
                 <Td color="#666">{`#0${delivery.id}`}</Td>
                 <Td color="#666">{delivery.recipient}</Td>
-                <Td color="#666">{delivery.address.city}</Td>
-                <Td color="#666">{delivery.address.state}</Td>
+                <Td color="#666">{delivery.selectedAddress.city}</Td>
+                <Td color="#666">{delivery.selectedAddress.state}</Td>
                 <Td>
                   <Tag
                     bg={delivery.status.bgColor}
@@ -113,7 +113,7 @@ export const RecentDeliveries = () => {
                   </Tag>
                 </Td>
               </Tr>
-            ))}
+            ))} */}
           </Tbody>
         </Table>
       </Box>

@@ -55,13 +55,18 @@ export type Delivery = {
   recipient: Recipient
   deliveryman: Deliveryman
   problems: string
-  status: 'pending' | 'shipped' | 'cancelled' | 'delivered'
+  selectedAddress: Address
+  status: {
+    name: 'pending' | 'shipped' | 'cancelled' | 'delivered'
+    color: string
+    bgColor: string
+  }
   signature: string
-  shipped_at?: string
-  delivered_at?: string
-  cancelled_at?: string
-  created_at: string
-  updated_at: string
+  shippedAt: string
+  deliveredAt: string
+  cancelledAt: string
+  createdAt: string
+  updatedAt: string
 }
 
 export type DeliveriesProblems = {
