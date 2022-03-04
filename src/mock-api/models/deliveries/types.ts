@@ -4,15 +4,11 @@ export type Delivery = {
   recipient: BelongsTo<string>
   deliveryman: BelongsTo<string>
   problems: HasMany<string>
-  status: {
-    name: 'pending' | 'shipped' | 'cancelled' | 'delivered'
-    color: string
-    bgColor: string
-  }
+  status: 'pending' | 'shipped' | 'cancelled' | 'delivered'
   signature: string
-  shipped_at?: string
-  delivered_at?: string
-  cancelled_at?: string
+  shipped_at?: Date
+  delivered_at?: Date
+  cancelled_at?: Date
   created_at: string
   updated_at: string
 }

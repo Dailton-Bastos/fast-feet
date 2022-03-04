@@ -28,7 +28,7 @@ export type Deliveryman = {
 export type Address = {
   id: number
   recipientId: string
-  zip_code: string
+  zipCode: string
   street: string
   number: string
   complement?: string
@@ -56,15 +56,16 @@ export type Delivery = {
   deliveryman: Deliveryman
   problems: string
   selectedAddress: Address
-  status: {
-    name: 'pending' | 'shipped' | 'cancelled' | 'delivered'
+  status: 'pending' | 'shipped' | 'cancelled' | 'delivered'
+  formattedStatus: {
+    name: string
     color: string
     bgColor: string
   }
   signature: string
-  shippedAt: string
-  deliveredAt: string
-  cancelledAt: string
+  shipped_at: string
+  delivered_at: string
+  cancelled_at: string
   createdAt: string
   updatedAt: string
 }

@@ -15,7 +15,6 @@ export const Modal = ({ isOpen = false, onClose, children }: ModalProps) => {
       onClose={onClose}
       isCentered
       motionPreset="slideInBottom"
-      scrollBehavior="inside"
     >
       <ModalOverlay bg="rgba(0,0,0,0.6)" />
 

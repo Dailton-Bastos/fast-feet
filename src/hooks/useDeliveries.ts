@@ -18,62 +18,64 @@ export const getDeliveries = async (
   const totalCount = Number(headers['x-total-count'])
 
   const deliveries = data?.deliveries?.map((delivery: Delivery) => {
-    const status = {
+    const formattedStatus = {
       name: '',
       color: '',
       bgColor: '',
     }
 
-    switch (delivery.status.name) {
+    switch (delivery.status) {
       case 'shipped':
-        ;(status.name = 'Retirada'),
-          (status.color = '#4d85ee'),
-          (status.bgColor = '#bad2ff')
+        ;(formattedStatus.name = 'Retirada'),
+          (formattedStatus.color = '#4d85ee'),
+          (formattedStatus.bgColor = '#bad2ff')
         break
 
       case 'delivered':
-        ;(status.name = 'Entregue'),
-          (status.color = '#2ca42b'),
-          (status.bgColor = '#dff0df')
+        ;(formattedStatus.name = 'Entregue'),
+          (formattedStatus.color = '#2ca42b'),
+          (formattedStatus.bgColor = '#dff0df')
         break
 
       case 'cancelled':
-        ;(status.name = 'Cancelado'),
-          (status.color = '#de3b3b'),
-          (status.bgColor = '#fab0b0')
+        ;(formattedStatus.name = 'Cancelada'),
+          (formattedStatus.color = '#de3b3b'),
+          (formattedStatus.bgColor = '#fab0b0')
         break
 
       default:
-        ;(status.name = 'Pendente'),
-          (status.color = '#c1bc35'),
-          (status.bgColor = '#f0f0df')
+        ;(formattedStatus.name = 'Pendente'),
+          (formattedStatus.color = '#c1bc35'),
+          (formattedStatus.bgColor = '#f0f0df')
         break
     }
 
     return {
       id: delivery.id,
-      status,
+      status: delivery.status,
+      formattedStatus,
       recipient: delivery.recipient ?? null,
+      signature: delivery.signature,
       deliveryman: delivery.deliveryman ?? null,
       selectedAddress: delivery.recipient?.addresses[0] ?? null,
-      shippedAt: delivery.shippedAt
-        ? new Date(delivery.shippedAt).toLocaleDateString('pt-BR', {
+      shipped_at: delivery.shipped_at
+        ? new Date(delivery.shipped_at).toLocaleDateString('pt-BR', {
             day: '2-digit',
             month: 'long',
             year: 'numeric',
           })
         : null,
 
-      deliveredAt: delivery.deliveredAt
-        ? new Date(delivery.deliveredAt).toLocaleDateString('pt-BR', {
+      delivered_at: delivery.delivered_at
+        ? new Date(delivery.delivered_at).toLocaleDateString('pt-BR', {
             day: '2-digit',
             month: 'long',
             year: 'numeric',
           })
         : null,
 
-      cancelledAt: delivery.cancelledAt
-        ? new Date(delivery.cancelledAt).toLocaleDateString('pt-BR', {
+      cancelled_at: delivery.cancelled_at
+        ? new Date(delivery.cancelled_at).toLocaleDateString('pt-BR', {
             day: '2-digit',
             month: 'long',
             year: 'numeric',

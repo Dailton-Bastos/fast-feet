@@ -3,6 +3,7 @@ import {
   RiEdit2Fill,
   RiDeleteBin2Fill,
   RiCheckboxBlankCircleFill,
+  RiEyeLine,
 } from 'react-icons/ri'
 
 import {
@@ -10,6 +11,7 @@ import {
   Td,
   Tr,
   Avatar,
+  Image,
   MenuList,
   MenuDivider,
   Flex,
@@ -17,6 +19,10 @@ import {
   Tag,
   TagLeftIcon,
   TagLabel,
+  useDisclosure,
+  ModalContent,
+  ModalBody,
+  Stack,
 } from '@chakra-ui/react'
 import NextLink from 'next/link'
 
@@ -29,12 +35,15 @@ import { ListMenu } from '../Listing/Menu'
 import { MenuItem } from '../Listing/MenuItem'
 import { ListTable } from '../Listing/Table'
 import { Loading } from '../Loading'
+import { Modal } from '../Modal'
 import { Pagination } from '../Pagination'
 
 export const ListDeliveries = () => {
   const [page, setPage] = React.useState(1)
+  const [delivery, setDelivery] = React.useState<Delivery>()
   const { data, isLoading, isFetching, isError } = useDeliveries(page)
   const { setIsLoading, setIsFetching } = useQueryContext()
+  const { isOpen, onOpen, onClose } = useDisclosure()
 
   React.useEffect(() => {
     setIsLoading(isLoading)
@@ -95,7 +104,7 @@ export const ListDeliveries = () => {
 
               <Td>
                 <Tag
-                  bg={delivery.status.bgColor}
+                  bg={delivery.formattedStatus.bgColor}
                   borderRadius="full"
                   h="7"
                   justifyContent="center"
@@ -105,15 +114,15 @@ export const ListDeliveries = () => {
                   <TagLeftIcon
                     as={RiCheckboxBlankCircleFill}
                     boxSize="12px"
-                    color={delivery.status.color}
+                    color={delivery.formattedStatus.color}
                   />
                   <TagLabel
-                    color={delivery.status.color}
+                    color={delivery.formattedStatus.color}
                     fontWeight="semibold"
                     fontSize="sm"
                     textTransform="uppercase"
                   >
-                    {delivery.status.name}
+                    {delivery.formattedStatus.name}
                   </TagLabel>
                 </Tag>
               </Td>
@@ -121,6 +130,20 @@ export const ListDeliveries = () => {
               <Td textAlign="right">
                 <ListMenu>
                   <MenuList minW={40}>
+                    <Box
+                      onClick={() => {
+                        onOpen()
+                        setDelivery(delivery)
+                      }}
+                    >
+                      <MenuItem
+                        Icon={<RiEyeLine color="#8e5be8" size={18} />}
+                        buttonTitle="Visualizar"
+                      />
+                    </Box>
+
+                    <MenuDivider />
+
                     <NextLink href={`/deliveries/${delivery.id}/edit`}>
                       <a>
                         <MenuItem
@@ -153,6 +176,90 @@ export const ListDeliveries = () => {
           onPageChange={setPage}
         />
       )}
+
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalContent>
+          <ModalBody p="6">
+            <Text color="gray.600" fontWeight="bold" fontSize="sm">
+              Informações da encomenda
+            </Text>
+
+            {delivery && (
+              <>
+                <Box my="2">
+                  <Stack spacing="1" color="#666">
+                    <Text>
+                      {delivery.selectedAddress.street},{' '}
+                      {delivery.selectedAddress.number}
+                    </Text>
+                    <Text>
+                      {delivery.selectedAddress.city} -{' '}
+                      {delivery.selectedAddress.state}
+                    </Text>
+                    <Text>{delivery.selectedAddress.zipCode}</Text>
+                  </Stack>
+                </Box>
+
+                <MenuDivider />
+
+                <Box my="2">
+                  <Text color="gray.600" fontWeight="bold" fontSize="sm">
+                    Datas
+                  </Text>
+                  <Stack spacing="1">
+                    <Text color="#666" fontWeight="semibold">
+                      Retirada:{' '}
+                      <Text as="span" fontWeight="normal">
+                        {delivery.shipped_at}
+                      </Text>
+                    </Text>
+
+                    {delivery.status === 'delivered' && (
+                      <Text color="#666" fontWeight="semibold">
+                        Entrega:{' '}
+                        <Text as="span" fontWeight="normal">
+                          {delivery.delivered_at}
+                        </Text>
+                      </Text>
+                    )}
+
+                    {delivery.status === 'cancelled' && (
+                      <Text color="#666" fontWeight="semibold">
+                        Cancelada:{' '}
+                        <Text as="span" fontWeight="normal">
+                          {delivery.cancelled_at}
+                        </Text>
+                      </Text>
+                    )}
+                  </Stack>
+                </Box>
+
+                {delivery.status === 'delivered' && (
+                  <>
+                    <MenuDivider />
+
+                    <Box my="2">
+                      <Text
+                        color="gray.600"
+                        fontWeight="bold"
+                        fontSize="sm"
+                        mb="6"
+                      >
+                        Assinatura do destinatário
+                      </Text>
+
+                      <Image
+                        src={delivery.signature}
+                        alt={delivery.recipient.name}
+                      />
+                    </Box>
+                  </>
+                )}
+              </>
+            )}
+          </ModalBody>
+        </ModalContent>
+      </Modal>
     </Box>
   )
 }

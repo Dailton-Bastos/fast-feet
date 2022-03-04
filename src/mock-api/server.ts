@@ -1,3 +1,4 @@
+import faker from '@faker-js/faker'
 import { createServer } from 'miragejs'
 
 import { UserRequest } from './auth/types'
@@ -50,33 +51,63 @@ export function makeServer({ environment = 'development' } = {}) {
 
       _server.createList('user', 8)
 
-      const deliverymen = _server.createList('deliveryman', 4)
-
+      const deliverymen = _server.createList('deliveryman', 7)
       const recipients = _server.createList('recipient', 13, 'withAddress')
 
-      const deliveries = _server.createList('delivery', 24)
+      const deliveriesDelivered = _server.createList('delivery', 13, {
+        status: 'delivered',
+        signature:
+          'https://www.signwell.com/assets/vip-signatures/marilyn-monroe-signature-7fff246e7835644c8d4b11d60ed1fb965b4ef778f476f3f543904e6fdf1237b7.svg',
+      })
 
-      deliveries.forEach((delivery) => {
-        const deliveryman = Math.floor(Math.random() * deliverymen.length)
-        const recipient = Math.floor(Math.random() * recipients.length)
-
+      deliveriesDelivered.forEach((delivery) => {
         delivery.update({
-          deliveryman: deliverymen[deliveryman],
-          recipient: recipients[recipient],
+          shipped_at: faker.date.between(
+            '2021-10-01T00:00:00.000Z',
+            '2022-02-01T00:00:00.000Z'
+          ),
+          delivered_at: faker.date.recent(10),
+          deliveryman:
+            deliverymen[Math.floor(Math.random() * deliverymen.length)],
+          recipient: recipients[Math.floor(Math.random() * recipients.length)],
+        })
+      })
+
+      const deliveriesShipped = _server.createList('delivery', 6, {
+        status: 'shipped',
+      })
+
+      deliveriesShipped.forEach((delivery) => {
+        delivery.update({
+          shipped_at: faker.date.recent(10),
+          deliveryman:
+            deliverymen[Math.floor(Math.random() * deliverymen.length)],
+          recipient: recipients[Math.floor(Math.random() * recipients.length)],
+        })
+      })
+
+      const deliveriesCancelled = _server.createList('delivery', 7, {
+        status: 'cancelled',
+      })
+
+      deliveriesCancelled.forEach((delivery) => {
+        delivery.update({
+          shipped_at: faker.date.between(
+            '2021-10-01T00:00:00.000Z',
+            '2022-02-01T00:00:00.000Z'
+          ),
+          cancelled_at: faker.date.recent(10),
+          deliveryman:
+            deliverymen[Math.floor(Math.random() * deliverymen.length)],
+          recipient: recipients[Math.floor(Math.random() * recipients.length)],
         })
       })
 
       _server.createList('problem', 8).forEach((problem) => {
-        const status = {
-          name: 'pending' as const,
-          bgColor: '',
-          color: '',
-        }
-
         const delivery = _server.create('delivery', {
-          status,
-          deliveryman: _server.create('deliveryman'),
-          recipient: _server.create('recipient', 'withAddress'),
+          deliveryman:
+            deliverymen[Math.floor(Math.random() * deliverymen.length)],
+          recipient: recipients[Math.floor(Math.random() * recipients.length)],
         })
 
         problem.update({
