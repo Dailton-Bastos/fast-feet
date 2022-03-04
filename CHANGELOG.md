@@ -1,3 +1,11 @@
+# [1.27.0](https://github.com/Dailton-Bastos/fast-feet/compare/v1.26.0...v1.27.0) (2022-03-04)
+
+
+### Features
+
+* **deliveries:** add delivery modal details ([6112ef9](https://github.com/Dailton-Bastos/fast-feet/commit/6112ef94fab722eca8d6a973de83a569edcbfaf4))
+* **deliveries:** add list all deliveries ([56f39d8](https://github.com/Dailton-Bastos/fast-feet/commit/56f39d81ac40141e27dc2b04b4055e012da2785e))
+
 # [1.26.0](https://github.com/Dailton-Bastos/fast-feet/compare/v1.25.1...v1.26.0) (2022-02-26)
 
 
