@@ -1,3 +1,10 @@
+# [1.28.0](https://github.com/Dailton-Bastos/fast-feet/compare/v1.27.0...v1.28.0) (2022-03-05)
+
+
+### Features
+
+* **deliveries:** add hook to cancell delivery ([68aaec9](https://github.com/Dailton-Bastos/fast-feet/commit/68aaec9fd1f238e6e7cb4f8350c46f5ed508c750))
+
 # [1.27.0](https://github.com/Dailton-Bastos/fast-feet/compare/v1.26.0...v1.27.0) (2022-03-04)
 
 
