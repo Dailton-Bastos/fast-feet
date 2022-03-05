@@ -101,6 +101,23 @@ export const getDeliveries = async (
   return { deliveries, totalCount }
 }
 
+export const createDelivery = async (delivery: Partial<Delivery>) => {
+  try {
+    const response = await api.post('/deliveries', {
+      delivery: {
+        ...delivery,
+        status: 'pending',
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+    })
+
+    return response.data.delivery
+  } catch (error) {
+    throw new Error('Error')
+  }
+}
+
 export const useCancellDelivery = (delivery: Delivery | null) => {
   const { onToggle, isOpen: isOpenModalCancel } = useDisclosure()
 

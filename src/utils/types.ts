@@ -40,7 +40,7 @@ export type Address = {
 }
 
 export type Recipient = {
-  id: string
+  id: number
   name: string
   addresses: Address[]
   formattedAddresses?: Address[]

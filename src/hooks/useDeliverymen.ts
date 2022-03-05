@@ -9,11 +9,13 @@ type GetDeliverymenResponse = {
 }
 
 export const getDeliverymen = async (
-  page: number
+  page: number,
+  per_page?: number
 ): Promise<GetDeliverymenResponse> => {
   const { data, headers } = await api.get('deliverymen', {
     params: {
       page,
+      per_page,
     },
   })
 
@@ -41,8 +43,8 @@ export const getDeliverymen = async (
   return { deliverymen, totalCount }
 }
 
-export function useDeliverymen(page: number) {
-  return useQuery(['deliverymen', page], () => getDeliverymen(page), {
+export function useDeliverymen(page: number, per_page?: number) {
+  return useQuery(['deliverymen', page], () => getDeliverymen(page, per_page), {
     staleTime: 1000 * 60 * 10, // 10 minutes
   })
 }

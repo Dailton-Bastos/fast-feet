@@ -9,10 +9,11 @@ type GetRecipientsResponse = {
 }
 
 export const getRecipients = async (
-  page: number
+  page: number,
+  per_page?: number
 ): Promise<GetRecipientsResponse> => {
   const { data, headers } = await api.get('recipients', {
-    params: { page },
+    params: { page, per_page },
   })
 
   const totalCount = Number(headers['x-total-count'])
@@ -44,8 +45,8 @@ export const getRecipients = async (
   return { recipients, totalCount }
 }
 
-export function useRecipients(page: number) {
-  return useQuery(['recipients', page], () => getRecipients(page), {
+export function useRecipients(page: number, per_page?: number) {
+  return useQuery(['recipients', page], () => getRecipients(page, per_page), {
     staleTime: 1000 * 60 * 10, // 10 minutes
   })
 }
