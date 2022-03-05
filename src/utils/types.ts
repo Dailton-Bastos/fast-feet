@@ -63,9 +63,9 @@ export type Delivery = {
     bgColor: string
   }
   signature: string
-  shipped_at: string
-  delivered_at: string
-  cancelled_at: string
+  shippedAt: string
+  deliveredAt: string
+  cancelledAt: string
   createdAt: string
   updatedAt: string
 }

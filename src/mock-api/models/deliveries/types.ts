@@ -6,9 +6,9 @@ export type Delivery = {
   problems: HasMany<string>
   status: 'pending' | 'shipped' | 'cancelled' | 'delivered'
   signature: string
-  shipped_at?: Date
-  delivered_at?: Date
-  cancelled_at?: Date
+  shipped_at: string
+  delivered_at: string
+  cancelled_at: string
   created_at: string
   updated_at: string
 }

@@ -68,7 +68,7 @@ export const ModalConfirm = ({
             onClick={handleClick}
             isLoading={isLoading}
           >
-            Excluir
+            Continuar
           </Button>
         </ModalFooter>
       </ModalContent>

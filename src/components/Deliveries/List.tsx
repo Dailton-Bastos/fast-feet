@@ -23,7 +23,7 @@ import {
 import NextLink from 'next/link'
 
 import { useQueryContext } from '~/contexts/QueryContext'
-import { useDeliveries } from '~/hooks/useDeliveries'
+import { useCancellDelivery, useDeliveries } from '~/hooks/useDeliveries'
 import { Delivery } from '~/utils/types'
 
 import { ErrorMessage } from '../ErrorMessage'
@@ -31,15 +31,19 @@ import { ListMenu } from '../Listing/Menu'
 import { MenuItem } from '../Listing/MenuItem'
 import { ListTable } from '../Listing/Table'
 import { Loading } from '../Loading'
+import { ModalConfirm } from '../ModalConfirm'
 import { Pagination } from '../Pagination'
 import { DeliveryModalDetails } from './DeliveryModalDetails'
 
 export const ListDeliveries = () => {
   const [page, setPage] = React.useState(1)
-  const [delivery, setDelivery] = React.useState<Delivery>()
+  const [delivery, setDelivery] = React.useState<Delivery | null>(null)
   const { data, isLoading, isFetching, isError } = useDeliveries(page)
   const { setIsLoading, setIsFetching } = useQueryContext()
   const { isOpen, onOpen, onClose } = useDisclosure()
+
+  const { mutateAsync, isLoadingCancelMutation, isOpenModalCancel, onToggle } =
+    useCancellDelivery(delivery)
 
   React.useEffect(() => {
     setIsLoading(isLoading)
@@ -149,12 +153,26 @@ export const ListDeliveries = () => {
                       </a>
                     </NextLink>
 
-                    <MenuDivider />
+                    {(delivery.status === 'pending' ||
+                      delivery.status === 'shipped') && (
+                      <>
+                        <MenuDivider />
 
-                    <MenuItem
-                      Icon={<RiDeleteBin2Fill color="#de3b3b" size={18} />}
-                      buttonTitle="Excluir"
-                    />
+                        <Box
+                          onClick={() => {
+                            setDelivery(delivery)
+                            onToggle()
+                          }}
+                        >
+                          <MenuItem
+                            Icon={
+                              <RiDeleteBin2Fill color="#de3b3b" size={18} />
+                            }
+                            buttonTitle="Cancelar"
+                          />
+                        </Box>
+                      </>
+                    )}
                   </MenuList>
                 </ListMenu>
               </Td>
@@ -180,6 +198,13 @@ export const ListDeliveries = () => {
           delivery={delivery}
         />
       )}
+
+      <ModalConfirm
+        isOpen={isOpenModalCancel}
+        onToggle={onToggle}
+        handleClick={mutateAsync}
+        isLoading={isLoadingCancelMutation}
+      />
     </Box>
   )
 }

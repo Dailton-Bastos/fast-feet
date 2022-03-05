@@ -1,6 +1,9 @@
-import { useQuery } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
+
+import { useDisclosure } from '@chakra-ui/react'
 
 import { api } from '~/services/apiClient'
+import { queryClient } from '~/services/queryClient'
 import { Delivery } from '~/utils/types'
 
 type GetDeliveriesResponse = {
@@ -58,24 +61,24 @@ export const getDeliveries = async (
       signature: delivery.signature,
       deliveryman: delivery.deliveryman ?? null,
       selectedAddress: delivery.recipient?.addresses[0] ?? null,
-      shipped_at: delivery.shipped_at
-        ? new Date(delivery.shipped_at).toLocaleDateString('pt-BR', {
+      shippedAt: delivery.shippedAt
+        ? new Date(delivery.shippedAt).toLocaleDateString('pt-BR', {
             day: '2-digit',
             month: 'long',
             year: 'numeric',
           })
         : null,
 
-      delivered_at: delivery.delivered_at
-        ? new Date(delivery.delivered_at).toLocaleDateString('pt-BR', {
+      deliveredAt: delivery.deliveredAt
+        ? new Date(delivery.deliveredAt).toLocaleDateString('pt-BR', {
             day: '2-digit',
             month: 'long',
             year: 'numeric',
           })
         : null,
 
-      cancelled_at: delivery.cancelled_at
-        ? new Date(delivery.cancelled_at).toLocaleDateString('pt-BR', {
+      cancelledAt: delivery.cancelledAt
+        ? new Date(delivery.cancelledAt).toLocaleDateString('pt-BR', {
             day: '2-digit',
             month: 'long',
             year: 'numeric',
@@ -96,6 +99,33 @@ export const getDeliveries = async (
   })
 
   return { deliveries, totalCount }
+}
+
+export const useCancellDelivery = (delivery: Delivery | null) => {
+  const { onToggle, isOpen: isOpenModalCancel } = useDisclosure()
+
+  const { mutateAsync, isLoading: isLoadingCancelMutation } = useMutation(
+    async () => {
+      const response = await api.patch(`/deliveries/${delivery?.id}`, {
+        delivery: {
+          status: 'cancelled',
+          cancelled_at: new Date(),
+        },
+      })
+
+      return response.data.delivery
+    },
+    {
+      onSuccess: () => {
+        onToggle()
+        queryClient.invalidateQueries('deliveries')
+      },
+
+      onError: () => onToggle(),
+    }
+  )
+
+  return { mutateAsync, isLoadingCancelMutation, onToggle, isOpenModalCancel }
 }
 
 export function useDeliveries(page?: number) {

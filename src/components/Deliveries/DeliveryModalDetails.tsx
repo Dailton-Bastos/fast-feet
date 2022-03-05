@@ -57,7 +57,7 @@ export const DeliveryModalDetails = ({
               <Text color="#666" fontWeight="semibold">
                 Retirada:{' '}
                 <Text as="span" fontWeight="normal">
-                  {delivery.shipped_at}
+                  {delivery.shippedAt}
                 </Text>
               </Text>
 
@@ -65,7 +65,7 @@ export const DeliveryModalDetails = ({
                 <Text color="#666" fontWeight="semibold">
                   Entrega:{' '}
                   <Text as="span" fontWeight="normal">
-                    {delivery.delivered_at}
+                    {delivery.deliveredAt}
                   </Text>
                 </Text>
               )}
@@ -74,7 +74,7 @@ export const DeliveryModalDetails = ({
                 <Text color="#666" fontWeight="semibold">
                   Cancelada:{' '}
                   <Text as="span" fontWeight="normal">
-                    {delivery.cancelled_at}
+                    {delivery.cancelledAt}
                   </Text>
                 </Text>
               )}

@@ -6,13 +6,13 @@ export const delivery = Factory.extend({
     return 'pending'
   },
   shippedAt() {
-    return null
+    return ''
   },
   deliveredAt() {
-    return null
+    return ''
   },
   cancelledAt() {
-    return null
+    return ''
   },
   createdAt() {
     return faker.date.past(10)

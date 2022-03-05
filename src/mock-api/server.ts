@@ -62,11 +62,10 @@ export function makeServer({ environment = 'development' } = {}) {
 
       deliveriesDelivered.forEach((delivery) => {
         delivery.update({
-          shipped_at: faker.date.between(
-            '2021-10-01T00:00:00.000Z',
-            '2022-02-01T00:00:00.000Z'
-          ),
-          delivered_at: faker.date.recent(10),
+          shippedAt: faker.date
+            .between('2021-10-01T00:00:00.000Z', '2022-02-01T00:00:00.000Z')
+            .toString(),
+          deliveredAt: faker.date.recent(10).toString(),
           deliveryman:
             deliverymen[Math.floor(Math.random() * deliverymen.length)],
           recipient: recipients[Math.floor(Math.random() * recipients.length)],
@@ -79,7 +78,7 @@ export function makeServer({ environment = 'development' } = {}) {
 
       deliveriesShipped.forEach((delivery) => {
         delivery.update({
-          shipped_at: faker.date.recent(10),
+          shippedAt: faker.date.recent(10).toString(),
           deliveryman:
             deliverymen[Math.floor(Math.random() * deliverymen.length)],
           recipient: recipients[Math.floor(Math.random() * recipients.length)],
@@ -92,11 +91,10 @@ export function makeServer({ environment = 'development' } = {}) {
 
       deliveriesCancelled.forEach((delivery) => {
         delivery.update({
-          shipped_at: faker.date.between(
-            '2021-10-01T00:00:00.000Z',
-            '2022-02-01T00:00:00.000Z'
-          ),
-          cancelled_at: faker.date.recent(10),
+          shippedAt: faker.date
+            .between('2021-10-01T00:00:00.000Z', '2022-02-01T00:00:00.000Z')
+            .toString(),
+          cancelledAt: faker.date.recent(10).toString(),
           deliveryman:
             deliverymen[Math.floor(Math.random() * deliverymen.length)],
           recipient: recipients[Math.floor(Math.random() * recipients.length)],
@@ -151,6 +149,7 @@ export function makeServer({ environment = 'development' } = {}) {
       this.delete('/addresses/:id')
 
       this.get('/deliveries', (schema, request) => deliveries(schema, request))
+      this.patch('/deliveries/:id')
 
       this.get('/problems', (schema, request) =>
         deliveriesProblems(schema, request)
