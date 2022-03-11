@@ -5,10 +5,6 @@ import {
   Box,
   Flex,
   Heading,
-  Table,
-  Thead,
-  Tbody,
-  Th,
   Tr,
   Td,
   Tag,
@@ -19,11 +15,15 @@ import {
 import NextLink from 'next/link'
 
 import { useDeliveries } from '~/hooks/useDeliveries'
+import { Delivery } from '~/utils/types'
+
+import { Can } from '../Can'
+import { ListTable } from '../Listing/Table'
 
 export const RecentDeliveries = () => {
   const { data, isLoading, isFetching } = useDeliveries()
 
-  const deliveries = data?.deliveries?.slice(0, 5)
+  const RecentDeliveries = data?.deliveries?.slice(-5)
 
   return (
     <Box
@@ -42,55 +42,38 @@ export const RecentDeliveries = () => {
           )}
         </Flex>
 
-        <NextLink href="/deliveries" passHref>
-          <Flex
-            as="a"
-            align="center"
-            bg="purple.500"
-            borderRadius="base"
-            color="white"
-            fontWeight="semibold"
-            h="10"
-            justify="center"
-            width="32"
-          >
-            Ver todas
-          </Flex>
-        </NextLink>
+        <Can roles={['administrator']}>
+          <NextLink href="/deliveries" passHref>
+            <Flex
+              as="a"
+              align="center"
+              bg="purple.500"
+              borderRadius="base"
+              color="white"
+              fontWeight="semibold"
+              h="10"
+              justify="center"
+              width="32"
+            >
+              Ver todas
+            </Flex>
+          </NextLink>
+        </Can>
       </Flex>
 
-      <Box overflowX="auto">
-        <Table>
-          <Thead>
-            <Tr>
-              <Th fontSize="md" textTransform="capitalize">
-                ID
-              </Th>
-              <Th fontSize="md" textTransform="capitalize">
-                Destinatário
-              </Th>
-              <Th fontSize="md" textTransform="capitalize">
-                Cidade
-              </Th>
-              <Th fontSize="md" textTransform="capitalize">
-                Estado
-              </Th>
-              <Th fontSize="md" textTransform="capitalize">
-                Status
-              </Th>
-            </Tr>
-          </Thead>
+      <Box overflowX="auto" pb="5">
+        <ListTable thead={['ID', 'Destinatário', 'Cidade', 'Estado', 'Status']}>
+          {RecentDeliveries?.map((delivery: Delivery) => (
+            <React.Fragment key={delivery.id}>
+              <Tr>
+                <Td>{`#0${delivery.id}`}</Td>
+                <Td>{delivery.recipient.name}</Td>
+                <Td>{delivery.selectedAddress.city}</Td>
+                <Td>{delivery.selectedAddress.state}</Td>
 
-          <Tbody>
-            {/* {deliveries?.map((delivery) => (
-              <Tr key={delivery.id}>
-                <Td color="#666">{`#0${delivery.id}`}</Td>
-                <Td color="#666">{delivery.recipient}</Td>
-                <Td color="#666">{delivery.selectedAddress.city}</Td>
-                <Td color="#666">{delivery.selectedAddress.state}</Td>
-                <Td>
+                <Td w="20%">
                   <Tag
-                    bg={delivery.status.bgColor}
+                    bg={delivery.formattedStatus.bgColor}
                     borderRadius="full"
                     h="7"
                     justifyContent="center"
@@ -100,22 +83,22 @@ export const RecentDeliveries = () => {
                     <TagLeftIcon
                       as={RiCheckboxBlankCircleFill}
                       boxSize="12px"
-                      color={delivery.status.color}
+                      color={delivery.formattedStatus.color}
                     />
                     <TagLabel
-                      color={delivery.status.color}
+                      color={delivery.formattedStatus.color}
                       fontWeight="semibold"
                       fontSize="sm"
                       textTransform="uppercase"
                     >
-                      {delivery.status.name}
+                      {delivery.formattedStatus.name}
                     </TagLabel>
                   </Tag>
                 </Td>
               </Tr>
-            ))} */}
-          </Tbody>
-        </Table>
+            </React.Fragment>
+          ))}
+        </ListTable>
       </Box>
     </Box>
   )

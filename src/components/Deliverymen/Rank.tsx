@@ -53,7 +53,7 @@ export const RankDeliverymen = () => {
                 transition: 'all 0.3s',
               }}
             >
-              <NextLink href={`/deliverymen/${deliveryman.id}`} passHref>
+              <NextLink href={`/deliverymen/${deliveryman.id}/edit`} passHref>
                 <Flex as="a" alignItems="center" gap="4">
                   <Avatar
                     name={deliveryman.name}
