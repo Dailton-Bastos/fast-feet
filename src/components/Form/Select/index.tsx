@@ -1,5 +1,5 @@
 import React from 'react'
-import { FieldError } from 'react-hook-form'
+import { FieldError, FieldValues, UseFormRegister } from 'react-hook-form'
 
 import {
   Select as ChakraSelect,
@@ -11,6 +11,7 @@ import {
 import { Error } from '../Error'
 
 interface SelectProps extends ChakraSelectProps {
+  id: string
   name: string
   options: Array<
     Partial<{
@@ -18,16 +19,31 @@ interface SelectProps extends ChakraSelectProps {
       name: string
     }>
   >
-  value: number | undefined
-  setValue: React.Dispatch<React.SetStateAction<number | undefined>>
+
+  value: string
+  setValue: React.Dispatch<React.SetStateAction<string>>
   label?: string
   error?: FieldError
+  register: UseFormRegister<FieldValues>
 }
 
 export const SelectBase: React.ForwardRefRenderFunction<
   HTMLSelectElement,
   SelectProps
-> = ({ name, options, value, setValue, label, error = null, ...rest }, ref) => {
+> = (
+  {
+    id,
+    name,
+    options = [],
+    value,
+    setValue,
+    label,
+    error = null,
+    register,
+    ...rest
+  },
+  _
+) => {
   return (
     <FormControl isInvalid={!!error}>
       {!!label && (
@@ -37,6 +53,8 @@ export const SelectBase: React.ForwardRefRenderFunction<
       )}
 
       <ChakraSelect
+        {...register(name)}
+        id={id}
         placeholder="Selecione"
         size="lg"
         focusBorderColor="purple.500"
@@ -46,8 +64,7 @@ export const SelectBase: React.ForwardRefRenderFunction<
         }}
         name={name}
         value={value}
-        onChange={({ target }) => setValue(Number(target.value))}
-        ref={ref}
+        onChange={({ target }) => setValue(target.value)}
         {...rest}
       >
         {options?.map((option) => {
