@@ -23,8 +23,9 @@ const NewDelivery: NextPageWithLayout = () => {
   const { data: dataDeliverymen } = useDeliverymen(1, 1000)
   const { data: dataRecipients } = useRecipients(1, 1000)
 
-  const [deliverymanId, setDeliverymanId] = React.useState<number>()
-  const [recipientId, setRecipientId] = React.useState<number>()
+  const [deliverymanId, setDeliverymanId] = React.useState('')
+  const [recipientId, setRecipientId] = React.useState('')
+
   const router = useRouter()
 
   const createDeliveryMutation = useMutation(createDelivery, {
@@ -68,27 +69,29 @@ const NewDelivery: NextPageWithLayout = () => {
         >
           <Stack spacing={4}>
             <SimpleGrid spacing={4} columns={2}>
-              {dataRecipients && (
-                <Select
-                  {...register('recipient')}
-                  name="recipient"
-                  label="Destinatário"
-                  value={recipientId}
-                  setValue={setRecipientId}
-                  options={dataRecipients.recipients}
-                  error={errors.recipient}
-                />
-              )}
-
               {dataDeliverymen && (
                 <Select
-                  {...register('deliveryman')}
+                  register={register}
+                  id="deliveryman"
                   name="deliveryman"
                   label="Entregador"
                   value={deliverymanId}
                   setValue={setDeliverymanId}
                   options={dataDeliverymen.deliverymen}
                   error={errors.deliveryman}
+                />
+              )}
+
+              {dataRecipients && (
+                <Select
+                  register={register}
+                  name="recipient"
+                  id="recipient"
+                  label="Destinatário"
+                  value={recipientId}
+                  setValue={setRecipientId}
+                  options={dataRecipients.recipients}
+                  error={errors.recipient}
                 />
               )}
             </SimpleGrid>
