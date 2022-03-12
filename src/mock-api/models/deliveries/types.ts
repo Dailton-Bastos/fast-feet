@@ -1,6 +1,7 @@
 import { BelongsTo, HasMany } from 'miragejs/-types'
 
 export type Delivery = {
+  product_name: string
   recipient: BelongsTo<string>
   deliveryman: BelongsTo<string>
   problems: HasMany<string>

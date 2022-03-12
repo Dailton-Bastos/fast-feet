@@ -20,7 +20,7 @@ interface SelectProps extends ChakraSelectProps {
     }>
   >
 
-  value: string
+  value?: string
   setValue: React.Dispatch<React.SetStateAction<string>>
   label?: string
   error?: FieldError

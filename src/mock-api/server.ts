@@ -39,6 +39,7 @@ export function makeServer({ environment = 'development' } = {}) {
           'problems.list',
           'deliveries.list',
           'deliveries.create',
+          'deliveries.edit',
         ],
         roles: ['administrator'],
       })
@@ -152,6 +153,7 @@ export function makeServer({ environment = 'development' } = {}) {
       this.get('/deliveries', (schema, request) => deliveries(schema, request))
       this.patch('/deliveries/:id')
       this.post('/deliveries')
+      this.get('/deliveries/:id')
 
       this.get('/problems', (schema, request) =>
         deliveriesProblems(schema, request)

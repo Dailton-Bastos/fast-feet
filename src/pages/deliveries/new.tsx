@@ -97,9 +97,9 @@ const NewDelivery: NextPageWithLayout = () => {
             </SimpleGrid>
 
             <Input
-              {...register('name')}
-              id="name"
-              name="name"
+              {...register('productName')}
+              id="productName"
+              name="productName"
               label="Nome do produto"
               placeholder="iPhone XR"
               error={errors.name}

@@ -2,6 +2,9 @@ import { faker } from '@faker-js/faker'
 import { Factory } from 'miragejs'
 
 export const delivery = Factory.extend({
+  productName() {
+    return faker.commerce.productName()
+  },
   status() {
     return 'pending'
   },

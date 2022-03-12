@@ -51,6 +51,7 @@ export type Recipient = {
 }
 
 export type Delivery = {
+  productName: string
   id: string
   recipient: Recipient
   deliveryman: Deliveryman
