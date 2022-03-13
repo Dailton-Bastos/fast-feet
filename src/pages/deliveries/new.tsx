@@ -2,7 +2,7 @@ import React from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useMutation } from 'react-query'
 
-import { Box, Container, SimpleGrid, Stack } from '@chakra-ui/react'
+import { Box, Container, SimpleGrid, Stack, useToast } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useRouter } from 'next/router'
 
@@ -27,10 +27,28 @@ const NewDelivery: NextPageWithLayout = () => {
   const [recipientId, setRecipientId] = React.useState('')
 
   const router = useRouter()
+  const toast = useToast()
 
   const createDeliveryMutation = useMutation(createDelivery, {
     onSuccess: () => {
+      toast({
+        title: 'Nova encomenda!',
+        description: 'Criada com sucesso!',
+        position: 'bottom-left',
+        status: 'success',
+        isClosable: true,
+      })
+
       queryClient.invalidateQueries('deliveries')
+    },
+    onError: () => {
+      toast({
+        title: 'Nova encomenda!',
+        description: 'Erro ao criar encomenda!',
+        position: 'bottom-left',
+        status: 'error',
+        isClosable: true,
+      })
     },
   })
 

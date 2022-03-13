@@ -1,5 +1,6 @@
 import React from 'react'
 
+import { useToast } from '@chakra-ui/react'
 import Router from 'next/router'
 import { parseCookies, destroyCookie } from 'nookies'
 
@@ -45,6 +46,7 @@ export const signOut = () => {
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = React.useState<User>()
+  const toast = useToast()
 
   const isAuthenticated = !!user
 
@@ -74,6 +76,13 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
       Router.push('/dashboard')
     } catch (error) {
+      toast({
+        title: 'Falha no login!',
+        description: 'Email ou senha incorreto!',
+        position: 'bottom-left',
+        status: 'error',
+        isClosable: true,
+      })
       signOut()
     }
   }
@@ -88,6 +97,13 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
         setUser({ name, avatar, email, permissions, roles })
       } catch (err) {
+        toast({
+          title: 'Ocorreu um erro!',
+          description: 'Tente novamente!',
+          position: 'bottom-left',
+          status: 'error',
+          isClosable: true,
+        })
         signOut()
       }
     }
@@ -95,7 +111,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     if (token) {
       getUser()
     }
-  }, [])
+  }, [toast])
 
   React.useEffect(() => {
     authChannel = new BroadcastChannel('auth')

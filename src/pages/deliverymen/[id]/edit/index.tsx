@@ -2,7 +2,14 @@ import React from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { useQueryClient, useMutation } from 'react-query'
 
-import { Container, Box, VStack, Flex, Avatar } from '@chakra-ui/react'
+import {
+  Container,
+  Box,
+  VStack,
+  Flex,
+  Avatar,
+  useToast,
+} from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useRouter } from 'next/router'
 
@@ -21,6 +28,7 @@ const EditDeliveryman: NextPageWithLayout = () => {
   const router = useRouter()
   const { id } = router.query
   const queryClient = useQueryClient()
+  const toast = useToast()
 
   const { data, isLoading, isError } = useDeliveryman(String(id))
 
@@ -30,9 +38,24 @@ const EditDeliveryman: NextPageWithLayout = () => {
     },
     {
       onSuccess: () => {
+        toast({
+          description: 'Atualizado com sucesso!',
+          position: 'bottom-left',
+          status: 'success',
+          isClosable: true,
+        })
         queryClient.invalidateQueries(['deliveryman', id])
         queryClient.invalidateQueries('deliverymen')
         queryClient.invalidateQueries('rankDeliverymen')
+      },
+      onError: () => {
+        toast({
+          title: 'Ocorreu um erro!',
+          description: 'Tente novamente!',
+          position: 'bottom-left',
+          status: 'error',
+          isClosable: true,
+        })
       },
     }
   )

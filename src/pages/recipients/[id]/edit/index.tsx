@@ -2,7 +2,14 @@ import React from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useMutation } from 'react-query'
 
-import { Container, Box, SimpleGrid, Flex, Button } from '@chakra-ui/react'
+import {
+  Container,
+  Box,
+  SimpleGrid,
+  Flex,
+  Button,
+  useToast,
+} from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useRouter } from 'next/router'
 
@@ -49,6 +56,8 @@ const EditRecipient: NextPageWithLayout = () => {
   const { data: dataPostalCode, isLoading: isLoadingPostalCode } =
     usePostalCode(postalCode, postalCode ? true : false)
 
+  const toast = useToast()
+
   const updateRecipientMutation = useMutation(
     (recipient: Partial<Recipient>) => {
       return updateRecipient(recipient, String(recipientId))
@@ -56,18 +65,49 @@ const EditRecipient: NextPageWithLayout = () => {
 
     {
       onSuccess: () => {
+        toast({
+          description: 'Atualizado com sucesso!',
+          position: 'bottom-left',
+          status: 'success',
+          isClosable: true,
+        })
         queryClient.invalidateQueries(['recipient', recipientId])
         queryClient.invalidateQueries('recipients')
       },
-      onError: () => queryClient.cancelMutations(),
+      onError: () => {
+        toast({
+          title: 'Ocorreu um erro!',
+          description: 'Tente novamente!',
+          position: 'bottom-left',
+          status: 'error',
+          isClosable: true,
+        })
+        queryClient.cancelMutations()
+      },
     }
   )
 
   const createAddressMutation = useMutation(createAddress, {
     onSuccess: () => {
+      toast({
+        title: 'Novo endereço!',
+        description: 'Novo endereço adicionado!',
+        position: 'bottom-left',
+        status: 'success',
+        isClosable: true,
+      })
       queryClient.invalidateQueries(['recipient', recipientId])
     },
-    onError: () => queryClient.cancelMutations(),
+    onError: () => {
+      toast({
+        title: 'Ocorreu um erro!',
+        description: 'Tente novamente!',
+        position: 'bottom-left',
+        status: 'error',
+        isClosable: true,
+      })
+      queryClient.cancelMutations()
+    },
   })
 
   const updateAddressMutation = useMutation(
@@ -76,9 +116,24 @@ const EditRecipient: NextPageWithLayout = () => {
     },
     {
       onSuccess: () => {
+        toast({
+          description: 'Atualizado com sucesso!',
+          position: 'bottom-left',
+          status: 'success',
+          isClosable: true,
+        })
         queryClient.invalidateQueries(['recipient', recipientId])
       },
-      onError: () => queryClient.cancelMutations(),
+      onError: () => {
+        toast({
+          title: 'Ocorreu um erro!',
+          description: 'Tente novamente!',
+          position: 'bottom-left',
+          status: 'error',
+          isClosable: true,
+        })
+        queryClient.cancelMutations()
+      },
     }
   )
 
@@ -138,6 +193,8 @@ const EditRecipient: NextPageWithLayout = () => {
           onSuccess: () => onUpdateAndNewAddressStateMutation(),
         }
       )
+
+      return
     }
 
     if (isEditAddress) {
@@ -147,6 +204,8 @@ const EditRecipient: NextPageWithLayout = () => {
           onSuccess: () => onUpdateAndNewAddressStateMutation(),
         }
       )
+
+      return
     }
 
     await updateRecipientMutation.mutateAsync(recipient)

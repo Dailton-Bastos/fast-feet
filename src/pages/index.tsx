@@ -31,7 +31,6 @@ const SignIn: NextPageWithLayout = () => {
   const { errors, isSubmitting } = formState
 
   const handleSignIn: SubmitHandler<SignInFormData> = async (data) => {
-    await new Promise((resolve) => setTimeout(resolve, 2000))
     await signIn(data)
   }
 

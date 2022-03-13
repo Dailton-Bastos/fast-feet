@@ -11,6 +11,7 @@ import {
   RadioGroup,
   Radio,
   Text,
+  useToast,
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useRouter } from 'next/router'
@@ -47,15 +48,33 @@ const EditDeliveryman: NextPageWithLayout = () => {
   const [deliveryStatus, setDeliveryStatus] =
     React.useState<StatusType>('pending')
 
+  const toast = useToast()
+
   const editDelivery = useMutation(
     async (delivery: Delivery) => {
       await updateDelivery(delivery, String(id))
     },
     {
       onSuccess: () => {
+        toast({
+          description: 'Atualizado com sucesso!',
+          position: 'bottom-left',
+          status: 'success',
+          isClosable: true,
+        })
         queryClient.invalidateQueries(['delivery', id])
         queryClient.invalidateQueries('recentDeliveries')
         queryClient.invalidateQueries('deliveries')
+      },
+      onError: () => {
+        toast({
+          title: 'Ocorreu um erro!',
+          description: 'Tente novamente!',
+          position: 'bottom-left',
+          status: 'error',
+          isClosable: true,
+        })
+        queryClient.cancelMutations()
       },
     }
   )

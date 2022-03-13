@@ -2,7 +2,7 @@ import React from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { useQueryClient, useMutation } from 'react-query'
 
-import { Container, Box, SimpleGrid, Stack } from '@chakra-ui/react'
+import { Container, Box, SimpleGrid, Stack, useToast } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useRouter } from 'next/router'
 
@@ -25,6 +25,7 @@ const NewRecipient: NextPageWithLayout = () => {
 
   const queryClient = useQueryClient()
   const router = useRouter()
+  const toast = useToast()
 
   const { data, isLoading } = usePostalCode(
     postalCode,
@@ -33,9 +34,25 @@ const NewRecipient: NextPageWithLayout = () => {
 
   const createRecipient = useMutation(createRecipientMutation, {
     onSuccess: () => {
+      toast({
+        title: 'Novo destinatário!',
+        description: 'Criado com sucesso!',
+        position: 'bottom-left',
+        status: 'success',
+        isClosable: true,
+      })
       queryClient.invalidateQueries('recipients')
     },
-    onError: () => queryClient.cancelMutations(),
+    onError: () => {
+      toast({
+        title: 'Novo destinatário!',
+        description: 'Erro ao criar destinatário!',
+        position: 'bottom-left',
+        status: 'error',
+        isClosable: true,
+      })
+      queryClient.cancelMutations()
+    },
   })
 
   const createAddressMutation = useMutation(createAddress)

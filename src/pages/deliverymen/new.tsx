@@ -8,6 +8,7 @@ import {
   VStack,
   Flex,
   Text,
+  useToast,
   Input as ChakraInput,
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -28,10 +29,27 @@ import avatarIcon from '../../../public/images/avatar_icon.png'
 const NewDeliveryman: NextPageWithLayout = () => {
   const queryClient = useQueryClient()
   const router = useRouter()
+  const toast = useToast()
 
   const createDeliverymanMutation = useMutation(createDeliveryman, {
     onSuccess: () => {
+      toast({
+        title: 'Novo entregador!',
+        description: 'Ccriado com sucesso!',
+        position: 'bottom-left',
+        status: 'success',
+        isClosable: true,
+      })
       queryClient.invalidateQueries('deliverymen')
+    },
+    onError: () => {
+      toast({
+        title: 'Nova entregador!',
+        description: 'Erro ao criar entregador!',
+        position: 'bottom-left',
+        status: 'error',
+        isClosable: true,
+      })
     },
   })
 

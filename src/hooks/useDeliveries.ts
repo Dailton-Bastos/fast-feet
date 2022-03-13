@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from 'react-query'
 
-import { useDisclosure } from '@chakra-ui/react'
+import { useDisclosure, useToast } from '@chakra-ui/react'
 
 import { api } from '~/services/apiClient'
 import { queryClient } from '~/services/queryClient'
@@ -120,6 +120,7 @@ export const createDelivery = async (delivery: Partial<Delivery>) => {
 
 export const useCancellDelivery = (delivery: Delivery | null) => {
   const { onToggle, isOpen: isOpenModalCancel } = useDisclosure()
+  const toast = useToast()
 
   const { mutateAsync, isLoading: isLoadingCancelMutation } = useMutation(
     async () => {
@@ -137,9 +138,25 @@ export const useCancellDelivery = (delivery: Delivery | null) => {
         onToggle()
         queryClient.invalidateQueries('deliveries')
         queryClient.invalidateQueries('deliveriesProblems')
+        toast({
+          title: 'Encomenda cancelada!',
+          description: 'Cancelada com sucesso!',
+          position: 'bottom-left',
+          status: 'success',
+          isClosable: true,
+        })
       },
 
-      onError: () => onToggle(),
+      onError: () => {
+        toast({
+          title: 'Ocorreu um erro!',
+          description: 'Tente novamente!',
+          position: 'bottom-left',
+          status: 'error',
+          isClosable: true,
+        })
+        onToggle()
+      },
     }
   )
 
