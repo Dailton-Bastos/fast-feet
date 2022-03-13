@@ -121,6 +121,7 @@ export function makeServer({ environment = 'development' } = {}) {
       this.timing = 750
 
       this.get('/users')
+      this.patch('/users/:id')
 
       this.post('/sessions', (schema, request) =>
         createSession(schema, request)

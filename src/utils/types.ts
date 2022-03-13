@@ -82,3 +82,12 @@ export type DeliveriesProblems = {
 }
 
 export type RecipientAndAddressFormData = Address & Recipient
+
+export type UserProfile = {
+  id: string
+  name: string
+  email: string
+  avatar: string
+  createdAt: string
+  updatedAt: string
+}

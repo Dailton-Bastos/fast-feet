@@ -8,6 +8,7 @@ import { api } from '~/services/apiClient'
 import { setCookie } from '~/utils/setCookies'
 
 type User = {
+  id: string
   name: string
   avatar?: string
   email: string
@@ -57,7 +58,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         password,
       })
 
-      const { token, refreshToken, permissions, roles, name, avatar } =
+      const { token, refreshToken, permissions, roles, id, name, avatar } =
         response.data
 
       setCookie('fastfeet.token', token)
@@ -65,6 +66,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       setCookie('fastfeet.refreshToken', refreshToken)
 
       setUser({
+        id,
         name,
         avatar,
         email,
@@ -93,9 +95,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     async function getUser() {
       try {
         const response = await api.get('/me')
-        const { name, avatar, email, permissions, roles } = response.data
+        const { id, name, avatar, email, permissions, roles } = response.data
 
-        setUser({ name, avatar, email, permissions, roles })
+        setUser({ id, name, avatar, email, permissions, roles })
       } catch (err) {
         toast({
           title: 'Ocorreu um erro!',
