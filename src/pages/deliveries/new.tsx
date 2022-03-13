@@ -120,7 +120,7 @@ const NewDelivery: NextPageWithLayout = () => {
               name="productName"
               label="Nome do produto"
               placeholder="iPhone XR"
-              error={errors.name}
+              error={errors.productName}
             />
           </Stack>
         </Box>
