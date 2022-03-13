@@ -28,7 +28,7 @@ export const createRecipientMutation = async (
   }
 }
 
-export const handlePrefetchRecipient = async (recipientId: string) => {
+export const handlePrefetchRecipient = async (recipientId: number) => {
   await queryClient.prefetchQuery(
     ['recipient', recipientId],
     async () => {
@@ -86,7 +86,7 @@ export const updateRecipient = async (
   }
 }
 
-export const useDeleteRecipient = (recipientId: string) => {
+export const useDeleteRecipient = (recipientId: number) => {
   const { onToggle, isOpen } = useDisclosure()
 
   const { mutate, isLoading } = useMutation(

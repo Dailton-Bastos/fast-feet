@@ -40,12 +40,11 @@ const NewRecipient: NextPageWithLayout = () => {
 
   const createAddressMutation = useMutation(createAddress)
 
-  function onCreateRecipeStateMutation() {
+  const onCreateRecipeStateMutation = React.useCallback(() => {
     setShowFullAddressForm(false)
     setShowPostalCodeInput(false)
     setPostalCode('')
-    setValue('zip_code', '')
-  }
+  }, [])
 
   const {
     register,

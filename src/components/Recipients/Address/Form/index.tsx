@@ -82,13 +82,15 @@ export const RecipientAddressForm = ({
           )}
         </Flex>
 
-        <Link
-          href="https://buscacepinter.correios.com.br/app/endereco/index.php"
-          target="_blank"
-          fontSize="sm"
-        >
-          Não sei meu CEP
-        </Link>
+        <Box w="20%" color="gray.500">
+          <Link
+            href="https://buscacepinter.correios.com.br/app/endereco/index.php"
+            target="_blank"
+            fontSize="sm"
+          >
+            Não sei meu CEP
+          </Link>
+        </Box>
       </>
     )
   }

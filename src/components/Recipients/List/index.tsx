@@ -30,7 +30,7 @@ import { Recipient } from '~/utils/types'
 
 export const ListRecipients = () => {
   const [page, setPage] = React.useState(1)
-  const [recipientId, setRecipientId] = React.useState<string>()
+  const [recipientId, setRecipientId] = React.useState<number>()
   const { data, isLoading, isFetching, isError } = useRecipients(page)
   const { setIsLoading, setIsFetching } = useQueryContext()
 
@@ -39,7 +39,7 @@ export const ListRecipients = () => {
     isOpen,
     mutate,
     isLoading: isLoadingDelete,
-  } = useDeleteRecipient(recipientId as string)
+  } = useDeleteRecipient(recipientId as number)
 
   React.useEffect(() => {
     setIsLoading(isLoading)

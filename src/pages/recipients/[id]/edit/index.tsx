@@ -82,15 +82,14 @@ const EditRecipient: NextPageWithLayout = () => {
     }
   )
 
-  function onUpdateAndNewAddressStateMutation() {
+  const onUpdateAndNewAddressStateMutation = React.useCallback(() => {
     setIsEditAddress(false)
     setIsNewAddress(false)
     setShowFullAddressForm(false)
     setShowPostalCodeInput(false)
     setShowListAddresses(true)
     setPostalCode('')
-    setValue('zip_code', '')
-  }
+  }, [])
 
   const {
     register,
@@ -117,7 +116,7 @@ const EditRecipient: NextPageWithLayout = () => {
     formData
   ) => {
     const address = {
-      zip_code: formData.zip_code,
+      zipCode: formData.zip_code,
       street: formData.street,
       number: formData.number,
       complement: formData.complement,
