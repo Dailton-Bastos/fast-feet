@@ -1,3 +1,19 @@
+# [1.29.0](https://github.com/Dailton-Bastos/fast-feet/compare/v1.28.0...v1.29.0) (2022-03-13)
+
+
+### Bug Fixes
+
+* **dashboard:** recent deliveries table ([d064b7a](https://github.com/Dailton-Bastos/fast-feet/commit/d064b7a1b5e2952109de4a9df31c577574e03cc6))
+
+
+### Features
+
+* **deliveries:** add edit delivery page ([d74928d](https://github.com/Dailton-Bastos/fast-feet/commit/d74928d0555ff38108cde85acc17a798689f1102))
+* **deliveries:** add new delivery page ([e81ba00](https://github.com/Dailton-Bastos/fast-feet/commit/e81ba009fe8c7ce2798ffb2e867d5fe190c21358))
+* **deliveries:** add prefetch delivery data ([be38417](https://github.com/Dailton-Bastos/fast-feet/commit/be384179fc8feaf408b4b66daa16b6707f8bbee3))
+* **form/select:** register select value ([04ad05f](https://github.com/Dailton-Bastos/fast-feet/commit/04ad05ff3a43f3ec2fad25f51922836c57e12356))
+* select deliveryman and recipient data ([09cd5d7](https://github.com/Dailton-Bastos/fast-feet/commit/09cd5d730f22b5d3cb086cb94564bf7217eec075))
+
 # [1.28.0](https://github.com/Dailton-Bastos/fast-feet/compare/v1.27.0...v1.28.0) (2022-03-05)
 
 
