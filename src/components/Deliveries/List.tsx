@@ -24,6 +24,7 @@ import NextLink from 'next/link'
 
 import { useQueryContext } from '~/contexts/QueryContext'
 import { useCancellDelivery, useDeliveries } from '~/hooks/useDeliveries'
+import { handlePrefetchDelivery } from '~/hooks/useDelivery'
 import { Delivery } from '~/utils/types'
 
 import { ErrorMessage } from '../ErrorMessage'
@@ -34,7 +35,6 @@ import { Loading } from '../Loading'
 import { ModalConfirm } from '../ModalConfirm'
 import { Pagination } from '../Pagination'
 import { DeliveryModalDetails } from './DeliveryModalDetails'
-import { handlePrefetchDelivery } from '~/hooks/useDelivery'
 
 export const ListDeliveries = () => {
   const [page, setPage] = React.useState(1)

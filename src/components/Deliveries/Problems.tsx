@@ -18,14 +18,16 @@ import {
 
 import { ListTable } from '~/components/Listing/Table'
 import { useQueryContext } from '~/contexts/QueryContext'
+import { useCancellDelivery } from '~/hooks/useDeliveries'
 import { useDeliveriesProblems } from '~/hooks/useDeliveriesProblems'
-import { DeliveriesProblems } from '~/utils/types'
+import { DeliveriesProblems, Delivery } from '~/utils/types'
 
 import { ErrorMessage } from '../ErrorMessage'
 import { ListMenu } from '../Listing/Menu'
 import { MenuItem } from '../Listing/MenuItem'
 import { Loading } from '../Loading'
 import { Modal } from '../Modal'
+import { ModalConfirm } from '../ModalConfirm'
 import { Pagination } from '../Pagination'
 
 export const ListDeliveriesProblems = () => {
@@ -33,8 +35,20 @@ export const ListDeliveriesProblems = () => {
   const { data, isLoading, isFetching, isError } = useDeliveriesProblems(page)
   const { setIsLoading, setIsFetching } = useQueryContext()
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const [delivery, setDelivery] = React.useState<Delivery | null>(null)
 
   const [descriptions, setDescriptions] = React.useState<string[]>([])
+
+  const { mutateAsync, isLoadingCancelMutation, isOpenModalCancel, onToggle } =
+    useCancellDelivery(delivery)
+
+  const cancellDelivery = React.useCallback(
+    (delivery: Delivery) => {
+      setDelivery(delivery)
+      onToggle()
+    },
+    [onToggle]
+  )
 
   React.useEffect(() => {
     setIsLoading(isLoading)
@@ -83,11 +97,14 @@ export const ListDeliveriesProblems = () => {
                     </Box>
 
                     <MenuDivider />
-
-                    <MenuItem
-                      Icon={<RiDeleteBin2Fill color="#de3b3b" size={18} />}
-                      buttonTitle="Cancelar encomenda"
-                    />
+                    {problem.delivery.status !== 'cancelled' && (
+                      <Box onClick={() => cancellDelivery(problem.delivery)}>
+                        <MenuItem
+                          Icon={<RiDeleteBin2Fill color="#de3b3b" size={18} />}
+                          buttonTitle="Cancelar encomenda"
+                        />
+                      </Box>
+                    )}
                   </MenuList>
                 </ListMenu>
               </Td>
@@ -123,6 +140,13 @@ export const ListDeliveriesProblems = () => {
           </ModalBody>
         </ModalContent>
       </Modal>
+
+      <ModalConfirm
+        isOpen={isOpenModalCancel}
+        onToggle={onToggle}
+        handleClick={mutateAsync}
+        isLoading={isLoadingCancelMutation}
+      />
     </Box>
   )
 }

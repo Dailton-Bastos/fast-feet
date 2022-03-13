@@ -136,6 +136,7 @@ export const useCancellDelivery = (delivery: Delivery | null) => {
       onSuccess: () => {
         onToggle()
         queryClient.invalidateQueries('deliveries')
+        queryClient.invalidateQueries('deliveriesProblems')
       },
 
       onError: () => onToggle(),
