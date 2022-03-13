@@ -11,6 +11,7 @@ import { Box, Divider, List, Stack } from '@chakra-ui/react'
 
 import { DisclosureProps } from '~/utils/types'
 
+import { Can } from '../Can'
 import { NavLink } from './NavLink'
 import { Search } from './Search'
 
@@ -27,13 +28,19 @@ export const Navigation = ({ isOpen = true, handleClick }: DisclosureProps) => {
 
           <Divider />
 
-          <NavLink href="/deliveries" isOpen={isOpen} icon={RiShoppingBagLine}>
-            Encomendas
-          </NavLink>
+          <Can roles={['administrator']}>
+            <NavLink
+              href="/deliveries"
+              isOpen={isOpen}
+              icon={RiShoppingBagLine}
+            >
+              Encomendas
+            </NavLink>
 
-          <NavLink href="/deliverymen" isOpen={isOpen} icon={RiEBike2Line}>
-            Entregadores
-          </NavLink>
+            <NavLink href="/deliverymen" isOpen={isOpen} icon={RiEBike2Line}>
+              Entregadores
+            </NavLink>
+          </Can>
 
           <NavLink href="/recipients" isOpen={isOpen} icon={RiHome2Line}>
             Destinatários
