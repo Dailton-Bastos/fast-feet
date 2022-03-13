@@ -29,6 +29,7 @@ import { Loading } from '../Loading'
 import { Modal } from '../Modal'
 import { ModalConfirm } from '../ModalConfirm'
 import { Pagination } from '../Pagination'
+import { Can } from '../Can'
 
 export const ListDeliveriesProblems = () => {
   const [page, setPage] = React.useState(1)
@@ -96,15 +97,19 @@ export const ListDeliveriesProblems = () => {
                       />
                     </Box>
 
-                    <MenuDivider />
-                    {problem.delivery.status !== 'cancelled' && (
-                      <Box onClick={() => cancellDelivery(problem.delivery)}>
-                        <MenuItem
-                          Icon={<RiDeleteBin2Fill color="#de3b3b" size={18} />}
-                          buttonTitle="Cancelar encomenda"
-                        />
-                      </Box>
-                    )}
+                    <Can roles={['administrator']}>
+                      <MenuDivider />
+                      {problem.delivery.status !== 'cancelled' && (
+                        <Box onClick={() => cancellDelivery(problem.delivery)}>
+                          <MenuItem
+                            Icon={
+                              <RiDeleteBin2Fill color="#de3b3b" size={18} />
+                            }
+                            buttonTitle="Cancelar encomenda"
+                          />
+                        </Box>
+                      )}
+                    </Can>
                   </MenuList>
                 </ListMenu>
               </Td>
