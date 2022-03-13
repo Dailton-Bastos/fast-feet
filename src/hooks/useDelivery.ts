@@ -1,6 +1,7 @@
 import { useQuery } from 'react-query'
 
 import { api } from '~/services/apiClient'
+import { queryClient } from '~/services/queryClient'
 import { Delivery } from '~/utils/types'
 
 type GetDeliveryResponse = {
@@ -33,6 +34,28 @@ export const updateDelivery = async (
   })
 
   return response.data.delivery
+}
+
+export const handlePrefetchDelivery = async (deliveryId: string) => {
+  await queryClient.prefetchQuery(
+    ['delivery', deliveryId],
+    async () => {
+      const { data } = await api.get(`/deliveries/${deliveryId}`)
+
+      const delivery = {
+        id: data.delivery.id,
+        productName: data.delivery.product_name,
+        status: data.delivery.status,
+        deliveryman: data.delivery.deliveryman,
+        recipient: data.delivery.recipient,
+      }
+
+      return { delivery }
+    },
+    {
+      staleTime: 1000 * 60 * 10, // 10 minutes
+    }
+  )
 }
 
 export function useDelivery(id: string) {

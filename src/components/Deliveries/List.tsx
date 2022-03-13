@@ -34,6 +34,7 @@ import { Loading } from '../Loading'
 import { ModalConfirm } from '../ModalConfirm'
 import { Pagination } from '../Pagination'
 import { DeliveryModalDetails } from './DeliveryModalDetails'
+import { handlePrefetchDelivery } from '~/hooks/useDelivery'
 
 export const ListDeliveries = () => {
   const [page, setPage] = React.useState(1)
@@ -127,7 +128,10 @@ export const ListDeliveries = () => {
                 </Tag>
               </Td>
 
-              <Td textAlign="right">
+              <Td
+                textAlign="right"
+                onMouseEnter={() => handlePrefetchDelivery(delivery.id)}
+              >
                 <ListMenu>
                   <MenuList minW={40}>
                     <Box
