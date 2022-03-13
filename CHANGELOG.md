@@ -1,3 +1,17 @@
+# [1.30.0](https://github.com/Dailton-Bastos/fast-feet/compare/v1.29.0...v1.30.0) (2022-03-13)
+
+
+### Bug Fixes
+
+* **address:** postal code type ([f83273c](https://github.com/Dailton-Bastos/fast-feet/commit/f83273cf750aea1428588e7ea41f009107a4cd10))
+
+
+### Features
+
+* add toast component ([af33274](https://github.com/Dailton-Bastos/fast-feet/commit/af33274806bf029df3ca8f6b7fecc2a65eda2429))
+* add user profile page ([07502b3](https://github.com/Dailton-Bastos/fast-feet/commit/07502b31f1aa3a7ddafda458719a6a4e107d7eb9))
+* **deliveries:** cancell deliveries with problems ([8aa8512](https://github.com/Dailton-Bastos/fast-feet/commit/8aa851224c192d6151acccb36cc0c18544d9dd81))
+
 # [1.29.0](https://github.com/Dailton-Bastos/fast-feet/compare/v1.28.0...v1.29.0) (2022-03-13)
 
 
