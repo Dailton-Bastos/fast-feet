@@ -1,3 +1,17 @@
+# [1.31.0](https://github.com/Dailton-Bastos/fast-feet/compare/v1.30.0...v1.31.0) (2022-03-14)
+
+
+### Bug Fixes
+
+* **deliveries/new:** message error ([a11d8d2](https://github.com/Dailton-Bastos/fast-feet/commit/a11d8d226101248c902591456c7c8597b7a5d438))
+* **problem:** only admin can cancell delivery ([5d1c06d](https://github.com/Dailton-Bastos/fast-feet/commit/5d1c06d7c0a41a75db4f26c9b649860504e7b973))
+* **sidebar:** add close drawer on click nav link ([c02fe65](https://github.com/Dailton-Bastos/fast-feet/commit/c02fe6558d32d8f3c83373e73535fe33ba45c596))
+
+
+### Features
+
+* add responsive mode ([41c19b5](https://github.com/Dailton-Bastos/fast-feet/commit/41c19b5f554e7e62806c58599650617de7a853dc))
+
 # [1.30.0](https://github.com/Dailton-Bastos/fast-feet/compare/v1.29.0...v1.30.0) (2022-03-13)
 
 
