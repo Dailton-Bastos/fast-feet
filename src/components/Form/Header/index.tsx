@@ -13,12 +13,17 @@ export const HeaderForm = ({ title, isLoading = false }: HeaderFormProps) => {
   const router = useRouter()
 
   return (
-    <Flex align="center" justify="space-between">
+    <Flex
+      align="center"
+      justify="space-between"
+      direction={['column', 'row']}
+      gap={5}
+    >
       <Heading as="h2" size="md">
         {title}
       </Heading>
 
-      <ButtonGroup variant="solid" spacing="4">
+      <ButtonGroup variant="solid" spacing="4" width={['100%', 'auto']}>
         <Button
           colorScheme="gray"
           fontSize="sm"
@@ -26,7 +31,7 @@ export const HeaderForm = ({ title, isLoading = false }: HeaderFormProps) => {
           leftIcon={<RiArrowLeftSLine size={20} />}
           size="sm"
           textTransform="uppercase"
-          width="28"
+          width={['100%', '28']}
           onClick={() => router.back()}
         >
           Voltar
@@ -40,7 +45,7 @@ export const HeaderForm = ({ title, isLoading = false }: HeaderFormProps) => {
           size="sm"
           type="submit"
           textTransform="uppercase"
-          width="28"
+          width={['100%', '28']}
           isLoading={isLoading}
         >
           Salvar

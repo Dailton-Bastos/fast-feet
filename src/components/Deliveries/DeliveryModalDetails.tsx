@@ -27,13 +27,27 @@ export const DeliveryModalDetails = ({
 }: DeliveryModalDetailsProps) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <ModalContent>
+      <ModalContent mx="4">
         <ModalBody p="6">
-          <Text color="gray.600" fontWeight="bold" fontSize="sm">
+          <Text color="gray.600" fontWeight="bold" fontSize="sm" mb="2">
             Informações da encomenda
           </Text>
 
           <Box my="2">
+            <Text color="gray.600" fontWeight="bold" fontSize="sm">
+              Produto:
+              <Text fontWeight="normal" color="#666">
+                {delivery.productName}
+              </Text>
+            </Text>
+          </Box>
+
+          <MenuDivider />
+
+          <Box my="2">
+            <Text color="gray.600" fontWeight="bold" fontSize="sm">
+              Endereço de entrega:
+            </Text>
             <Stack spacing="1" color="#666">
               <Text>
                 {delivery.selectedAddress.street},{' '}
@@ -51,7 +65,7 @@ export const DeliveryModalDetails = ({
 
           <Box my="2">
             <Text color="gray.600" fontWeight="bold" fontSize="sm">
-              Datas
+              Datas:
             </Text>
             <Stack spacing="1">
               <Text color="#666" fontWeight="semibold">
@@ -87,7 +101,7 @@ export const DeliveryModalDetails = ({
 
               <Box my="2">
                 <Text color="gray.600" fontWeight="bold" fontSize="sm" mb="6">
-                  Assinatura do destinatário
+                  Assinatura do destinatário:
                 </Text>
 
                 <Image src={delivery.signature} alt={delivery.recipient.name} />

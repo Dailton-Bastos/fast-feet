@@ -153,7 +153,7 @@ const EditDeliveryman: NextPageWithLayout = () => {
           mt="5"
         >
           <Stack spacing={4}>
-            <SimpleGrid spacing={4} columns={2}>
+            <SimpleGrid spacing={4} columns={[1, 2]}>
               {dataDeliverymen && deliverymanId && (
                 <Select
                   register={register}
@@ -190,7 +190,7 @@ const EditDeliveryman: NextPageWithLayout = () => {
               onChange={updateDeliveryStatus}
               name="status"
             >
-              <Stack spacing={4} direction="row">
+              <Stack spacing={4} direction={['column', 'row']}>
                 <Radio value="shipped" colorScheme="blue">
                   Retirada
                 </Radio>

@@ -64,7 +64,7 @@ export const RecipientAddressForm = ({
   if (showPostalCodeInput && !showFullAddressForm) {
     return (
       <>
-        <Flex align="center" gap={4} maxW="60" mb="4">
+        <Flex align="center" gap={4} maxW={['100%', '60']} mb="4">
           <Input
             {...register('zip_code')}
             id="zip_code"
@@ -82,7 +82,7 @@ export const RecipientAddressForm = ({
           )}
         </Flex>
 
-        <Box w="20%" color="gray.500">
+        <Box w={['100%', '20%']} color="gray.500">
           <Link
             href="https://buscacepinter.correios.com.br/app/endereco/index.php"
             target="_blank"
@@ -98,7 +98,7 @@ export const RecipientAddressForm = ({
   if (showFullAddressForm)
     return (
       <Stack spacing={4}>
-        <SimpleGrid spacing={4} columns={3}>
+        <SimpleGrid spacing={4} columns={[1, 3]}>
           <Input
             {...register('zip_code')}
             id="zip_code"
@@ -134,7 +134,7 @@ export const RecipientAddressForm = ({
           placeholder="Opcional"
         />
 
-        <SimpleGrid spacing={4} columns={3}>
+        <SimpleGrid spacing={4} columns={[1, 3]}>
           <Input
             {...register('neighborhood')}
             id="neighborhood"

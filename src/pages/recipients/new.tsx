@@ -171,7 +171,7 @@ const NewRecipient: NextPageWithLayout = () => {
           mt="5"
         >
           <Stack spacing={4}>
-            <SimpleGrid spacing={4} columns={2}>
+            <SimpleGrid spacing={4} columns={[1, 2]}>
               <Input
                 {...register('name')}
                 id="name"

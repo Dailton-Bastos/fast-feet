@@ -273,7 +273,7 @@ const EditRecipient: NextPageWithLayout = () => {
         <HeaderForm title="Edição de destinatário" isLoading={isSubmitting} />
 
         <Box bg="white" borderRadius={4} boxShadow="sm" py="10" px="8" mt="5">
-          <SimpleGrid spacing={4} columns={2}>
+          <SimpleGrid spacing={4} columns={[1, 2]}>
             <Input
               {...register('name')}
               id="name"
@@ -312,7 +312,7 @@ const EditRecipient: NextPageWithLayout = () => {
       </Box>
 
       {showListAddresses && (
-        <SimpleGrid spacing={4} columns={3} mb="4">
+        <SimpleGrid spacing={4} columns={[1, 3]} mb="4">
           <AddressList
             setFormValues={setValue}
             addresses={data?.recipient.addresses}
@@ -336,6 +336,7 @@ const EditRecipient: NextPageWithLayout = () => {
           type="button"
           textTransform="uppercase"
           variant="solid"
+          w={['100%', 'auto']}
           onClick={() => {
             setShowListAddresses(false)
             setIsNewAddress(true)
@@ -354,6 +355,7 @@ const EditRecipient: NextPageWithLayout = () => {
           type="button"
           textTransform="uppercase"
           variant="solid"
+          w={['100%', 'auto']}
           onClick={() => {
             clearErrors()
             reset()

@@ -31,7 +31,15 @@ export const Header = ({ isOpen }: DisclosureProps) => {
 
   if (isMobile) {
     return (
-      <Flex as="header" bgColor="white" shadow="base" width="100%">
+      <Flex
+        as="header"
+        bgColor="white"
+        shadow="base"
+        width="100%"
+        position="fixed"
+        top="0"
+        zIndex="docked"
+      >
         <Flex
           alignItems="center"
           height="12"
@@ -68,6 +76,9 @@ export const Header = ({ isOpen }: DisclosureProps) => {
       px={['0', null, null, '20']}
       shadow="base"
       width="100%"
+      position="fixed"
+      top="0"
+      zIndex="docked"
     >
       <Container centerContent maxW="container.xl">
         <Flex

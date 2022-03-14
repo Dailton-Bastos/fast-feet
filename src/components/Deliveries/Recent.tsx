@@ -11,6 +11,7 @@ import {
   TagLabel,
   TagLeftIcon,
   Spinner,
+  useBreakpointValue,
 } from '@chakra-ui/react'
 import NextLink from 'next/link'
 
@@ -25,16 +26,24 @@ export const RecentDeliveries = () => {
 
   const RecentDeliveries = data?.deliveries?.slice(-5)
 
+  const isMobile = useBreakpointValue({ base: true, lg: false })
+
   return (
     <Box
       bg="white"
       borderRadius="base"
       boxShadow="base"
       flex="1 0 65%"
-      py="10"
+      py={['4', '10']}
       px="6"
     >
-      <Flex align="center" justify="space-between" mb="6">
+      <Flex
+        align={['flex-start', 'center']}
+        justify="space-between"
+        mb="6"
+        direction={['column', 'row']}
+        gap={5}
+      >
         <Flex align="center">
           <Heading fontSize={['lg', 'xl']}>Encomendas recentes</Heading>
           {!isLoading && isFetching && (
@@ -42,26 +51,28 @@ export const RecentDeliveries = () => {
           )}
         </Flex>
 
-        <Can roles={['administrator']}>
-          <NextLink href="/deliveries" passHref>
-            <Flex
-              as="a"
-              align="center"
-              bg="purple.500"
-              borderRadius="base"
-              color="white"
-              fontWeight="semibold"
-              h="10"
-              justify="center"
-              width="32"
-            >
-              Ver todas
-            </Flex>
-          </NextLink>
-        </Can>
+        {!isMobile && (
+          <Can roles={['administrator']}>
+            <NextLink href="/deliveries" passHref>
+              <Flex
+                as="a"
+                align="center"
+                bg="purple.500"
+                borderRadius="base"
+                color="white"
+                fontWeight="semibold"
+                h="10"
+                justify="center"
+                width={isMobile ? '100%' : '32'}
+              >
+                Ver todas
+              </Flex>
+            </NextLink>
+          </Can>
+        )}
       </Flex>
 
-      <Box overflowX="auto" pb="5">
+      <Box overflowX={['scroll', 'auto']} pb="5">
         <ListTable thead={['ID', 'Destinatário', 'Cidade', 'Estado', 'Status']}>
           {RecentDeliveries?.map((delivery: Delivery) => (
             <React.Fragment key={delivery.id}>

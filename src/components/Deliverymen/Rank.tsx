@@ -23,7 +23,7 @@ export const RankDeliverymen = () => {
       borderRadius="base"
       boxShadow="base"
       flex="1 0 30%"
-      py="10"
+      py={['4', '10']}
       px="6"
     >
       <Heading fontSize={['lg', 'xl']}>

@@ -55,6 +55,7 @@ export const getDeliveries = async (
 
     return {
       id: delivery.id,
+      productName: delivery.productName,
       status: delivery.status,
       formattedStatus,
       recipient: delivery.recipient ?? null,

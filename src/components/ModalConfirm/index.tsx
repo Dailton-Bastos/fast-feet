@@ -35,7 +35,7 @@ export const ModalConfirm = ({
     >
       <ModalOverlay bg="rgba(0,0,0,0.6)" />
 
-      <ModalContent>
+      <ModalContent mx="4">
         <ModalHeader
           alignItems="center"
           display="flex"

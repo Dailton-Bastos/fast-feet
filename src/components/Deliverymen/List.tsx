@@ -74,28 +74,29 @@ export const ListDeliverymen = () => {
   }
 
   return (
-    <Box overflowX="auto" pb="5">
-      <ListTable thead={['ID', 'Foto', 'Nome', 'Contato', 'Ações']}>
-        {data?.deliverymen.map((deliveryman: Deliveryman) => (
-          <React.Fragment key={deliveryman.id}>
-            <Tr bg="white">
-              <Td width="10%">{`#0${deliveryman.id}`}</Td>
-              <Td width="10%">
-                <Avatar
-                  name={deliveryman.name}
-                  src={deliveryman.avatar}
-                  size="sm"
-                />
-              </Td>
-              <Td width="25%">{deliveryman.name}</Td>
-              <Td width="20%">
-                <Link alignItems="center" display="flex" gap={2} href="#">
-                  <Icon as={RiWhatsappLine} color="green.500" h={6} w={6} />
-                  {deliveryman.contact}
-                </Link>
-              </Td>
-              <Td textAlign="right" width="20%">
-                <Box
+    <>
+      <Box overflowX={['scroll', 'auto']} pb="5">
+        <ListTable thead={['ID', 'Foto', 'Nome', 'Contato', 'Ações']}>
+          {data?.deliverymen.map((deliveryman: Deliveryman) => (
+            <React.Fragment key={deliveryman.id}>
+              <Tr bg="white">
+                <Td>{`#0${deliveryman.id}`}</Td>
+                <Td>
+                  <Avatar
+                    name={deliveryman.name}
+                    src={deliveryman.avatar}
+                    size="sm"
+                  />
+                </Td>
+                <Td>{deliveryman.name}</Td>
+                <Td>
+                  <Link alignItems="center" display="flex" gap={2} href="#">
+                    <Icon as={RiWhatsappLine} color="green.500" h={6} w={6} />
+                    {deliveryman.contact}
+                  </Link>
+                </Td>
+                <Td
+                  textAlign="right"
                   onMouseEnter={() => handlePrefetchDeliveryman(deliveryman.id)}
                 >
                   <ListMenu>
@@ -124,14 +125,14 @@ export const ListDeliverymen = () => {
                       </Box>
                     </MenuList>
                   </ListMenu>
-                </Box>
-              </Td>
-            </Tr>
+                </Td>
+              </Tr>
 
-            <Tr h="5" />
-          </React.Fragment>
-        ))}
-      </ListTable>
+              <Tr h="5" />
+            </React.Fragment>
+          ))}
+        </ListTable>
+      </Box>
 
       {data?.totalCount && data?.totalCount > 6 && (
         <Pagination
@@ -147,6 +148,6 @@ export const ListDeliverymen = () => {
         handleClick={mutate}
         isLoading={isLoadingDelete}
       />
-    </Box>
+    </>
   )
 }

@@ -22,6 +22,7 @@ import { useCancellDelivery } from '~/hooks/useDeliveries'
 import { useDeliveriesProblems } from '~/hooks/useDeliveriesProblems'
 import { DeliveriesProblems, Delivery } from '~/utils/types'
 
+import { Can } from '../Can'
 import { ErrorMessage } from '../ErrorMessage'
 import { ListMenu } from '../Listing/Menu'
 import { MenuItem } from '../Listing/MenuItem'
@@ -29,7 +30,6 @@ import { Loading } from '../Loading'
 import { Modal } from '../Modal'
 import { ModalConfirm } from '../ModalConfirm'
 import { Pagination } from '../Pagination'
-import { Can } from '../Can'
 
 export const ListDeliveriesProblems = () => {
   const [page, setPage] = React.useState(1)
@@ -73,52 +73,56 @@ export const ListDeliveriesProblems = () => {
   }
 
   return (
-    <Box overflowX="auto" pb="5">
-      <ListTable thead={['Encomenda', 'Problema', 'Ações']}>
-        {data?.problems.map((problem: DeliveriesProblems) => (
-          <React.Fragment key={problem.id}>
-            <Tr bg="white">
-              <Td width="20%">{`#0${problem.delivery.id}`}</Td>
+    <>
+      <Box overflowX={['scroll', 'auto']} pb="5">
+        <ListTable thead={['Encomenda', 'Problema', 'Ações']}>
+          {data?.problems.map((problem: DeliveriesProblems) => (
+            <React.Fragment key={problem.id}>
+              <Tr bg="white">
+                <Td width="20%">{`#0${problem.delivery.id}`}</Td>
 
-              <Td width="60%">{problem.preview}</Td>
+                <Td width="60%">{problem.preview}</Td>
 
-              <Td textAlign="right" width="20%">
-                <ListMenu>
-                  <MenuList minW={40}>
-                    <Box
-                      onClick={() => {
-                        onOpen()
-                        setDescriptions(problem.descriptions)
-                      }}
-                    >
-                      <MenuItem
-                        Icon={<RiEdit2Fill color="#4d85ee" size={18} />}
-                        buttonTitle="Visualizar"
-                      />
-                    </Box>
+                <Td textAlign="right" width="20%">
+                  <ListMenu>
+                    <MenuList minW={40}>
+                      <Box
+                        onClick={() => {
+                          onOpen()
+                          setDescriptions(problem.descriptions)
+                        }}
+                      >
+                        <MenuItem
+                          Icon={<RiEdit2Fill color="#4d85ee" size={18} />}
+                          buttonTitle="Visualizar"
+                        />
+                      </Box>
 
-                    <Can roles={['administrator']}>
-                      <MenuDivider />
-                      {problem.delivery.status !== 'cancelled' && (
-                        <Box onClick={() => cancellDelivery(problem.delivery)}>
-                          <MenuItem
-                            Icon={
-                              <RiDeleteBin2Fill color="#de3b3b" size={18} />
-                            }
-                            buttonTitle="Cancelar encomenda"
-                          />
-                        </Box>
-                      )}
-                    </Can>
-                  </MenuList>
-                </ListMenu>
-              </Td>
-            </Tr>
+                      <Can roles={['administrator']}>
+                        <MenuDivider />
+                        {problem.delivery.status !== 'cancelled' && (
+                          <Box
+                            onClick={() => cancellDelivery(problem.delivery)}
+                          >
+                            <MenuItem
+                              Icon={
+                                <RiDeleteBin2Fill color="#de3b3b" size={18} />
+                              }
+                              buttonTitle="Cancelar encomenda"
+                            />
+                          </Box>
+                        )}
+                      </Can>
+                    </MenuList>
+                  </ListMenu>
+                </Td>
+              </Tr>
 
-            <Tr h="5" />
-          </React.Fragment>
-        ))}
-      </ListTable>
+              <Tr h="5" />
+            </React.Fragment>
+          ))}
+        </ListTable>
+      </Box>
 
       {data?.totalCount && data?.totalCount > 6 && (
         <Pagination
@@ -129,7 +133,7 @@ export const ListDeliveriesProblems = () => {
       )}
 
       <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalContent minH={230} maxH={425}>
+        <ModalContent minH={230} maxH={425} mx="4">
           <ModalHeader textAlign="center" fontSize="md">
             Visualizar problema
           </ModalHeader>
@@ -152,6 +156,6 @@ export const ListDeliveriesProblems = () => {
         handleClick={mutateAsync}
         isLoading={isLoadingCancelMutation}
       />
-    </Box>
+    </>
   )
 }

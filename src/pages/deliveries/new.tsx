@@ -86,7 +86,7 @@ const NewDelivery: NextPageWithLayout = () => {
           mt="5"
         >
           <Stack spacing={4}>
-            <SimpleGrid spacing={4} columns={2}>
+            <SimpleGrid spacing={4} columns={[1, 2]}>
               {dataDeliverymen && (
                 <Select
                   register={register}

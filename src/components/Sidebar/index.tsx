@@ -34,6 +34,7 @@ export const Sidebar = ({ isOpen, handleClick }: DisclosureProps) => {
       pos="fixed"
       py="6px"
       top="0"
+      zIndex="dropdown"
     >
       <Header isOpen={isOpen} handleClick={handleClick} />
 

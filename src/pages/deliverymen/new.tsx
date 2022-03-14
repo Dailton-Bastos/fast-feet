@@ -35,7 +35,7 @@ const NewDeliveryman: NextPageWithLayout = () => {
     onSuccess: () => {
       toast({
         title: 'Novo entregador!',
-        description: 'Ccriado com sucesso!',
+        description: 'Criado com sucesso!',
         position: 'bottom-left',
         status: 'success',
         isClosable: true,
@@ -44,7 +44,7 @@ const NewDeliveryman: NextPageWithLayout = () => {
     },
     onError: () => {
       toast({
-        title: 'Nova entregador!',
+        title: 'Novo entregador!',
         description: 'Erro ao criar entregador!',
         position: 'bottom-left',
         status: 'error',

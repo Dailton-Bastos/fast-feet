@@ -44,9 +44,9 @@ export const AddressList = ({
           borderRadius={4}
           boxShadow="base"
           direction="column"
-          pt="10"
+          pt={['6', '8']}
           pb="6"
-          px="8"
+          px={['4', '6']}
         >
           <List mb="8">
             <Stack spacing={2}>

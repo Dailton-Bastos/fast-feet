@@ -37,8 +37,8 @@ export const Card = ({
         bg="white"
         borderRadius="base"
         justify="space-between"
-        px={['8', '6']}
-        py={['6', '8']}
+        px={['6', '4']}
+        py={['4', '6']}
         shadow="md"
       >
         {isLoading ? (

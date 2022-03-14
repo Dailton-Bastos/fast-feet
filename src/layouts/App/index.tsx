@@ -17,7 +17,7 @@ const AppLayout = ({ children }: AppLayoutProps) => {
     <DrawerProvider>
       <Header isOpen={isOpen} />
       <Sidebar isOpen={isOpen} handleClick={onToggle} />
-      <Box as="main" px={['0', null, null, '20']} pt="5">
+      <Box as="main" px={['0', null, null, '20']} pt="5" mt={['12', '20']}>
         {children}
       </Box>
     </DrawerProvider>

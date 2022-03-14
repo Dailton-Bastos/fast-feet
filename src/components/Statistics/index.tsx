@@ -15,7 +15,7 @@ export const Statistics = () => {
   const { data, isLoading } = useStatistics()
 
   return (
-    <SimpleGrid columns={[1, 2, null, 4]} spacing={5}>
+    <SimpleGrid columns={[2, 2, null, 4]} spacing={3}>
       <Card
         isLoading={isLoading}
         icon={RiShoppingBagLine}

@@ -71,61 +71,63 @@ export const ListRecipients = () => {
   }
 
   return (
-    <Box overflowX="auto" pb="5">
-      <ListTable thead={['ID', 'Nome', 'Endereço', 'Contato', 'Ações']}>
-        {data?.recipients.map((recipient: Recipient) => (
-          <React.Fragment key={recipient.id}>
-            <Tr bg="white">
-              <Td width="10%">{`#0${recipient.id}`}</Td>
+    <>
+      <Box overflowX={['scroll', 'auto']} pb="5">
+        <ListTable thead={['ID', 'Nome', 'Endereço', 'Contato', 'Ações']}>
+          {data?.recipients.map((recipient: Recipient) => (
+            <React.Fragment key={recipient.id}>
+              <Tr bg="white">
+                <Td width="10%">{`#0${recipient.id}`}</Td>
 
-              <Td width="20%">{recipient.name}</Td>
+                <Td width="20%">{recipient.name}</Td>
 
-              <Td width="40%">{recipient.formattedAddresses?.[0]}</Td>
+                <Td width="40%">{recipient.formattedAddresses?.[0]}</Td>
 
-              <Td width="25%">{recipient.contact}</Td>
+                <Td width="25%">{recipient.contact}</Td>
 
-              <Td textAlign="right" width="20%">
-                <Can roles={['administrator']}>
-                  <Box
-                    onMouseEnter={() => handlePrefetchRecipient(recipient.id)}
-                  >
-                    <ListMenu>
-                      <MenuList minW={40}>
-                        <NextLink href={`/recipients/${recipient.id}/edit`}>
-                          <a>
+                <Td textAlign="right" width="20%">
+                  <Can roles={['administrator']}>
+                    <Box
+                      onMouseEnter={() => handlePrefetchRecipient(recipient.id)}
+                    >
+                      <ListMenu>
+                        <MenuList minW={40}>
+                          <NextLink href={`/recipients/${recipient.id}/edit`}>
+                            <a>
+                              <MenuItem
+                                Icon={<RiEdit2Fill color="#4d85ee" size={18} />}
+                                buttonTitle="Editar"
+                              />
+                            </a>
+                          </NextLink>
+
+                          <MenuDivider />
+
+                          <Box
+                            onClick={() => {
+                              onToggle()
+                              setRecipientId(recipient.id)
+                            }}
+                          >
                             <MenuItem
-                              Icon={<RiEdit2Fill color="#4d85ee" size={18} />}
-                              buttonTitle="Editar"
+                              Icon={
+                                <RiDeleteBin2Fill color="#de3b3b" size={18} />
+                              }
+                              buttonTitle="Excluir"
                             />
-                          </a>
-                        </NextLink>
+                          </Box>
+                        </MenuList>
+                      </ListMenu>
+                    </Box>
+                  </Can>
+                </Td>
+              </Tr>
 
-                        <MenuDivider />
-
-                        <Box
-                          onClick={() => {
-                            onToggle()
-                            setRecipientId(recipient.id)
-                          }}
-                        >
-                          <MenuItem
-                            Icon={
-                              <RiDeleteBin2Fill color="#de3b3b" size={18} />
-                            }
-                            buttonTitle="Excluir"
-                          />
-                        </Box>
-                      </MenuList>
-                    </ListMenu>
-                  </Box>
-                </Can>
-              </Td>
-            </Tr>
-
-            <Tr h="5" />
-          </React.Fragment>
-        ))}
-      </ListTable>
+              <Tr h="5" />
+            </React.Fragment>
+          ))}
+        </ListTable>
+      </Box>
 
       {data?.totalCount && data?.totalCount > 6 && (
         <Pagination
@@ -141,6 +143,6 @@ export const ListRecipients = () => {
         handleClick={mutate}
         isLoading={isLoadingDelete}
       />
-    </Box>
+    </>
   )
 }

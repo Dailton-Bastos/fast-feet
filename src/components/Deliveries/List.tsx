@@ -68,124 +68,126 @@ export const ListDeliveries = () => {
   }
 
   return (
-    <Box overflowX="auto" pb="5">
-      <ListTable
-        thead={[
-          'ID',
-          'Destinatário',
-          'Entregador',
-          'Cidade',
-          'Estado',
-          'Status',
-          'Ações',
-        ]}
-      >
-        {data?.deliveries.map((delivery: Delivery) => (
-          <React.Fragment key={delivery.id}>
-            <Tr bg="white">
-              <Td>{`#0${delivery.id}`}</Td>
+    <>
+      <Box overflowX={['scroll', 'auto']} pb="5">
+        <ListTable
+          thead={[
+            'ID',
+            'Destinatário',
+            'Entregador',
+            'Cidade',
+            'Estado',
+            'Status',
+            'Ações',
+          ]}
+        >
+          {data?.deliveries.map((delivery: Delivery) => (
+            <React.Fragment key={delivery.id}>
+              <Tr bg="white">
+                <Td>{`#0${delivery.id}`}</Td>
 
-              <Td>{delivery.recipient.name}</Td>
+                <Td>{delivery.recipient.name}</Td>
 
-              <Td>
-                <Flex align="center" gap={2}>
-                  <Avatar
-                    name={delivery.deliveryman.name}
-                    src={delivery.deliveryman.avatar}
-                    size="sm"
-                  />
+                <Td>
+                  <Flex align="center" gap={2}>
+                    <Avatar
+                      name={delivery.deliveryman.name}
+                      src={delivery.deliveryman.avatar}
+                      size="sm"
+                    />
 
-                  <Text>{delivery.deliveryman.name}</Text>
-                </Flex>
-              </Td>
+                    <Text>{delivery.deliveryman.name}</Text>
+                  </Flex>
+                </Td>
 
-              <Td>{delivery.selectedAddress.city}</Td>
+                <Td>{delivery.selectedAddress.city}</Td>
 
-              <Td>{delivery.selectedAddress.state}</Td>
+                <Td>{delivery.selectedAddress.state}</Td>
 
-              <Td>
-                <Tag
-                  bg={delivery.formattedStatus.bgColor}
-                  borderRadius="full"
-                  h="7"
-                  justifyContent="center"
-                  variant="solid"
-                  w="32"
-                >
-                  <TagLeftIcon
-                    as={RiCheckboxBlankCircleFill}
-                    boxSize="12px"
-                    color={delivery.formattedStatus.color}
-                  />
-                  <TagLabel
-                    color={delivery.formattedStatus.color}
-                    fontWeight="semibold"
-                    fontSize="sm"
-                    textTransform="uppercase"
+                <Td>
+                  <Tag
+                    bg={delivery.formattedStatus.bgColor}
+                    borderRadius="full"
+                    h="7"
+                    justifyContent="center"
+                    variant="solid"
+                    w="32"
                   >
-                    {delivery.formattedStatus.name}
-                  </TagLabel>
-                </Tag>
-              </Td>
-
-              <Td
-                textAlign="right"
-                onMouseEnter={() => handlePrefetchDelivery(delivery.id)}
-              >
-                <ListMenu>
-                  <MenuList minW={40}>
-                    <Box
-                      onClick={() => {
-                        onOpen()
-                        setDelivery(delivery)
-                      }}
+                    <TagLeftIcon
+                      as={RiCheckboxBlankCircleFill}
+                      boxSize="12px"
+                      color={delivery.formattedStatus.color}
+                    />
+                    <TagLabel
+                      color={delivery.formattedStatus.color}
+                      fontWeight="semibold"
+                      fontSize="sm"
+                      textTransform="uppercase"
                     >
-                      <MenuItem
-                        Icon={<RiEyeLine color="#8e5be8" size={18} />}
-                        buttonTitle="Visualizar"
-                      />
-                    </Box>
+                      {delivery.formattedStatus.name}
+                    </TagLabel>
+                  </Tag>
+                </Td>
 
-                    <MenuDivider />
-
-                    <NextLink href={`/deliveries/${delivery.id}/edit`}>
-                      <a>
+                <Td
+                  textAlign="right"
+                  onMouseEnter={() => handlePrefetchDelivery(delivery.id)}
+                >
+                  <ListMenu>
+                    <MenuList minW={40}>
+                      <Box
+                        onClick={() => {
+                          onOpen()
+                          setDelivery(delivery)
+                        }}
+                      >
                         <MenuItem
-                          Icon={<RiEdit2Fill color="#4d85ee" size={18} />}
-                          buttonTitle="Editar"
+                          Icon={<RiEyeLine color="#8e5be8" size={18} />}
+                          buttonTitle="Visualizar"
                         />
-                      </a>
-                    </NextLink>
+                      </Box>
 
-                    {(delivery.status === 'pending' ||
-                      delivery.status === 'shipped') && (
-                      <>
-                        <MenuDivider />
+                      <MenuDivider />
 
-                        <Box
-                          onClick={() => {
-                            setDelivery(delivery)
-                            onToggle()
-                          }}
-                        >
+                      <NextLink href={`/deliveries/${delivery.id}/edit`}>
+                        <a>
                           <MenuItem
-                            Icon={
-                              <RiDeleteBin2Fill color="#de3b3b" size={18} />
-                            }
-                            buttonTitle="Cancelar"
+                            Icon={<RiEdit2Fill color="#4d85ee" size={18} />}
+                            buttonTitle="Editar"
                           />
-                        </Box>
-                      </>
-                    )}
-                  </MenuList>
-                </ListMenu>
-              </Td>
-            </Tr>
+                        </a>
+                      </NextLink>
 
-            <Tr h="5" />
-          </React.Fragment>
-        ))}
-      </ListTable>
+                      {(delivery.status === 'pending' ||
+                        delivery.status === 'shipped') && (
+                        <>
+                          <MenuDivider />
+
+                          <Box
+                            onClick={() => {
+                              setDelivery(delivery)
+                              onToggle()
+                            }}
+                          >
+                            <MenuItem
+                              Icon={
+                                <RiDeleteBin2Fill color="#de3b3b" size={18} />
+                              }
+                              buttonTitle="Cancelar"
+                            />
+                          </Box>
+                        </>
+                      )}
+                    </MenuList>
+                  </ListMenu>
+                </Td>
+              </Tr>
+
+              <Tr h="5" />
+            </React.Fragment>
+          ))}
+        </ListTable>
+      </Box>
 
       {data?.totalCount && data?.totalCount > 6 && (
         <Pagination
@@ -209,6 +211,6 @@ export const ListDeliveries = () => {
         handleClick={mutateAsync}
         isLoading={isLoadingCancelMutation}
       />
-    </Box>
+    </>
   )
 }

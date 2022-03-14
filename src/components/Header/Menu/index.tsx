@@ -39,7 +39,7 @@ export const Menu = ({ user }: MenuProps) => {
   return (
     <MenuChakra autoSelect={false} gutter={20} placement="top-end" isLazy>
       <MenuButton>
-        <Avatar name={user.name} src={user.avatar} size={size} />
+        <Avatar name={user.name} src={user.avatar} size={size} boxShadow="md" />
       </MenuButton>
       <MenuList>
         {isMobile && (
