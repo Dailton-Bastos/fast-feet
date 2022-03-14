@@ -1,7 +1,8 @@
 import React from 'react'
 
-import { Box, useDisclosure } from '@chakra-ui/react'
+import { Box, Flex, useDisclosure } from '@chakra-ui/react'
 
+import Footer from '~/components/Footer'
 import { Header } from '~/components/Header'
 import { Sidebar } from '~/components/Sidebar'
 import { DrawerProvider } from '~/contexts/DrawerContext'
@@ -15,11 +16,20 @@ const AppLayout = ({ children }: AppLayoutProps) => {
 
   return (
     <DrawerProvider>
-      <Header isOpen={isOpen} />
-      <Sidebar isOpen={isOpen} handleClick={onToggle} />
-      <Box as="main" px={['0', null, null, '20']} pt="5" mt={['12', '20']}>
-        {children}
-      </Box>
+      <Flex direction="column" minH="100vh">
+        <Header isOpen={isOpen} />
+        <Sidebar isOpen={isOpen} handleClick={onToggle} />
+        <Box
+          as="main"
+          px={['0', null, null, '20']}
+          pt="5"
+          mt={['12', '20']}
+          flex="1"
+        >
+          {children}
+        </Box>
+        <Footer />
+      </Flex>
     </DrawerProvider>
   )
 }
