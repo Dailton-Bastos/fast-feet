@@ -1,3 +1,10 @@
+# [1.32.0](https://github.com/Dailton-Bastos/fast-feet/compare/v1.31.0...v1.32.0) (2022-03-19)
+
+
+### Features
+
+* add footer component ([2ed3c33](https://github.com/Dailton-Bastos/fast-feet/commit/2ed3c33ee19aa6263059a9725b53865c59600675))
+
 # [1.31.0](https://github.com/Dailton-Bastos/fast-feet/compare/v1.30.0...v1.31.0) (2022-03-14)
 
 
