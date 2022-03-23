@@ -1,3 +1,10 @@
+## [1.32.1](https://github.com/Dailton-Bastos/fast-feet/compare/v1.32.0...v1.32.1) (2022-03-23)
+
+
+### Bug Fixes
+
+* **deliveries:** server error if deliveryman or recipient deleted ([901f485](https://github.com/Dailton-Bastos/fast-feet/commit/901f48597e89efd9f6c7596a306af78cf98a5e93))
+
 # [1.32.0](https://github.com/Dailton-Bastos/fast-feet/compare/v1.31.0...v1.32.0) (2022-03-19)
 
 
