@@ -36,9 +36,9 @@ export const DeliveryModalDetails = ({
           <Box my="2">
             <Text color="gray.600" fontWeight="bold" fontSize="sm">
               Produto:
-              <Text fontWeight="normal" color="#666">
-                {delivery.productName}
-              </Text>
+            </Text>
+            <Text fontWeight="normal" color="#666">
+              {delivery.productName}
             </Text>
           </Box>
 
@@ -48,17 +48,20 @@ export const DeliveryModalDetails = ({
             <Text color="gray.600" fontWeight="bold" fontSize="sm">
               Endereço de entrega:
             </Text>
-            <Stack spacing="1" color="#666">
-              <Text>
-                {delivery.selectedAddress.street},{' '}
-                {delivery.selectedAddress.number}
-              </Text>
-              <Text>
-                {delivery.selectedAddress.city} -{' '}
-                {delivery.selectedAddress.state}
-              </Text>
-              <Text>{delivery.selectedAddress.zipCode}</Text>
-            </Stack>
+
+            {delivery?.selectedAddress && (
+              <Stack spacing="1" color="#666">
+                <Text>
+                  {delivery.selectedAddress.street},{' '}
+                  {delivery.selectedAddress.number}
+                </Text>
+                <Text>
+                  {delivery.selectedAddress.city} -{' '}
+                  {delivery.selectedAddress.state}
+                </Text>
+                <Text>{delivery.selectedAddress.zipCode}</Text>
+              </Stack>
+            )}
           </Box>
 
           <MenuDivider />

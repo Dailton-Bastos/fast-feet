@@ -14,10 +14,14 @@ export function deliveries(schema: AppSchema, request: Request) {
 
   const deliveries = data
     ?.map((delivery) => {
-      const deliveryman = schema.db.deliverymen.find(delivery.deliverymanId)
-      const recipient = schema.db.recipients.find(delivery.recipientId)
-      const addresses = recipient.addressIds?.map((addressId: string) => {
-        return schema.db.addresses.find(addressId)
+      const deliveryman = schema.db?.deliverymen?.findBy({
+        id: delivery.deliverymanId,
+      })
+      const recipient = schema.db?.recipients?.findBy({
+        id: delivery.recipientId,
+      })
+      const addresses = recipient?.addressIds?.map((addressId: string) => {
+        return schema.db.addresses.findBy({ id: addressId })
       })
 
       return {

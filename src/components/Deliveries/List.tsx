@@ -86,23 +86,25 @@ export const ListDeliveries = () => {
               <Tr bg="white">
                 <Td>{`#0${delivery.id}`}</Td>
 
-                <Td>{delivery.recipient.name}</Td>
+                <Td>{delivery?.recipient?.name}</Td>
 
                 <Td>
-                  <Flex align="center" gap={2}>
-                    <Avatar
-                      name={delivery.deliveryman.name}
-                      src={delivery.deliveryman.avatar}
-                      size="sm"
-                    />
+                  {delivery?.deliveryman && (
+                    <Flex align="center" gap={2}>
+                      <Avatar
+                        name={delivery.deliveryman.name}
+                        src={delivery.deliveryman.avatar}
+                        size="sm"
+                      />
 
-                    <Text>{delivery.deliveryman.name}</Text>
-                  </Flex>
+                      <Text>{delivery?.deliveryman?.name}</Text>
+                    </Flex>
+                  )}
                 </Td>
 
-                <Td>{delivery.selectedAddress.city}</Td>
+                <Td>{delivery?.selectedAddress?.city}</Td>
 
-                <Td>{delivery.selectedAddress.state}</Td>
+                <Td>{delivery?.selectedAddress?.state}</Td>
 
                 <Td>
                   <Tag

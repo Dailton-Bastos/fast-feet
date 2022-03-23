@@ -21,6 +21,8 @@ export const getDeliveries = async (
   const totalCount = Number(headers['x-total-count'])
 
   const deliveries = data?.deliveries?.map((delivery: Delivery) => {
+    const deliveryman = delivery?.deliveryman || null
+    const recipient = delivery?.recipient ?? null
     const formattedStatus = {
       name: '',
       color: '',
@@ -58,10 +60,10 @@ export const getDeliveries = async (
       productName: delivery.productName,
       status: delivery.status,
       formattedStatus,
-      recipient: delivery.recipient ?? null,
+      recipient,
       signature: delivery.signature,
-      deliveryman: delivery.deliveryman ?? null,
-      selectedAddress: delivery.recipient?.addresses[0] ?? null,
+      deliveryman,
+      selectedAddress: recipient?.addresses?.[0] || null,
       shippedAt: delivery.shippedAt
         ? new Date(delivery.shippedAt).toLocaleDateString('pt-BR', {
             day: '2-digit',
